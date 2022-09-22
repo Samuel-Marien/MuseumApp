@@ -6,10 +6,10 @@ const Navbar = () => {
   return (
     <div>
       <div className="flex flex-wrap ">
-        <nav className="flex justify-between bg-gray-800 text-white w-screen bg-opacity-60">
+        <nav className="flex justify-between bg-gray-800 text-white w-screen bg-opacity-60 backdrop-blur-sm">
           <div className="px-5 xl:px-8 py-3 flex w-full items-center">
             <a
-              className="text-3xl font-bold font-heading flex items-center border p-1 rounded bg-gray-900 "
+              className="text-3xl font-bold font-heading flex items-center border p-1 rounded bg-gray-900 shadow-xl"
               href="#"
             >
               <MdMuseum />
