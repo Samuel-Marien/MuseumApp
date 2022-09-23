@@ -44,17 +44,17 @@ const Landing = () => {
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{
-            duration: 1,
-            delay: 2.5,
+            duration: 1.5,
+            delay: 1.5,
             ease: [0, 0.71, 0.2, 1.01]
           }}
         >
           <div className="flex flex-col lg:flex-row  lg:space-x-16 space-y-5 lg:space-y-0 items-center ">
             <motion.div whileTap={{ scale: 0.9 }}>
-              <MyButton title="Subscribe" />
+              <MyButton title="Sign up" href="signup" />
             </motion.div>
             <motion.div whileTap={{ scale: 0.9 }}>
-              <MyButton title="Login" />
+              <MyButton title="Login" href="login" />
             </motion.div>
           </div>
         </motion.div>
