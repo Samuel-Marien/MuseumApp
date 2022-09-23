@@ -110,7 +110,7 @@ const Navbar = () => {
               repeatType: 'mirror'
             }}
           >
-            <div className="md:hidden bg-slate-500 bg-opacity-10 backdrop-blur-sm py-2 text-slate-400">
+            <div className="md:hidden bg-slate-800 bg-opacity-10 backdrop-blur-sm py-2 text-slate-400">
               <ul className="flex justify-center w-screen text-sm font-heading space-x-6 ">
                 <li>
                   <a className="hover:text-gray-200" href="#">

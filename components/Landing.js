@@ -12,9 +12,9 @@ const Landing = () => {
       className="h-screen "
       style={{
         background:
-          'linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5) ), url(images/landing2.jpg)',
+          'linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5) ), url(images/landing8.jpg)',
         backgroundSize: 'cover',
-        backgroundPosition: ' left',
+        backgroundPosition: ' bottom',
         backgroundRepeat: 'no-repeat'
       }}
     >
@@ -50,8 +50,12 @@ const Landing = () => {
           }}
         >
           <div className="flex flex-col lg:flex-row  lg:space-x-16 space-y-5 lg:space-y-0 items-center ">
-            <MyButton title="Subscribe" />
-            <MyButton title="Login" />
+            <motion.div whileTap={{ scale: 0.9 }}>
+              <MyButton title="Subscribe" />
+            </motion.div>
+            <motion.div whileTap={{ scale: 0.9 }}>
+              <MyButton title="Login" />
+            </motion.div>
           </div>
         </motion.div>
       </div>
