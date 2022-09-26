@@ -1,26 +1,10 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
-import { Formik, Form, useField } from 'formik'
+import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { motion } from 'framer-motion'
 
-const MyTextInput = ({ label, ...props }) => {
-  const [field, meta] = useField(props)
-  return (
-    <>
-      <label htmlFor={props.id || props.name} className="mt-3">
-        {label}
-      </label>
-      <input className="text-input border p-1" {...field} {...props} />
-
-      {meta.touched && meta.error ? (
-        <div className="error border border-red-500  mt-1 p-1 text-center text-red-400 bg-red-100">
-          {meta.error}
-        </div>
-      ) : null}
-    </>
-  )
-}
+import MyTextInput from './MyTextInput'
 
 const LoginForm = () => {
   const [signInState, setSignInState] = useState([])
@@ -64,13 +48,13 @@ const LoginForm = () => {
             className="rounded mt-4 shadow p-2 px-4 bg-slate-700 text-slate-300 hover:shadow-sm hover:bg-slate-300 hover:text-slate-700
           transition-colors duration-500 w-full"
           >
-            Soumettre
+            Submit
           </button>
         </motion.div>
 
         <div className="mt-3 text-sm underline">
           <Link href="/signup">
-            <a>Pas encore de compte ?</a>
+            <a>No account yet?</a>
           </Link>
         </div>
       </Form>

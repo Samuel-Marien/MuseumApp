@@ -20,7 +20,7 @@ const Login = () => {
       <div className="flex justify-between p-2 md:p-8">
         <Logo />
         <Link href="/">
-          <a className="underline flex items-center">
+          <a className="underline flex items-center text-slate-600">
             <span className="text-xl">
               <MdHomeFilled />
             </span>

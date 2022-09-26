@@ -1,33 +1,10 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
-import { Formik, Form, useField } from 'formik'
+import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 
-const MyTextInput = ({ label, ...props }) => {
-  const [field, meta] = useField(props)
-  return (
-    <>
-      <label htmlFor={props.id || props.name} className="mt-3">
-        {label}
-      </label>
-      <input className="text-input border p-1" {...field} {...props} />
-      <AnimatePresence>
-        {meta.touched && meta.error ? (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <div className="error border border-red-500  mt-1 p-1 text-center text-red-400 bg-red-100">
-              {meta.error}
-            </div>
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
-    </>
-  )
-}
+import MyTextInput from './MyTextInput'
 
 const SignupForm = () => {
   const [signInState, setSignInState] = useState([])
@@ -65,7 +42,7 @@ const SignupForm = () => {
     >
       <Form className="p-5 flex flex-col text-slate-300 md:text-slate-700">
         <h1 className="text-center my-2 font-bold uppercase text-3xl">
-          Sign in
+          Sign up
         </h1>
         <MyTextInput label="Name" name="name" type="text" placeholder="Jane" />
 
@@ -94,7 +71,7 @@ const SignupForm = () => {
 
         <div className="mt-3 text-sm underline">
           <Link href="/login">
-            <a>Déjà inscrit ?</a>
+            <a>Already registered?</a>
           </Link>
         </div>
       </Form>
