@@ -1,14 +1,16 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Link from 'next/link'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { motion } from 'framer-motion'
 
+import { useAppContext } from '../context/appContext'
+
 import MyTextInput from './MyTextInput'
 
 const SignupForm = () => {
-  const [signInState, setSignInState] = useState([])
-  console.log(signInState)
+  const { isLoading, registerUser, alertText, alertType } = useAppContext()
+
   return (
     <Formik
       initialValues={{
@@ -29,13 +31,11 @@ const SignupForm = () => {
         )
       })}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        setSignInState(() => [
-          {
-            name: values.name,
-            email: values.email,
-            password: values.password
-          }
-        ])
+        registerUser({
+          name: values.name,
+          email: values.email,
+          password: values.password
+        })
         resetForm()
         setSubmitting(false)
       }}
@@ -44,6 +44,12 @@ const SignupForm = () => {
         <h1 className="text-center my-2 font-bold uppercase text-3xl">
           Sign up
         </h1>
+        {alertText && alertType === 'danger' ? (
+          <div className="error mt-1 p-1 text-center text-red-400 bg-red-100">
+            {alertText}
+          </div>
+        ) : null}
+
         <MyTextInput label="Name" name="name" type="text" placeholder="Jane" />
 
         <MyTextInput
@@ -61,6 +67,7 @@ const SignupForm = () => {
         />
         <motion.div whileTap={{ scale: 0.9 }}>
           <button
+            disabled={isLoading}
             type="submit"
             className="rounded mt-4 shadow p-2 px-4 bg-slate-700 text-slate-300 hover:shadow-sm hover:bg-slate-300 hover:text-slate-700
           transition-colors duration-500 w-full"
