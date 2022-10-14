@@ -9,15 +9,23 @@ import {
   CLEAR_ALERT
 } from './actions'
 
+if (typeof window !== 'undefined') {
+  console.log('You are on the browser')
+  var token = localStorage.getItem('token')
+  var user = localStorage.getItem('user')
+  var userLocation = localStorage.getItem('userLocation')
+} else {
+  console.log('👉️ CANT use localStorage')
+}
+
 const initialState = {
   isLoading: false,
-  user: null,
-  token: null,
-  userLocation: ''
+  user: user ? JSON.parse(user) : null,
+  token: token,
+  userLocation: userLocation || ''
 }
 
 const AppContext = React.createContext()
-const myError = ''
 
 const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState)
@@ -29,6 +37,18 @@ const AppProvider = ({ children }) => {
       })
     }, 3000)
   }
+
+  const addToLocalStorage = ({ user, token, location }) => {
+    localStorage.setItem('user', JSON.stringify(user))
+    localStorage.setItem('token', token)
+    localStorage.setItem('location', location)
+  }
+
+  // const removeFromLocalStorage = () => {
+  //   localStorage.getItem('token')
+  //   localStorage.getItem('user')
+  //   localStorage.getItem('location')
+  // }
 
   const registerUser = async (currentUser) => {
     dispatch({ type: REGISTER_USER_BEGIN })
@@ -43,6 +63,8 @@ const AppProvider = ({ children }) => {
         type: REGISTER_USER_SUCCESS,
         payload: { user, token, location }
       })
+
+      addToLocalStorage({ user, token, location })
     } catch (error) {
       console.log(error.response)
       dispatch({

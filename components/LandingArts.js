@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { MdEventAvailable, MdEventBusy } from 'react-icons/md'
 
 import { getHarvardArt } from './API'
 
@@ -9,6 +8,7 @@ const Card = (props) => {
     <div className="flex bg-white shadow-lg cursor-pointer hover:shadow-sm transition-all duration-500 roundedp-3 md:p-0">
       <div className="overflow-hidden ">
         <img
+          style={{ width: 'auto', height: '250px' }}
           src={myUrl}
           alt={title}
           className="w-full hover:scale-110 transition-all duration-500 "
@@ -16,7 +16,9 @@ const Card = (props) => {
       </div>
       <div className="p-4">
         <p className="text-slate-500 my-2">{text}</p>
-        <h1 className="text-2xl font-bold mt-5">{title.slice(0, 24)}</h1>
+        <h1 className="text-2xl font-bold mt-5">
+          {title.length > 25 ? title.slice(0, 25) + '...' : title}
+        </h1>
       </div>
     </div>
   )
@@ -45,7 +47,7 @@ const LandingArts = () => {
           </span>
         </h1>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {arts.map((item) => {
           return (
             <Card

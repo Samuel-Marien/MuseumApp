@@ -1,4 +1,6 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+// import { useNavigate } from 'react-router-dom'
+import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
@@ -9,7 +11,19 @@ import { useAppContext } from '../context/appContext'
 import MyTextInput from './MyTextInput'
 
 const SignupForm = () => {
-  const { isLoading, registerUser, alertText, alertType } = useAppContext()
+  // const navigate = useNavigate()
+  const router = useRouter()
+  const { user, isLoading, registerUser, alertText, alertType } =
+    useAppContext()
+
+  useEffect(() => {
+    if (user) {
+      setTimeout(() => {
+        router.push('/')
+        // navigate('/')
+      }, 3000)
+    }
+  }, [user])
 
   return (
     <Formik

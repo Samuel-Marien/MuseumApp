@@ -1,13 +1,28 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { motion } from 'framer-motion'
+import { useAppContext } from '../context/appContext'
 
 import MyTextInput from './MyTextInput'
 
 const LoginForm = () => {
+  const router = useRouter()
   const [signInState, setSignInState] = useState([])
+  const { user } = useAppContext()
+  console.log(user)
+
+  useEffect(() => {
+    if (user) {
+      setTimeout(() => {
+        router.push('/')
+        // navigate('/')
+      }, 3000)
+    }
+  }, [user])
+
   console.log(signInState)
   return (
     <Formik

@@ -2,8 +2,8 @@ import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 
 import Landing from '../components/Landing'
-import LandingArts from '../components/LandingArts'
-// import Exhibition from '../components/Exhibition'
+// import LandingArts from '../components/LandingArts'
+import Exhibition from '../components/Exhibition'
 // import BkmObjet from '../components/Object'
 
 const Home = () => {
@@ -16,8 +16,8 @@ const Home = () => {
       </Head>
       <main className="bg-slate-100 ">
         <Landing />
-        <LandingArts />
-        {/* <Exhibition /> */}
+        {/* <LandingArts /> */}
+        <Exhibition />
         {/* <BkmObjet /> */}
       </main>
     </div>
