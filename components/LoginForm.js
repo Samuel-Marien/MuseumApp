@@ -18,7 +18,6 @@ const LoginForm = () => {
     if (user) {
       setTimeout(() => {
         router.push('/')
-        // navigate('/')
       }, 3000)
     }
   }, [user])
