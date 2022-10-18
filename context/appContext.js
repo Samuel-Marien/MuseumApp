@@ -6,6 +6,9 @@ import {
   REGISTER_USER_BEGIN,
   REGISTER_USER_SUCCESS,
   REGISTER_USER_ERROR,
+  LOGIN_USER_BEGIN,
+  LOGIN_USER_SUCCESS,
+  LOGIN_USER_ERROR,
   CLEAR_ALERT
 } from './actions'
 
@@ -57,7 +60,7 @@ const AppProvider = ({ children }) => {
         'http://localhost:5000/api/v1/auth/register',
         currentUser
       )
-      console.log(response)
+      // console.log(response)
       const { user, token, location } = response.data
       dispatch({
         type: REGISTER_USER_SUCCESS,
@@ -66,7 +69,7 @@ const AppProvider = ({ children }) => {
 
       addToLocalStorage({ user, token, location })
     } catch (error) {
-      console.log(error.response)
+      // console.log(error.response)
       dispatch({
         type: REGISTER_USER_ERROR,
         payload: { msg: error.response.data.msg }
@@ -75,8 +78,32 @@ const AppProvider = ({ children }) => {
     clearAlert()
   }
 
+  const loginUser = async (currentUser) => {
+    dispatch({ type: LOGIN_USER_BEGIN })
+    try {
+      const { data } = await axios.post(
+        'http://localhost:5000/api/v1/auth/login',
+        currentUser
+      )
+      const { user, token, location } = data
+      dispatch({
+        type: LOGIN_USER_SUCCESS,
+        payload: { user, token, location }
+      })
+      addToLocalStorage({ user, token, location })
+    } catch (error) {
+      dispatch({
+        type: LOGIN_USER_ERROR,
+        payload: { msg: error.response.data.msg }
+      })
+    }
+    clearAlert()
+  }
+
   return (
-    <AppContext.Provider value={{ ...state, clearAlert, registerUser }}>
+    <AppContext.Provider
+      value={{ ...state, clearAlert, registerUser, loginUser }}
+    >
       {children}
     </AppContext.Provider>
   )

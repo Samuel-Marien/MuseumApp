@@ -51,10 +51,10 @@ const Landing = () => {
         >
           <div className="flex flex-col lg:flex-row lg:space-x-16 space-y-5 lg:space-y-0 items-center   md:mx-0 ">
             <motion.div whileTap={{ scale: 0.9 }}>
-              <MyButton title="Sign up" href="signup" />
+              <MyButton title="Sign up" href="/signup" />
             </motion.div>
             <motion.div whileTap={{ scale: 0.9 }}>
-              <MyButton title="Login" href="login" />
+              <MyButton title="Login" href="/login" />
             </motion.div>
           </div>
         </motion.div>
