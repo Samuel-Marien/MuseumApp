@@ -2,15 +2,11 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 
+import useHasMounted from '../components/hooks/useHasMounted'
 import Logo from './Logo'
 
 import { MdAccountCircle, MdLogout, MdMenu } from 'react-icons/md'
-import {
-  IoIosPeople,
-  IoIosAlbums,
-  IoIosCalendar,
-  IoIosMail
-} from 'react-icons/io'
+import { IoIosAlbums, IoIosCalendar } from 'react-icons/io'
 
 const MyLink = (props) => {
   const { href, icon, title } = props
@@ -28,8 +24,15 @@ const MyLink = (props) => {
   )
 }
 
-const Navbar = () => {
+const Navbar = (props) => {
+  const { user } = props
   const [show, setShow] = useState(false)
+
+  const hasMounted = useHasMounted()
+  if (!hasMounted) {
+    return null
+  }
+  // console.log(user)
 
   return (
     <div>
@@ -37,49 +40,66 @@ const Navbar = () => {
         <nav className="flex justify-between bg-slate-800 text-white w-screen bg-opacity-40 backdrop-blur-sm">
           <div className="px-5 xl:px-8 py-3 flex w-full items-center">
             <Logo />
+
             <ul className="hidden md:flex px-4 mx-auto space-x-20">
-              <MyLink href="/" title="Artists" icon={<IoIosPeople />} />
-              <MyLink href="/" title="Collections" icon={<IoIosAlbums />} />
-              <MyLink href="/" title="Exhibition" icon={<IoIosCalendar />} />
+              {user ? (
+                <>
+                  <MyLink href="/" title="Collections" icon={<IoIosAlbums />} />
+                  <MyLink
+                    href="/"
+                    title="Exhibition"
+                    icon={<IoIosCalendar />}
+                  />
+                </>
+              ) : (
+                <p className="italic">
+                  Discover a selection of unique and daring works
+                </p>
+              )}
             </ul>
 
             <div className="hidden md:flex items-center space-x-5">
-              <motion.div whileTap={{ scale: 0.8 }}>
-                <Link href="/signup">
-                  <a className="hover:text-gray-200 text-xl">
-                    <MdAccountCircle />
-                  </a>
-                </Link>
-              </motion.div>
-              <motion.div whileTap={{ scale: 0.8 }}>
-                <a
-                  className="flex items-center hover:text-gray-200 text-xl"
-                  href="#"
-                >
-                  <IoIosMail />
-                </a>
-              </motion.div>
-              <motion.div whileTap={{ scale: 0.8 }}>
-                <a
-                  className="flex items-center hover:text-gray-200 text-xl"
-                  href="#"
-                >
-                  <MdLogout />
-                </a>
-              </motion.div>
+              {user ? (
+                <>
+                  <p className="text-sm font-thin capitalize">{user.name}</p>
+                  <motion.div whileTap={{ scale: 0.9 }}>
+                    <a
+                      className="flex items-center hover:text-gray-200 text-xl border-slate-500 border rounded p-1"
+                      href="#"
+                    >
+                      <MdLogout />
+                      <span className="text-sm ml-2">Log out</span>
+                    </a>
+                  </motion.div>
+                </>
+              ) : (
+                <motion.div whileTap={{ scale: 0.9 }}>
+                  <Link href="/signup">
+                    <a className="hover:text-gray-200 text-xl flex border-slate-500 border rounded p-1">
+                      <MdAccountCircle />
+                      <span className="text-sm ml-2">Sign up</span>
+                    </a>
+                  </Link>
+                </motion.div>
+              )}
             </div>
           </div>
 
           {/* Responsive navbar  */}
-          <motion.div whileTap={{ scale: 0.9 }}>
-            <button
-              onClick={() => (show ? setShow(false) : setShow(true))}
-              className=" my-auto h-full mr-6 md:hidden text-xl"
-              href="#"
-            >
-              <MdMenu />
-            </button>
-          </motion.div>
+          <div className="my-auto h-full mr-6 md:hidden text-2xl flex items-center">
+            <p className="text-sm font-thin capitalize mr-6">
+              {user && user.name}
+            </p>
+            <motion.div whileTap={{ scale: 0.9 }}>
+              <button
+                onClick={() => (show ? setShow(false) : setShow(true))}
+                className="pt-1 "
+                href="#"
+              >
+                <MdMenu />
+              </button>
+            </motion.div>
+          </div>
         </nav>
         {show && (
           <motion.div
@@ -102,17 +122,35 @@ const Navbar = () => {
             bg-opacity-40 backdrop-blur-sm border-r border-slate-400 shadow-xl"
             >
               <ul className="flex flex-col justify-center pl-5 space-y-4 text-2xl">
-                <MyLink href="/" title="Artists" icon={<IoIosPeople />} />
-                <MyLink href="/" title="Collections" icon={<IoIosAlbums />} />
-                <MyLink href="/" title="Exhibition" icon={<IoIosCalendar />} />
+                {user ? (
+                  <>
+                    <MyLink
+                      href="/"
+                      title="Collections"
+                      icon={<IoIosAlbums />}
+                    />
+                    <MyLink
+                      href="/"
+                      title="Exhibition"
+                      icon={<IoIosCalendar />}
+                    />
+                  </>
+                ) : (
+                  <p className="italic text-base">
+                    Discover a selection of unique
+                    <br /> and daring works.
+                  </p>
+                )}
                 <div className="pt-5 space-y-1 pb-20">
-                  <MyLink href="/" title="Contact Me" icon={<IoIosMail />} />
-                  <MyLink
-                    href="/signup"
-                    title="Sign up"
-                    icon={<MdAccountCircle />}
-                  />
-                  <MyLink href="/" title="Logout" icon={<MdLogout />} />
+                  {user ? (
+                    <MyLink href="/" title="Logout" icon={<MdLogout />} />
+                  ) : (
+                    <MyLink
+                      href="/signup"
+                      title="Sign up"
+                      icon={<MdAccountCircle />}
+                    />
+                  )}
                 </div>
               </ul>
             </div>

@@ -68,19 +68,16 @@ const Exhibition = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {myExhibition &&
             myExhibition.map((item, index) => {
-              // index 1 's image have badly format => I cut it!
-              if (index !== 1) {
-                return (
-                  <Card
-                    key={index}
-                    title={item.title}
-                    text={item.organizing_department}
-                    dateStart={item.start_date}
-                    dateEnd={item.end_date}
-                    myUrl={`${imageUrl}/size2/${item.primary_image}`}
-                  />
-                )
-              }
+              return (
+                <Card
+                  key={index}
+                  title={item.title}
+                  text={item.organizing_department}
+                  dateStart={item.start_date}
+                  dateEnd={item.end_date}
+                  myUrl={`${imageUrl}/size2/${item.primary_image}`}
+                />
+              )
             })}
         </div>
         <div className=" my-32 w-max mx-auto">

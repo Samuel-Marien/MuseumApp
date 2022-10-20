@@ -1,4 +1,4 @@
-import React, { useReducer, useContext } from 'react'
+import React, { useReducer, useContext, useEffect, useState } from 'react'
 import reducer from './reducer'
 import axios from 'axios'
 
@@ -20,6 +20,18 @@ if (typeof window !== 'undefined') {
 } else {
   console.log('👉️ CANT use localStorage')
 }
+
+// const token = localStorage.getItem('token')
+// const user = localStorage.getItem('user')
+// const userlocation = localStorage.getItem('location')
+
+// const useIsServer = () => {
+//   const [isServer, setIsServer] = useState(typeof window === 'undefined')
+//   useEffect(() => {
+//     if (isServer) setIsServer(false)
+//   }, [isServer])
+//   return isServer
+// }
 
 const initialState = {
   isLoading: false,
@@ -114,3 +126,18 @@ const useAppContext = () => {
 }
 
 export { AppProvider, initialState, useAppContext }
+
+// const [token, setToken] = useState(null)
+// const [user, setUser] = useState(null)
+// const [userLocation, setUserLocation] = useState(null)
+
+// useEffect(() => {
+//   if (typeof window !== 'undefined') {
+//     console.log('You are on the browser')
+//     setToken(localStorage.getItem('token'))
+//     setUser(localStorage.getItem('user'))
+//     setUserLocation(localStorage.getItem('userLocation'))
+//   } else {
+//     console.log('👉️ CANT use localStorage')
+//   }
+// }, [])
