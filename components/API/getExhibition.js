@@ -6,7 +6,7 @@ let url = process.env.NEXT_PUBLIC_API_URL
 const getExhibition = async () => {
   try {
     const response = await axios
-      .get(`${url}/exhibition?limit=5&`, {
+      .get(`${url}/exhibition?limit=8&`, {
         headers: config
       })
       .then((value) => {

@@ -1,9 +1,10 @@
+import React from 'react'
 import Head from 'next/head'
 
 import Landing from '../components/Landing'
-// import LandingArts from '../components/LandingArts'
-import Exhibition from '../components/Exhibition'
-// import BkmObjet from '../components/Object'
+import LandingExhibition from '../components/LandingExhibition'
+import LandingCollections from '../components/LandingCollections'
+import Footer from '../components/Footer'
 
 const Home = () => {
   return (
@@ -15,10 +16,9 @@ const Home = () => {
       </Head>
       <main className="bg-slate-100 ">
         <Landing />
-
-        {/* <LandingArts /> */}
-        <Exhibition />
-        {/* <BkmObjet /> */}
+        <LandingExhibition />
+        <LandingCollections />
+        <Footer />
       </main>
     </div>
   )
