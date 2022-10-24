@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useScroll } from 'framer-motion'
 
 import { getCollection } from './API'
@@ -57,7 +57,7 @@ const LandingCollections = () => {
     }
   }, [])
 
-  console.log(myCollection)
+  // console.log(myCollection)
 
   return (
     <div className="flex flex-col bg-white pb-20">
@@ -126,15 +126,29 @@ const LandingCollections = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 sm:p-0">
             {myCollection.map((item) => {
               return (
-                <Card
-                  key={item.id}
-                  name={item.name}
-                  imageUrl={
-                    item.highlight_images[0] !== undefined
-                      ? `${imageUrl}/size1/${item.highlight_images[8].primary_image}`
-                      : replacementImage
-                  }
-                />
+                <div key={item.id}>
+                  <AnimatePresence>
+                    {animationButtonStart && (
+                      <motion.div
+                        initial={{ y: 0, opacity: 0 }}
+                        animate={{ y: [100, 0], opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{
+                          duration: 2
+                        }}
+                      >
+                        <Card
+                          name={item.name}
+                          imageUrl={
+                            item.highlight_images[0] !== undefined
+                              ? `${imageUrl}/size1/${item.highlight_images[8].primary_image}`
+                              : replacementImage
+                          }
+                        />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
               )
             })}
           </div>
