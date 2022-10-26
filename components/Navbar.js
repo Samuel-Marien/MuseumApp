@@ -44,10 +44,14 @@ const Navbar = (props) => {
             <ul className="hidden md:flex px-4 mx-auto space-x-20">
               {user ? (
                 <>
-                  <MyLink href="/" title="Collections" icon={<IoIosAlbums />} />
                   <MyLink
-                    href="/"
-                    title="Exhibition"
+                    href="/collections/"
+                    title="Collections"
+                    icon={<IoIosAlbums />}
+                  />
+                  <MyLink
+                    href="/exhibitions"
+                    title="Exhibitions"
                     icon={<IoIosCalendar />}
                   />
                 </>
@@ -125,13 +129,13 @@ const Navbar = (props) => {
                 {user ? (
                   <>
                     <MyLink
-                      href="/"
+                      href="/collections"
                       title="Collections"
                       icon={<IoIosAlbums />}
                     />
                     <MyLink
-                      href="/"
-                      title="Exhibition"
+                      href="/exhibitions"
+                      title="Exhibitions"
                       icon={<IoIosCalendar />}
                     />
                   </>

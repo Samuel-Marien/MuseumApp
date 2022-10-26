@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useScroll } from 'framer-motion'
 
@@ -12,37 +13,44 @@ const imageUrl = process.env.NEXT_PUBLIC_API_URL_IMAGE_EXHIBITION
 const replacementImage = 'images/landing8.jpg'
 
 const Card = (props) => {
-  const { title, text, myUrl, dateStart, dateEnd } = props
+  const { title, text, myUrl, dateStart, dateEnd, id } = props
   return (
-    <div className="bg-white shadow-lg cursor-pointer hover:shadow-sm transition-all duration-500 rounded flex flex-col p-3 md:p-0">
-      <div className="overflow-hidden ">
-        <img
-          style={{ width: '100%', height: '18rem' }}
-          src={myUrl}
-          alt={title}
-          className="hover:scale-110 transition-all duration-500"
-        />
-      </div>
-      <div className="p-4">
-        <div className="flex justify-between">
-          <p className="text-sm flex items-center">
-            <span className="text-base text-slate-500">
-              <MdEventAvailable />
-            </span>
-            {dateStart}
-          </p>
-          <p className="text-sm flex items-center">
-            <span className="text-base text-slate-500">
-              <MdEventBusy />
-            </span>
-
-            {dateEnd}
-          </p>
+    <Link
+      href={{
+        pathname: '/exhibitions/exhibition',
+        query: { id }
+      }}
+    >
+      <div className="bg-white shadow-lg cursor-pointer hover:shadow-sm transition-all duration-500 rounded flex flex-col p-3 md:p-0">
+        <div className="overflow-hidden ">
+          <img
+            style={{ width: '100%', height: '18rem' }}
+            src={myUrl}
+            alt={title}
+            className="hover:scale-110 transition-all duration-500"
+          />
         </div>
-        <p className="text-slate-500 my-2">{text}</p>
-        <h1 className="text-2xl font-bold mt-5">{title}</h1>
+        <div className="p-4">
+          <div className="flex justify-between">
+            <p className="text-sm flex items-center">
+              <span className="text-base text-slate-500">
+                <MdEventAvailable />
+              </span>
+              {dateStart}
+            </p>
+            <p className="text-sm flex items-center">
+              <span className="text-base text-slate-500">
+                <MdEventBusy />
+              </span>
+
+              {dateEnd}
+            </p>
+          </div>
+          <p className="text-slate-500 my-2">{text}</p>
+          <h1 className="text-2xl font-bold mt-5">{title}</h1>
+        </div>
       </div>
-    </div>
+    </Link>
   )
 }
 
@@ -107,7 +115,7 @@ const LandingExhibition = () => {
                           }}
                         >
                           <Card
-                            // key={index}
+                            id={item.id}
                             title={item.title}
                             text={item.organizing_department}
                             dateStart={item.start_date}
@@ -137,6 +145,7 @@ const LandingExhibition = () => {
                           }}
                         >
                           <Card
+                            id={item.id}
                             title={item.title}
                             text={item.organizing_department}
                             dateStart={item.start_date}
@@ -173,6 +182,7 @@ const LandingExhibition = () => {
                         }}
                       >
                         <Card
+                          id={item.id}
                           title={item.title}
                           text={item.organizing_department}
                           dateStart={item.start_date}
@@ -191,7 +201,7 @@ const LandingExhibition = () => {
             })}
         </div>
         <div className="my-16 sm:my-32 w-max mx-auto">
-          <MyButton title="+ More exhibitions" href="/" />
+          <MyButton title="+ More exhibitions" href="/exhibitions" />
         </div>
       </div>
     </div>
