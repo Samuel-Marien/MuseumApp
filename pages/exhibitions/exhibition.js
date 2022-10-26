@@ -52,22 +52,20 @@ const Exhibition = () => {
     }
   }, [router.isReady])
 
-  console.log(myExhibition)
+  // console.log(myExhibition)
 
   const maxPlusImage = myExhibition.images && myExhibition.images.length
 
   const handlePlusImage = () => {
-    if (myCurrentImage === maxPlusImage - 1) {
-      return setMyCurrentImage(0)
-    }
-    setMyCurrentImage((myCurrentImage += 1))
+    return myCurrentImage === maxPlusImage - 1
+      ? setMyCurrentImage(0)
+      : setMyCurrentImage((myCurrentImage += 1))
   }
 
   const handleMinusImage = () => {
-    if (myCurrentImage === 0) {
-      return setMyCurrentImage(maxPlusImage - 1)
-    }
-    setMyCurrentImage((myCurrentImage -= 1))
+    return myCurrentImage === 0
+      ? setMyCurrentImage(maxPlusImage - 1)
+      : setMyCurrentImage((myCurrentImage -= 1))
   }
 
   return (
@@ -84,7 +82,7 @@ const Exhibition = () => {
 
       {/* large screens */}
       <div
-        style={{ minHeight: '530px' }}
+        style={{ minHeight: '530px', minWidth: '770px' }}
         className="hidden mx-auto md:flex justify-center mt-5 overflow-hidden border w-max p-2 rounded shadow-xl"
       >
         {myExhibition.images && (
@@ -111,13 +109,19 @@ const Exhibition = () => {
       </div>
 
       <div className="w-full flex justify-center md:space-x-48 space-x-10 mt-5">
-        <button className="text-3xl " onClick={handleMinusImage}>
+        <button
+          className="text-3xl hover:scale-105 hover:text-slate-400 active:text-slate-500 active:scale-95 transition-all duration-300"
+          onClick={handleMinusImage}
+        >
           <BsFillArrowLeftCircleFill />
         </button>
         <p>
           {myCurrentImage + 1}/{maxPlusImage}
         </p>
-        <button className="text-3xl" onClick={handlePlusImage}>
+        <button
+          className="text-3xl hover:scale-105 hover:text-slate-400 active:text-slate-500 active:scale-95 transition-all duration-300"
+          onClick={handlePlusImage}
+        >
           <BsFillArrowRightCircleFill />
         </button>
       </div>
