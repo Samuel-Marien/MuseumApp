@@ -9,12 +9,14 @@ import { getExhibition } from './API'
 import MyButton from './MyButton'
 
 import { MdEventAvailable, MdEventBusy } from 'react-icons/md'
+import { AiOutlineCloseCircle } from 'react-icons/ai'
 
 const imageUrl = process.env.NEXT_PUBLIC_API_URL_IMAGE_EXHIBITION
 const replacementImage = 'images/landing8.jpg'
 
 const Card = (props) => {
-  const { title, text, myUrl, dateStart, dateEnd, id, isLoading } = props
+  const { title, text, myUrl, dateStart, dateEnd, id, isLoading, onClick } =
+    props
 
   if (isLoading) {
     return (
@@ -57,35 +59,37 @@ const Card = (props) => {
     )
   }
   return (
-    <div className="bg-white shadow-lg  hover:shadow-sm transition-all duration-500 rounded flex flex-col p-3 md:p-0">
-      <div className="overflow-hidden ">
-        <img
-          style={{ width: '100%', height: '18rem' }}
-          src={myUrl}
-          alt={title}
-          className="hover:scale-110 transition-all duration-500"
-        />
-      </div>
-      <div className="p-4">
-        <div className="flex justify-between">
-          <p className="text-sm flex items-center">
-            <span className="text-base text-slate-500">
-              <MdEventAvailable />
-            </span>
-            {dateStart}
-          </p>
-          <p className="text-sm flex items-center">
-            <span className="text-base text-slate-500">
-              <MdEventBusy />
-            </span>
-
-            {dateEnd}
-          </p>
+    <button onClick={onClick}>
+      <div className="bg-white shadow-lg  hover:shadow-sm transition-all duration-500 rounded flex flex-col p-3 md:p-0">
+        <div className="overflow-hidden ">
+          <img
+            style={{ width: '100%', height: '18rem' }}
+            src={myUrl}
+            alt={title}
+            className="hover:scale-110 transition-all duration-500"
+          />
         </div>
-        <p className="text-slate-500 my-2">{text}</p>
-        <h1 className="text-2xl font-bold mt-5">{title}</h1>
+        <div className="p-4">
+          <div className="flex justify-between">
+            <p className="text-sm flex items-center">
+              <span className="text-base text-slate-500">
+                <MdEventAvailable />
+              </span>
+              {dateStart}
+            </p>
+            <p className="text-sm flex items-center">
+              <span className="text-base text-slate-500">
+                <MdEventBusy />
+              </span>
+
+              {dateEnd}
+            </p>
+          </div>
+          <p className="text-slate-500 my-2">{text}</p>
+          <h1 className="text-2xl font-bold mt-5">{title}</h1>
+        </div>
       </div>
-    </div>
+    </button>
   )
 }
 
@@ -94,6 +98,26 @@ const LandingExhibition = () => {
   const { scrollY } = useScroll()
   const [animationStart, setAnimationStart] = useState(false)
   const [myExhibition, setMyExhibition] = useState([])
+  const [modalIsOpen, setModalIsOpen] = useState(false)
+
+  const overlayVariants = {
+    visible: {
+      opacity: 1,
+      transition: {
+        when: 'beforeChildren',
+        duration: 0.3,
+        delayChildren: 0.4
+      }
+    },
+    hidden: {
+      opacity: 0,
+      transition: {
+        when: 'afterChildren',
+        duration: 0.3,
+        delay: 0.4
+      }
+    }
+  }
 
   useEffect(() => {
     return scrollY.onChange((latest) => {
@@ -134,6 +158,56 @@ const LandingExhibition = () => {
             </motion.div>
           )}
         </div>
+
+        <AnimatePresence>
+          {modalIsOpen && (
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              exit="hidden"
+              variants={overlayVariants}
+              className=" fixed top-0 left-0 right-0 bottom-0 bg-slate-200 flex justify-center items-center bg-opacity-80 z-10"
+            >
+              <motion.div
+                style={{ maxWidth: '500px' }}
+                className="w-11/12 bg-slate-100 rounded shadow-2xl"
+                initial={{ y: '100vh' }}
+                animate={{ y: 0 }}
+                exit={{ y: '100vh' }}
+                transition={{ duration: 0.5 }}
+              >
+                <div className="border-b ">
+                  <div
+                    className="p-1 w-full flex justify-end text-pink-900 text-xl "
+                    onClick={() => setModalIsOpen(false)}
+                  >
+                    <button className="hover:text-pink-600 transition-all duration-300 hover:scale-y-105">
+                      <AiOutlineCloseCircle />
+                    </button>
+                  </div>
+                  <h5 className="text-center text-2xl font-black mb-3">
+                    Join us!
+                  </h5>
+                </div>
+                <div className="px-4 mt-3 text-center">
+                  Register and enjoy all the features of the brooklin museum
+                  website!
+                </div>
+                <div className="">
+                  <div className="flex flex-col lg:flex-row lg:space-x-16 space-y-5 lg:space-y-0 items-center md:mx-0 justify-center my-5">
+                    <motion.div whileTap={{ scale: 0.9 }}>
+                      <MyButton title="Sign up" href="/signup" />
+                    </motion.div>
+                    <motion.div whileTap={{ scale: 0.9 }}>
+                      <MyButton title="Login" href="/login" />
+                    </motion.div>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         <div className="hidden md:grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 p-4 sm:p-0">
           {myExhibition &&
             myExhibition.map((item, index) => {
@@ -151,6 +225,7 @@ const LandingExhibition = () => {
                           }}
                         >
                           <Card
+                            onClick={() => setModalIsOpen(true)}
                             isLoading={user}
                             id={item.id}
                             title={item.title}
@@ -182,6 +257,7 @@ const LandingExhibition = () => {
                           }}
                         >
                           <Card
+                            onClick={() => setModalIsOpen(true)}
                             isLoading={user}
                             id={item.id}
                             title={item.title}
@@ -220,6 +296,7 @@ const LandingExhibition = () => {
                         }}
                       >
                         <Card
+                          onClick={() => setModalIsOpen(true)}
                           isLoading={user}
                           id={item.id}
                           title={item.title}
