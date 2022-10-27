@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useScroll } from 'framer-motion'
 
 import { useAppContext } from '../context/appContext'
+import useHasMounted from '../components/hooks/useHasMounted'
 import { getExhibition } from './API'
 
 import MyButton from './MyButton'
@@ -134,6 +135,11 @@ const LandingExhibition = () => {
   }, [])
 
   // console.log(myExhibition)
+
+  const hasMounted = useHasMounted()
+  if (!hasMounted) {
+    return null
+  }
 
   return (
     <div className="flex flex-col justify-between">
@@ -317,7 +323,7 @@ const LandingExhibition = () => {
             })}
         </div>
         <div className="my-16 sm:my-32 w-max mx-auto">
-          <MyButton title="+ More exhibitions" href="/exhibitions" />
+          {user && <MyButton title="+ More exhibitions" href="/exhibitions" />}
         </div>
       </div>
     </div>

@@ -3,6 +3,10 @@ import { useRouter } from 'next/router'
 import { motion, AnimatePresence } from 'framer-motion'
 
 import { getOneExhibition } from '../../components/API'
+import { useAppContext } from '../../context/appContext'
+import useHasMounted from '../../components/hooks/useHasMounted'
+
+import Navbar from '../../components/Navbar'
 
 import {
   BsFillArrowLeftCircleFill,
@@ -33,6 +37,7 @@ const MyItem = (props) => {
 }
 
 const Exhibition = () => {
+  const { user } = useAppContext()
   const router = useRouter()
   const { id } = router.query
   const [myExhibition, setMyExhibition] = useState([])
@@ -68,12 +73,26 @@ const Exhibition = () => {
       : setMyCurrentImage((myCurrentImage -= 1))
   }
 
+  const hasMounted = useHasMounted()
+  if (!hasMounted) {
+    return null
+  }
+
   return (
-    <div className="text-slate-700 ">
-      <div className="text-2xl md:text-4xl font-black text-center">
+    <div
+      className="text-slate-700 h-screen"
+      style={{
+        background: 'url(../images/landing42.png)',
+        backgroundSize: 'cover',
+        backgroundPosition: ' bottom',
+        backgroundRepeat: 'no-repeat'
+      }}
+    >
+      <Navbar user={user} />
+      <div className="text-2xl md:text-4xl font-black text-center mt-4 text-slate-400">
         {myExhibition.title}
       </div>
-      <div className="text-base md:text-xl font-thin my-2 text-center ">
+      <div className="text-base md:text-xl font-thin my-2 text-center text-slate-400">
         <p>{myExhibition.display_date}</p>
       </div>
       <div className="text-base md:text-xl font-semibold text-slate-500 my-2 text-center">
@@ -82,8 +101,8 @@ const Exhibition = () => {
 
       {/* large screens */}
       <div
-        style={{ minHeight: '530px', minWidth: '770px' }}
-        className="hidden mx-auto md:flex justify-center mt-5 overflow-hidden border w-max p-2 rounded shadow-xl"
+        style={{ minHeight: '530px', minWidth: '775px' }}
+        className="hidden  mx-auto md:flex justify-center mt-5 overflow-hidden w-max p-2 rounded shadow-xl "
       >
         {myExhibition.images && (
           <AnimatePresence>
@@ -97,7 +116,7 @@ const Exhibition = () => {
       {/* little screen device  */}
       <div
         style={{ minHeight: '300px' }}
-        className="md:hidden mx-auto flex justify-center mt-5 overflow-hidden border w-full p-2 rounded shadow-xl"
+        className="md:hidden mx-auto flex justify-center mt-5 overflow-hidden  w-full p-2 rounded shadow-xl"
       >
         {myExhibition.images && (
           <AnimatePresence>
