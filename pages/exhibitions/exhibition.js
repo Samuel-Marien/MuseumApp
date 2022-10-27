@@ -57,7 +57,7 @@ const Exhibition = () => {
     }
   }, [router.isReady])
 
-  // console.log(myExhibition)
+  console.log(myExhibition)
 
   const maxPlusImage = myExhibition.images && myExhibition.images.length
 
@@ -101,13 +101,16 @@ const Exhibition = () => {
 
       {/* large screens */}
       <div
-        style={{ minHeight: '530px', minWidth: '775px' }}
+        style={{ minHeight: '600px', minWidth: '800px' }}
         className="hidden  mx-auto md:flex justify-center mt-5 overflow-hidden w-max p-2 rounded shadow-xl "
       >
         {myExhibition.images && (
           <AnimatePresence>
             <MyItem
-              itemUrl={`${myExhibition.images[myCurrentImage].largest_derivative_url}`}
+              itemUrl={`${
+                myExhibition.images[myCurrentImage] &&
+                myExhibition.images[myCurrentImage].largest_derivative_url
+              }`}
             />
           </AnimatePresence>
         )}
@@ -121,7 +124,10 @@ const Exhibition = () => {
         {myExhibition.images && (
           <AnimatePresence>
             <MyItem
-              itemUrl={`${myExhibition.images[myCurrentImage].largest_derivative_url}`}
+              itemUrl={`${
+                myExhibition.images[myCurrentImage] &&
+                myExhibition.images[myCurrentImage].largest_derivative_url
+              }`}
             />
           </AnimatePresence>
         )}
@@ -145,17 +151,22 @@ const Exhibition = () => {
         </button>
       </div>
 
-      <div className="mt-5 text-center w-11/12 md:w-10/12 lg:w-8/12 xl:w-5/12 p-1 px-5 mx-auto  justify-between">
-        <p className="font-semibold text-base md:text-xl ">
-          {myExhibition.images && myExhibition.images[myCurrentImage].caption}
-        </p>
-        <p className="italic text-slate-400 mt-1 text-sm md:text-base">
-          {myExhibition.images && myExhibition.images[myCurrentImage].citation}
-        </p>
-        <p className="font-semibold">
-          {myExhibition.images && myExhibition.images[myCurrentImage].date}
-        </p>
-      </div>
+      {myExhibition.images && (
+        <div className="mt-5 text-center w-11/12 md:w-10/12 lg:w-8/12 xl:w-5/12 p-1 px-5 mx-auto  justify-between">
+          <p className="font-semibold text-base md:text-xl ">
+            {myExhibition.images[myCurrentImage] &&
+              myExhibition.images[myCurrentImage].caption}
+          </p>
+          <p className="italic text-slate-400 mt-1 text-sm md:text-base">
+            {myExhibition.images[myCurrentImage] &&
+              myExhibition.images[myCurrentImage].citation}
+          </p>
+          <p className="font-semibold">
+            {myExhibition.images[myCurrentImage] &&
+              myExhibition.images[myCurrentImage].date}
+          </p>
+        </div>
+      )}
     </div>
   )
 }
