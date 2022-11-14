@@ -29,7 +29,7 @@ const Landing = () => {
         backgroundRepeat: 'no-repeat'
       }}
     >
-      <Navbar user={user} />
+      <Navbar />
       <div className=" z-0 ml-5 lg:ml-10 flex flex-col text-6xl sm:text-9xl font-bold mt-10 lg:mt-48 text-slate-800 absolute top-20 ">
         <div>
           <Typed strings={[' BrooKlyn ']} typeSpeed={250} />

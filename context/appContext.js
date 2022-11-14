@@ -1,4 +1,5 @@
-import React, { useReducer, useContext, useEffect, useState } from 'react'
+import React, { useReducer, useContext } from 'react'
+import { useRouter } from 'next/router'
 import reducer from './reducer'
 import axios from 'axios'
 
@@ -9,7 +10,8 @@ import {
   LOGIN_USER_BEGIN,
   LOGIN_USER_SUCCESS,
   LOGIN_USER_ERROR,
-  CLEAR_ALERT
+  CLEAR_ALERT,
+  LOGOUT_USER
 } from './actions'
 
 if (typeof window !== 'undefined') {
@@ -20,18 +22,6 @@ if (typeof window !== 'undefined') {
 } else {
   console.log('👉️ CANT use localStorage')
 }
-
-// const token = localStorage.getItem('token')
-// const user = localStorage.getItem('user')
-// const userlocation = localStorage.getItem('location')
-
-// const useIsServer = () => {
-//   const [isServer, setIsServer] = useState(typeof window === 'undefined')
-//   useEffect(() => {
-//     if (isServer) setIsServer(false)
-//   }, [isServer])
-//   return isServer
-// }
 
 const initialState = {
   isLoading: false,
@@ -44,6 +34,7 @@ const AppContext = React.createContext()
 
 const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState)
+  const router = useRouter()
 
   const clearAlert = () => {
     setTimeout(() => {
@@ -59,11 +50,11 @@ const AppProvider = ({ children }) => {
     localStorage.setItem('location', location)
   }
 
-  // const removeFromLocalStorage = () => {
-  //   localStorage.getItem('token')
-  //   localStorage.getItem('user')
-  //   localStorage.getItem('location')
-  // }
+  const removeUserFromLocalStorage = () => {
+    localStorage.removeItem('token')
+    localStorage.removeItem('user')
+    localStorage.removeItem('location')
+  }
 
   const registerUser = async (currentUser) => {
     dispatch({ type: REGISTER_USER_BEGIN })
@@ -112,9 +103,17 @@ const AppProvider = ({ children }) => {
     clearAlert()
   }
 
+  const logoutUser = () => {
+    dispatch({ type: LOGOUT_USER })
+    removeUserFromLocalStorage()
+    setTimeout(() => {
+      router.push('/')
+    }, 1000)
+  }
+
   return (
     <AppContext.Provider
-      value={{ ...state, clearAlert, registerUser, loginUser }}
+      value={{ ...state, clearAlert, registerUser, loginUser, logoutUser }}
     >
       {children}
     </AppContext.Provider>
@@ -141,3 +140,15 @@ export { AppProvider, initialState, useAppContext }
 //     console.log('👉️ CANT use localStorage')
 //   }
 // }, [])
+
+// const token = localStorage.getItem('token')
+// const user = localStorage.getItem('user')
+// const userlocation = localStorage.getItem('location')
+
+// const useIsServer = () => {
+//   const [isServer, setIsServer] = useState(typeof window === 'undefined')
+//   useEffect(() => {
+//     if (isServer) setIsServer(false)
+//   }, [isServer])
+//   return isServer
+// }

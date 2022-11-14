@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
+
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 
+import { useAppContext } from '../context/appContext'
 import useHasMounted from '../components/hooks/useHasMounted'
 import Logo from './Logo'
 
@@ -24,8 +26,8 @@ const MyLink = (props) => {
   )
 }
 
-const Navbar = (props) => {
-  const { user } = props
+const Navbar = () => {
+  const { logoutUser, user } = useAppContext()
   const [show, setShow] = useState(false)
 
   const hasMounted = useHasMounted()
@@ -67,13 +69,15 @@ const Navbar = (props) => {
                 <>
                   <p className="text-sm font-thin capitalize">{user.name}</p>
                   <motion.div whileTap={{ scale: 0.9 }}>
-                    <a
+                    <button
+                      onClick={logoutUser}
                       className="flex items-center hover:text-gray-200 text-xl border-slate-500 border rounded p-1"
-                      href="#"
+                      href="/"
                     >
                       <MdLogout />
+
                       <span className="text-sm ml-2">Log out</span>
-                    </a>
+                    </button>
                   </motion.div>
                 </>
               ) : (
@@ -98,7 +102,6 @@ const Navbar = (props) => {
               <button
                 onClick={() => (show ? setShow(false) : setShow(true))}
                 className="pt-1 "
-                href="#"
               >
                 <MdMenu />
               </button>
@@ -147,7 +150,9 @@ const Navbar = (props) => {
                 )}
                 <div className="pt-5 space-y-1 pb-20">
                   {user ? (
-                    <MyLink href="/" title="Logout" icon={<MdLogout />} />
+                    <button type="button" className="" onClick={logoutUser}>
+                      logout
+                    </button>
                   ) : (
                     <MyLink
                       href="/signup"

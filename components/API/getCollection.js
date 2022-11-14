@@ -6,13 +6,9 @@ let url = process.env.NEXT_PUBLIC_API_URL
 
 const getCollection = async () => {
   try {
-    const response = await axios.get(
-      // 👇 Pour connaitre les collections
-      `${url}/collection/`,
-      {
-        headers: config
-      }
-    )
+    const response = await axios.get(`${url}/collection/`, {
+      headers: config
+    })
     return response
   } catch (error) {
     console.error(error)

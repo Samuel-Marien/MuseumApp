@@ -3,7 +3,6 @@ import { useRouter } from 'next/router'
 import { motion, AnimatePresence } from 'framer-motion'
 
 import { getOneExhibition } from '../../components/API'
-import { useAppContext } from '../../context/appContext'
 import useHasMounted from '../../components/hooks/useHasMounted'
 
 import Navbar from '../../components/Navbar'
@@ -37,7 +36,6 @@ const MyItem = (props) => {
 }
 
 const Exhibition = () => {
-  const { user } = useAppContext()
   const router = useRouter()
   const { id } = router.query
   const [myExhibition, setMyExhibition] = useState([])
@@ -88,7 +86,7 @@ const Exhibition = () => {
         backgroundRepeat: 'no-repeat'
       }}
     >
-      <Navbar user={user} />
+      <Navbar />
       <div className="text-2xl md:text-4xl font-black text-center mt-4 text-slate-400">
         {myExhibition.title}
       </div>

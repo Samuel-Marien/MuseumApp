@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
 
 import { useAppContext } from '../../context/appContext'
 import { getExhibition } from '../../components/API'
@@ -59,7 +58,7 @@ const ExhibitionHome = () => {
         backgroundRepeat: 'no-repeat'
       }}
     >
-      <Navbar user={user} />
+      <Navbar />
       <div className="container mx-auto">
         <div>
           <p className="text-5xl text-slate-400 font-bold text-center mt-5">
