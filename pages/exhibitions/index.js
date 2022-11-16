@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+// import { useRouter } from 'next/router'
 
 import { useAppContext } from '../../context/appContext'
 import { getExhibition } from '../../components/API'
@@ -15,9 +16,19 @@ const imageUrl = process.env.NEXT_PUBLIC_API_URL_IMAGE_EXHIBITION
 const replacementImage = '../images/landing8.jpg'
 
 const ExhibitionHome = () => {
+  // const router = useRouter()
   const { user } = useAppContext()
   const [myExhibitions, setMyExhibitions] = useState([])
   const [myOffset, setMyOffset] = useState(0)
+
+  console.log(user)
+
+  // check authentication:
+  // useEffect(() => {
+  //   if (!user) {
+  //     router.push('/login')
+  //   }
+  // }, [user, router])
 
   const maxPlusOffset = 2752
   const itemByPage = 12

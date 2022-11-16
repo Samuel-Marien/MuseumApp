@@ -111,9 +111,20 @@ const AppProvider = ({ children }) => {
     }, 1000)
   }
 
+  const updateUser = async (currentUser) => {
+    console.log(currentUser)
+  }
+
   return (
     <AppContext.Provider
-      value={{ ...state, clearAlert, registerUser, loginUser, logoutUser }}
+      value={{
+        ...state,
+        clearAlert,
+        registerUser,
+        loginUser,
+        logoutUser,
+        updateUser
+      }}
     >
       {children}
     </AppContext.Provider>

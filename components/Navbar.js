@@ -9,6 +9,7 @@ import Logo from './Logo'
 
 import { MdAccountCircle, MdLogout, MdMenu } from 'react-icons/md'
 import { IoIosAlbums, IoIosCalendar } from 'react-icons/io'
+import { FaCog } from 'react-icons/fa'
 
 const MyLink = (props) => {
   const { href, icon, title } = props
@@ -64,10 +65,17 @@ const Navbar = () => {
               )}
             </ul>
 
-            <div className="hidden md:flex items-center space-x-5">
+            <div className="hidden md:flex items-center space-x-3">
               {user ? (
                 <>
                   <p className="text-sm font-thin capitalize">{user.name}</p>
+                  <motion.div whileTap={{ scale: 0.9 }}>
+                    <Link href="profile">
+                      <a className="flex items-center hover:text-gray-200 text-xl ">
+                        <FaCog />
+                      </a>
+                    </Link>
+                  </motion.div>
                   <motion.div whileTap={{ scale: 0.9 }}>
                     <button
                       onClick={logoutUser}
@@ -150,9 +158,27 @@ const Navbar = () => {
                 )}
                 <div className="pt-5 space-y-1 pb-20">
                   {user ? (
-                    <button type="button" className="" onClick={logoutUser}>
-                      logout
-                    </button>
+                    <>
+                      <motion.div whileTap={{ scale: 0.9 }}>
+                        <Link href="profile">
+                          <a className="flex items-center hover:text-gray-200 text-xl ">
+                            <FaCog />
+                            <span className="ml-2 capitalize">Profile</span>
+                          </a>
+                        </Link>
+                      </motion.div>
+                      <motion.div whileTap={{ scale: 0.9 }}>
+                        <button
+                          onClick={logoutUser}
+                          className="mt-5 flex items-center hover:text-gray-200 text-xl border-slate-500 border rounded p-1"
+                          href="/"
+                        >
+                          <MdLogout />
+
+                          <span className="text-sm ml-2">Log out</span>
+                        </button>
+                      </motion.div>
+                    </>
                   ) : (
                     <MyLink
                       href="/signup"
