@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import React from 'react'
 import Link from 'next/link'
 
@@ -29,7 +28,7 @@ const Signup = () => {
           </a>
         </Link>
       </div>
-      <div className="flex justify-end md:mr-36 md:pt-36">
+      <div className="flex justify-center md:justify-end md:mr-36 md:pt-36">
         <div className="w-96 ">
           <SignupForm />
         </div>
