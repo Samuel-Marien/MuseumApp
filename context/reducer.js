@@ -6,7 +6,10 @@ import {
   LOGIN_USER_SUCCESS,
   LOGIN_USER_ERROR,
   CLEAR_ALERT,
-  LOGOUT_USER
+  LOGOUT_USER,
+  UPDATE_USER_BEGIN,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_ERROR
 } from './actions'
 
 import { initialState } from './appContext'
@@ -79,6 +82,32 @@ const reducer = (state, action) => {
       token: null,
       userLocation: '',
       jobLocation: ''
+    }
+  }
+
+  if (action.type === UPDATE_USER_BEGIN) {
+    return { ...state, isloading: true }
+  }
+
+  if (action.type === UPDATE_USER_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      token: action.payload.token,
+      user: action.payload.user,
+      userLocation: action.payload.userLocation,
+      alertType: 'success',
+      alertText: 'User profile updated!'
+    }
+  }
+
+  if (action.type === UPDATE_USER_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: 'danger',
+      alertText: action.payload.msg
     }
   }
 
