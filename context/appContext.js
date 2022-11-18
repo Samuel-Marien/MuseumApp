@@ -36,6 +36,36 @@ const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState)
   const router = useRouter()
 
+  // axios
+  const authFetch = axios.create({
+    baseURL: 'http://localhost:5000/api/v1'
+  })
+
+  // request
+  authFetch.interceptors.request.use(
+    (config) => {
+      config.headers.common['Authorization'] = `Bearer ${state.token}`
+      return config
+    },
+    (error) => {
+      return Promise.reject(error)
+    }
+  )
+
+  // response
+  authFetch.interceptors.response.use(
+    (response) => {
+      return response
+    },
+    (error) => {
+      console.log(error.response)
+      if (error.response.status === 401) {
+        console.log('AUTH ERROR')
+      }
+      return Promise.reject(error)
+    }
+  )
+
   const clearAlert = () => {
     setTimeout(() => {
       dispatch({
@@ -112,7 +142,13 @@ const AppProvider = ({ children }) => {
   }
 
   const updateUser = async (currentUser) => {
-    console.log(currentUser)
+    // console.log(currentUser)
+    try {
+      const { data } = await authFetch.patch('/auth/updateUser', currentUser)
+      console.log(data)
+    } catch (error) {
+      console.log(error.response)
+    }
   }
 
   return (
@@ -136,30 +172,3 @@ const useAppContext = () => {
 }
 
 export { AppProvider, initialState, useAppContext }
-
-// const [token, setToken] = useState(null)
-// const [user, setUser] = useState(null)
-// const [userLocation, setUserLocation] = useState(null)
-
-// useEffect(() => {
-//   if (typeof window !== 'undefined') {
-//     console.log('You are on the browser')
-//     setToken(localStorage.getItem('token'))
-//     setUser(localStorage.getItem('user'))
-//     setUserLocation(localStorage.getItem('userLocation'))
-//   } else {
-//     console.log('👉️ CANT use localStorage')
-//   }
-// }, [])
-
-// const token = localStorage.getItem('token')
-// const user = localStorage.getItem('user')
-// const userlocation = localStorage.getItem('location')
-
-// const useIsServer = () => {
-//   const [isServer, setIsServer] = useState(typeof window === 'undefined')
-//   useEffect(() => {
-//     if (isServer) setIsServer(false)
-//   }, [isServer])
-//   return isServer
-// }
