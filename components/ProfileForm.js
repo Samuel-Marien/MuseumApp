@@ -24,7 +24,7 @@ const RegisterValidation = object().shape({
 })
 
 const ProfileForm = () => {
-  const { user, updateUser } = useAppContext()
+  const { user, updateUser, alertText, alertType } = useAppContext()
   const [name, setName] = useState(user?.name)
   const [email, setEmail] = useState(user?.email)
   const [lastName, setLastName] = useState(user?.lastName)
@@ -70,6 +70,18 @@ const ProfileForm = () => {
             <h1 className="text-center my-2 font-bold uppercase text-3xl">
               Profile
             </h1>
+
+            {alertText && alertType === 'danger' && (
+              <div className="error mt-1 p-1 text-center text-red-400 bg-red-100">
+                {alertText}
+              </div>
+            )}
+            {alertText && alertType === 'success' && (
+              <div className="error mt-1 p-1 text-center text-green-400 bg-green-100">
+                {alertText}
+              </div>
+            )}
+
             <MyTextInput label="Name" name="name" type="text" />
             <MyTextInput label="Email" name="email" type="email" />
             <MyTextInput label="LastName" name="lastName" type="text" />
