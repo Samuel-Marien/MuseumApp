@@ -61,9 +61,12 @@ const AppProvider = ({ children }) => {
       return response
     },
     (error) => {
-      console.log(error.response)
-      if (error.response.status === 401) {
-        console.log('AUTH ERROR')
+      console.log(error.response.data.msg)
+      if (
+        error.response.status === 401 ||
+        error.response.data.msg === 'Invalid authentication!'
+      ) {
+        logoutUser()
       }
       return Promise.reject(error)
     }
@@ -155,10 +158,12 @@ const AppProvider = ({ children }) => {
       })
       addToLocalStorage({ user, location, token })
     } catch (error) {
-      dispatch({
-        type: UPDATE_USER_ERROR,
-        payload: { msg: error.response.data.msg }
-      })
+      if (error.response.status !== 401) {
+        dispatch({
+          type: UPDATE_USER_ERROR,
+          payload: { msg: error.response.data.msg }
+        })
+      }
     }
     clearAlert()
   }
