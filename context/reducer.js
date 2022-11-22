@@ -9,7 +9,10 @@ import {
   LOGOUT_USER,
   UPDATE_USER_BEGIN,
   UPDATE_USER_SUCCESS,
-  UPDATE_USER_ERROR
+  UPDATE_USER_ERROR,
+  SAVE_EXHIB_ART_BEGIN,
+  SAVE_EXHIB_ART_SUCCESS,
+  SAVE_EXHIB_ART_ERROR
 } from './actions'
 
 import { initialState } from './appContext'
@@ -102,6 +105,29 @@ const reducer = (state, action) => {
   }
 
   if (action.type === UPDATE_USER_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: 'danger',
+      alertText: action.payload.msg
+    }
+  }
+
+  if (action.type === SAVE_EXHIB_ART_BEGIN) {
+    return { ...state, isloading: true }
+  }
+
+  if (action.type === SAVE_EXHIB_ART_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      alertType: 'success',
+      alertText: 'Art successfully saved!'
+    }
+  }
+
+  if (action.type === SAVE_EXHIB_ART_ERROR) {
     return {
       ...state,
       isLoading: false,

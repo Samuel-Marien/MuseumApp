@@ -14,7 +14,10 @@ import {
   LOGOUT_USER,
   UPDATE_USER_BEGIN,
   UPDATE_USER_SUCCESS,
-  UPDATE_USER_ERROR
+  UPDATE_USER_ERROR,
+  SAVE_EXHIB_ART_BEGIN,
+  SAVE_EXHIB_ART_SUCCESS,
+  SAVE_EXHIB_ART_ERROR
 } from './actions'
 
 if (typeof window !== 'undefined') {
@@ -28,6 +31,7 @@ if (typeof window !== 'undefined') {
 
 const initialState = {
   isLoading: false,
+  isEditing: false,
   user: user ? JSON.parse(user) : null,
   token: token,
   userLocation: userLocation || ''
@@ -168,6 +172,42 @@ const AppProvider = ({ children }) => {
     clearAlert()
   }
 
+  const saveExhibArt = async (
+    exibitionTitle,
+    exibitionId,
+    imageId,
+    imageCaption,
+    imageCitation,
+    imageCredit,
+    imageLargestUrl,
+    imageStandardtUrl,
+    imageThumbnailUrl,
+    imageDate
+  ) => {
+    dispatch({ type: SAVE_EXHIB_ART_BEGIN })
+    try {
+      await authFetch.post('/arts/addUserArts', {
+        exibitionTitle,
+        exibitionId,
+        imageId,
+        imageCaption,
+        imageCitation,
+        imageCredit,
+        imageLargestUrl,
+        imageStandardtUrl,
+        imageThumbnailUrl,
+        imageDate
+      })
+      dispatch({ type: SAVE_EXHIB_ART_SUCCESS })
+    } catch (error) {
+      if (error.response.satus === 401) return
+      dispatch({
+        type: SAVE_EXHIB_ART_ERROR,
+        payload: { msg: error.response.data.msg }
+      })
+    }
+  }
+
   return (
     <AppContext.Provider
       value={{
@@ -176,7 +216,8 @@ const AppProvider = ({ children }) => {
         registerUser,
         loginUser,
         logoutUser,
-        updateUser
+        updateUser,
+        saveExhibArt
       }}
     >
       {children}

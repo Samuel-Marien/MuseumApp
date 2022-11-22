@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { motion, AnimatePresence } from 'framer-motion'
 
+import { useAppContext } from '../../context/appContext'
+
 import { getOneExhibition } from '../../components/API'
 import useHasMounted from '../../components/hooks/useHasMounted'
 
@@ -36,6 +38,7 @@ const MyItem = (props) => {
 }
 
 const Exhibition = () => {
+  const { saveExhibArt } = useAppContext()
   const router = useRouter()
   const { id } = router.query
   const [myExhibition, setMyExhibition] = useState([])
@@ -56,6 +59,22 @@ const Exhibition = () => {
   }, [router.isReady])
 
   console.log(myExhibition)
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    saveExhibArt(
+      myExhibition.title,
+      myExhibition.id,
+      myExhibition.images[myCurrentImage].id,
+      myExhibition.images[myCurrentImage].caption,
+      myExhibition.images[myCurrentImage].citation,
+      myExhibition.images[myCurrentImage].credit,
+      myExhibition.images[myCurrentImage].largest_derivative_url,
+      myExhibition.images[myCurrentImage].standard_size_url,
+      myExhibition.images[myCurrentImage].thumbnail_url,
+      myExhibition.images[myCurrentImage].date
+    )
+  }
 
   const maxPlusImage = myExhibition.images && myExhibition.images.length
 
@@ -96,11 +115,18 @@ const Exhibition = () => {
       <div className="text-base md:text-xl font-semibold text-slate-500 my-2 text-center">
         {myExhibition.organizing_department}
       </div>
-
+      <div className="flex justify-center ">
+        <button
+          onClick={handleSubmit}
+          className="w-max p-1 border bg-white shadow rounded"
+        >
+          clikme
+        </button>
+      </div>
       {/* large screens */}
       <div
         style={{ minHeight: '600px', minWidth: '800px' }}
-        className="hidden  mx-auto md:flex justify-center mt-5 overflow-hidden w-max p-2 rounded shadow-xl "
+        className="hidden  mx-auto md:flex justify-center mt-5 overflow-hidden w-max "
       >
         {myExhibition.images && (
           <AnimatePresence>
