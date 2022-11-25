@@ -12,7 +12,9 @@ import {
   UPDATE_USER_ERROR,
   SAVE_EXHIB_ART_BEGIN,
   SAVE_EXHIB_ART_SUCCESS,
-  SAVE_EXHIB_ART_ERROR
+  SAVE_EXHIB_ART_ERROR,
+  GET_USER_ART_BEGIN,
+  GET_USER_ART_SUCCESS
 } from './actions'
 
 import { initialState } from './appContext'
@@ -134,6 +136,20 @@ const reducer = (state, action) => {
       showAlert: true,
       alertType: 'danger',
       alertText: action.payload.msg
+    }
+  }
+
+  if (action.type === GET_USER_ART_BEGIN) {
+    return { ...state, isloading: true, showAlert: false }
+  }
+
+  if (action.type === GET_USER_ART_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      arts: action.payload.arts,
+      totalArts: action.payload.totalArts,
+      numOfPages: action.payload.numOfPages
     }
   }
 

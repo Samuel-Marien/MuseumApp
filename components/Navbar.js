@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 
@@ -7,7 +6,12 @@ import { useAppContext } from '../context/appContext'
 import useHasMounted from '../components/hooks/useHasMounted'
 import Logo from './Logo'
 
-import { MdAccountCircle, MdLogout, MdMenu } from 'react-icons/md'
+import {
+  MdAccountCircle,
+  MdLogout,
+  MdMenu,
+  MdCollections
+} from 'react-icons/md'
 import { IoIosAlbums, IoIosCalendar } from 'react-icons/io'
 import { FaCog } from 'react-icons/fa'
 
@@ -35,7 +39,7 @@ const Navbar = () => {
   if (!hasMounted) {
     return null
   }
-  // console.log(user)
+  console.log(user)
 
   return (
     <div>
@@ -44,7 +48,7 @@ const Navbar = () => {
           <div className="px-5 xl:px-8 py-3 flex w-full items-center">
             <Logo />
 
-            <ul className="hidden md:flex px-4 mx-auto space-x-20">
+            <ul className="hidden md:flex px-4 mx-auto space-x-10">
               {user ? (
                 <>
                   <MyLink
@@ -56,6 +60,11 @@ const Navbar = () => {
                     href="/exhibitions"
                     title="Exhibitions"
                     icon={<IoIosCalendar />}
+                  />
+                  <MyLink
+                    href="/userCollection"
+                    title="My Arts"
+                    icon={<MdCollections />}
                   />
                 </>
               ) : (
@@ -148,6 +157,11 @@ const Navbar = () => {
                       href="/exhibitions"
                       title="Exhibitions"
                       icon={<IoIosCalendar />}
+                    />
+                    <MyLink
+                      href="/userCollection"
+                      title="My Arts"
+                      icon={<MdCollections />}
                     />
                   </>
                 ) : (

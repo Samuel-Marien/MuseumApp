@@ -17,7 +17,9 @@ import {
   UPDATE_USER_ERROR,
   SAVE_EXHIB_ART_BEGIN,
   SAVE_EXHIB_ART_SUCCESS,
-  SAVE_EXHIB_ART_ERROR
+  SAVE_EXHIB_ART_ERROR,
+  GET_USER_ART_BEGIN,
+  GET_USER_ART_SUCCESS
 } from './actions'
 
 if (typeof window !== 'undefined') {
@@ -34,7 +36,11 @@ const initialState = {
   isEditing: false,
   user: user ? JSON.parse(user) : null,
   token: token,
-  userLocation: userLocation || ''
+  userLocation: userLocation || '',
+  arts: [],
+  totalArts: 0,
+  numOfPages: 1,
+  page: 1
 }
 
 const AppContext = React.createContext()
@@ -196,7 +202,8 @@ const AppProvider = ({ children }) => {
         imageLargestUrl,
         imageStandardtUrl,
         imageThumbnailUrl,
-        imageDate
+        imageDate,
+        isFavorite: false
       })
       dispatch({ type: SAVE_EXHIB_ART_SUCCESS })
     } catch (error) {
@@ -208,6 +215,24 @@ const AppProvider = ({ children }) => {
     }
   }
 
+  const getAllUserArts = async () => {
+    let url = '/arts/getAllUserArts'
+
+    dispatch({ type: GET_USER_ART_BEGIN })
+    try {
+      const { data } = await authFetch(url)
+      const { arts, totalArts, numOfPages } = data
+      dispatch({
+        type: GET_USER_ART_SUCCESS,
+        payload: { arts, totalArts, numOfPages }
+      })
+    } catch (error) {
+      console.log(error.response)
+      // logoutUser()
+    }
+    clearAlert()
+  }
+
   return (
     <AppContext.Provider
       value={{
@@ -217,7 +242,8 @@ const AppProvider = ({ children }) => {
         loginUser,
         logoutUser,
         updateUser,
-        saveExhibArt
+        saveExhibArt,
+        getAllUserArts
       }}
     >
       {children}
