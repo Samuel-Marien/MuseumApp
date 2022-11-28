@@ -39,7 +39,7 @@ const Navbar = () => {
   if (!hasMounted) {
     return null
   }
-  console.log(user)
+  // console.log(user)
 
   return (
     <div>

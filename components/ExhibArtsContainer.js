@@ -111,7 +111,7 @@ const ThumbnailArts = (props) => {
   )
 }
 
-const ArtsContainer = () => {
+const ExhibArtsContainer = () => {
   const { getAllUserArts, arts, isLoading, totalArts } = useAppContext()
 
   useEffect(() => {
@@ -122,8 +122,8 @@ const ArtsContainer = () => {
 
   return (
     <div>
-      {totalArts} art{totalArts > 1 && 's'} found
-      <div className="grid grid-cols-5 gap-2">
+      {totalArts} Exhibition art{totalArts > 1 && 's'} found
+      <div className="grid grid-cols-6 gap-2">
         {arts.map((art, index) => {
           return (
             <ThumbnailArts
@@ -143,4 +143,4 @@ const ArtsContainer = () => {
   )
 }
 
-export default ArtsContainer
+export default ExhibArtsContainer
