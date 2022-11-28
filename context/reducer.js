@@ -15,7 +15,10 @@ import {
   SAVE_EXHIB_ART_ERROR,
   GET_USER_ART_BEGIN,
   GET_USER_ART_SUCCESS,
-  DELETE_EXHIB_ART_BEGIN
+  DELETE_EXHIB_ART_BEGIN,
+  EDIT_ART_BEGIN,
+  EDIT_ART_SUCCESS,
+  EDIT_ART_ERROR
 } from './actions'
 
 import { initialState } from './appContext'
@@ -159,6 +162,31 @@ const reducer = (state, action) => {
       isloading: true
     }
   }
+
+  if (action.type === EDIT_ART_BEGIN) {
+    return { ...state, isLoading: true }
+  }
+
+  if (action.type === EDIT_ART_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: 'success',
+      alertText: 'Art added to your favorite !'
+    }
+  }
+
+  if (action.type === EDIT_ART_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: 'danger',
+      alertText: action.payload.msg
+    }
+  }
+
   throw new Error(`no such action ${action.type}`)
 }
 

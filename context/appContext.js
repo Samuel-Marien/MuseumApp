@@ -20,7 +20,10 @@ import {
   SAVE_EXHIB_ART_ERROR,
   GET_USER_ART_BEGIN,
   GET_USER_ART_SUCCESS,
-  DELETE_EXHIB_ART_BEGIN
+  DELETE_EXHIB_ART_BEGIN,
+  EDIT_ART_BEGIN,
+  EDIT_ART_SUCCESS,
+  EDIT_ART_ERROR
 } from './actions'
 
 if (typeof window !== 'undefined') {
@@ -246,6 +249,23 @@ const AppProvider = ({ children }) => {
     }
   }
 
+  const addExhibitionArtToFavorite = async (id, myBool) => {
+    dispatch({ type: EDIT_ART_BEGIN })
+
+    try {
+      await authFetch.patch(`/arts/${id}`, { isFavorite: myBool })
+      getAllUserArts()
+      dispatch({ type: EDIT_ART_SUCCESS })
+    } catch (error) {
+      // console.log(error)
+      if (error.response.status === 401) return
+      dispatch({
+        type: EDIT_ART_ERROR,
+        payload: { msg: error.response.data.msg }
+      })
+    }
+  }
+
   return (
     <AppContext.Provider
       value={{
@@ -257,7 +277,8 @@ const AppProvider = ({ children }) => {
         updateUser,
         saveExhibArt,
         getAllUserArts,
-        deleteExhibArt
+        deleteExhibArt,
+        addExhibitionArtToFavorite
       }}
     >
       {children}

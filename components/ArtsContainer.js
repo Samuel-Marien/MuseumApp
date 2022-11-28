@@ -1,15 +1,23 @@
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
+import Typed from 'react-typed'
 
 import { useAppContext } from '../context/appContext'
 
 import { FaTrashAlt, FaStar, FaEye } from 'react-icons/fa'
 
 const ThumbnailArts = (props) => {
-  const { deleteExhibArt } = useAppContext()
-  const { imageUrl, title, imageCaption, imageCitation, imageDate, artId } =
-    props
+  const { deleteExhibArt, addExhibitionArtToFavorite } = useAppContext()
+  const {
+    imageUrl,
+    title,
+    imageCaption,
+    imageCitation,
+    imageDate,
+    artId,
+    isFavorite
+  } = props
 
   const [show, setShow] = useState(false)
 
@@ -52,7 +60,12 @@ const ThumbnailArts = (props) => {
                     ' linear-gradient(to top, rgba(0,0,0,0), rgba(0,0,0,.7))'
                 }}
               >
-                <p>{title.length > 30 ? title.slice(0, 30) + '...' : title}</p>
+                <Typed
+                  strings={[
+                    `${title.length > 30 ? title.slice(0, 30) + '...' : title}`
+                  ]}
+                  typeSpeed={15}
+                />
               </div>
 
               <div
@@ -68,10 +81,21 @@ const ThumbnailArts = (props) => {
                 >
                   <FaTrashAlt />
                 </button>
-                <button className="hover:scale-110 hover:text-slate-100 transition-all duration-300 active:scale-105 active:text-yellow-500">
-                  <FaStar />
+                <button
+                  onClick={() =>
+                    addExhibitionArtToFavorite(artId, isFavorite ? false : true)
+                  }
+                  className="hover:scale-110 hover:text-slate-100 transition-all duration-300 active:scale-105 active:text-yellow-500"
+                >
+                  <span
+                    className={
+                      isFavorite ? 'text-yellow-300' : 'text-slate-300'
+                    }
+                  >
+                    <FaStar />
+                  </span>
                 </button>
-                <button>
+                <button className="hover:scale-110 hover:text-slate-100 transition-all duration-300 active:scale-105 active:text-yellow-500">
                   <Link href={`https://${imageUrl}`}>
                     <a target="_blank">
                       <FaEye />
@@ -100,16 +124,17 @@ const ArtsContainer = () => {
     <div>
       {totalArts} art{totalArts > 1 && 's'} found
       <div className="grid grid-cols-5 gap-2">
-        {arts.map((art) => {
+        {arts.map((art, index) => {
           return (
             <ThumbnailArts
-              key={art.imageId}
+              key={index}
               title={art.exibitionTitle}
               imageUrl={art.imageLargestUrl}
               imageCaption={art.imageCaption}
               imageCitation={art.imageCitation}
               imageDate={art.imageDate}
               artId={art._id}
+              isFavorite={art.isFavorite}
             />
           )
         })}
