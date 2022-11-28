@@ -19,7 +19,8 @@ import {
   SAVE_EXHIB_ART_SUCCESS,
   SAVE_EXHIB_ART_ERROR,
   GET_USER_ART_BEGIN,
-  GET_USER_ART_SUCCESS
+  GET_USER_ART_SUCCESS,
+  DELETE_EXHIB_ART_BEGIN
 } from './actions'
 
 if (typeof window !== 'undefined') {
@@ -233,6 +234,18 @@ const AppProvider = ({ children }) => {
     clearAlert()
   }
 
+  const deleteExhibArt = async (artId) => {
+    dispatch({ type: DELETE_EXHIB_ART_BEGIN })
+
+    try {
+      await authFetch.delete(`/arts/${artId}`)
+      getAllUserArts()
+    } catch (error) {
+      console.log(error.response)
+      // logoutUser()
+    }
+  }
+
   return (
     <AppContext.Provider
       value={{
@@ -243,7 +256,8 @@ const AppProvider = ({ children }) => {
         logoutUser,
         updateUser,
         saveExhibArt,
-        getAllUserArts
+        getAllUserArts,
+        deleteExhibArt
       }}
     >
       {children}

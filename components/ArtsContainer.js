@@ -7,7 +7,9 @@ import { useAppContext } from '../context/appContext'
 import { FaTrashAlt, FaStar, FaEye } from 'react-icons/fa'
 
 const ThumbnailArts = (props) => {
-  const { imageUrl, title, imageCaption, imageCitation, imageDate } = props
+  const { deleteExhibArt } = useAppContext()
+  const { imageUrl, title, imageCaption, imageCitation, imageDate, artId } =
+    props
 
   const [show, setShow] = useState(false)
 
@@ -60,7 +62,10 @@ const ThumbnailArts = (props) => {
                     ' linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,.7))'
                 }}
               >
-                <button className="hover:scale-110 hover:text-slate-100 transition-all duration-300 active:scale-105 active:text-pink-800">
+                <button
+                  onClick={() => deleteExhibArt(artId)}
+                  className="hover:scale-110 hover:text-slate-100 transition-all duration-300 active:scale-105 active:text-pink-800"
+                >
                   <FaTrashAlt />
                 </button>
                 <button className="hover:scale-110 hover:text-slate-100 transition-all duration-300 active:scale-105 active:text-yellow-500">
@@ -89,7 +94,7 @@ const ArtsContainer = () => {
     getAllUserArts()
   }, [])
 
-  // console.log(arts)
+  console.log(arts)
 
   return (
     <div>
@@ -104,6 +109,7 @@ const ArtsContainer = () => {
               imageCaption={art.imageCaption}
               imageCitation={art.imageCitation}
               imageDate={art.imageDate}
+              artId={art._id}
             />
           )
         })}

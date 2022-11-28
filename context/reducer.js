@@ -14,7 +14,8 @@ import {
   SAVE_EXHIB_ART_SUCCESS,
   SAVE_EXHIB_ART_ERROR,
   GET_USER_ART_BEGIN,
-  GET_USER_ART_SUCCESS
+  GET_USER_ART_SUCCESS,
+  DELETE_EXHIB_ART_BEGIN
 } from './actions'
 
 import { initialState } from './appContext'
@@ -152,7 +153,12 @@ const reducer = (state, action) => {
       numOfPages: action.payload.numOfPages
     }
   }
-
+  if (action.type === DELETE_EXHIB_ART_BEGIN) {
+    return {
+      ...state,
+      isloading: true
+    }
+  }
   throw new Error(`no such action ${action.type}`)
 }
 
