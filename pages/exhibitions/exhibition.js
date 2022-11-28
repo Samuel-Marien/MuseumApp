@@ -9,6 +9,8 @@ import useHasMounted from '../../components/hooks/useHasMounted'
 
 import Navbar from '../../components/Navbar'
 
+import { HiOutlineSaveAs } from 'react-icons/hi'
+
 import {
   BsFillArrowLeftCircleFill,
   BsFillArrowRightCircleFill
@@ -109,25 +111,32 @@ const Exhibition = () => {
       <div className="text-2xl md:text-4xl font-black text-center mt-4 text-slate-400">
         {myExhibition.title}
       </div>
-      <div className="text-base md:text-xl font-thin my-2 text-center text-slate-400">
+      <div className="text-sm md:text-base italic font-thin my-2 text-center text-slate-400">
         <p>{myExhibition.display_date}</p>
       </div>
-      <div className="text-base md:text-xl font-semibold text-slate-500 my-2 text-center">
+      <div className="text-base md:text-xl font-semibold text-slate-500 text-center">
         {myExhibition.organizing_department}
       </div>
-      <div className="flex justify-center ">
-        <button
-          onClick={handleSubmit}
-          className="w-max p-1 border bg-white shadow rounded"
-        >
-          clikme
-        </button>
-      </div>
+
       {/* large screens */}
       <div
         style={{ minHeight: '600px', minWidth: '800px' }}
-        className="hidden  mx-auto md:flex justify-center mt-5 overflow-hidden w-max "
+        className="hidden  mx-auto md:flex justify-center mt-3 overflow-hidden w-max "
       >
+        <button
+          style={{ minWidth: '800px' }}
+          onClick={handleSubmit}
+          className="absolute text-end pr-7 pt-2  "
+        >
+          <span
+            className="inline-block text-2xl text-slate-400 border border-slate-300 p-0.5 shadow-xl rounded bg-slate-800 bg-opacity-20 
+          hover:text-slate-100 hover:text-3xl hover:border-none hover:bg-none hover:bg-opacity-0 hover:shadow-none 
+           rotate-180 hover:rotate-0 active:translate-y-2 active:text-green-400 focus:border-green-400 transition-all duration-300"
+          >
+            <HiOutlineSaveAs />
+          </span>
+        </button>
+
         {myExhibition.images && (
           <AnimatePresence>
             <MyItem
@@ -143,8 +152,20 @@ const Exhibition = () => {
       {/* little screen device  */}
       <div
         style={{ minHeight: '300px' }}
-        className="md:hidden mx-auto flex justify-center mt-5 overflow-hidden  w-full p-2 rounded shadow-xl"
+        className="md:hidden mx-auto flex justify-center mt-5 overflow-hidden w-full p-2 rounded shadow-xl"
       >
+        <button
+          onClick={handleSubmit}
+          className="absolute mt-2 text-end  w-full pr-4 "
+        >
+          <span
+            className="inline-block text-2xl text-slate-400 border border-slate-300 p-0.5 shadow-xl rounded bg-slate-800 bg-opacity-20 
+          hover:text-slate-100 hover:text-3xl hover:border-none hover:bg-none hover:bg-opacity-0 hover:shadow-none 
+           rotate-180 hover:rotate-0 active:translate-y-2 active:text-green-400 focus:border-green-400 transition-all duration-300"
+          >
+            <HiOutlineSaveAs />
+          </span>
+        </button>
         {myExhibition.images && (
           <AnimatePresence>
             <MyItem
@@ -157,7 +178,7 @@ const Exhibition = () => {
         )}
       </div>
 
-      <div className="w-full flex justify-center md:space-x-48 space-x-10 mt-5">
+      <div className="w-full flex justify-center md:space-x-48 space-x-10 mt-3">
         <button
           className="text-3xl hover:scale-105 hover:text-slate-400 active:text-slate-500 active:scale-95 transition-all duration-300"
           onClick={handleMinusImage}
@@ -176,19 +197,21 @@ const Exhibition = () => {
       </div>
 
       {myExhibition.images && (
-        <div className="mt-5 text-center w-11/12 md:w-10/12 lg:w-8/12 xl:w-5/12 p-1 px-5 mx-auto  justify-between">
+        <div className="mt-2 text-center w-11/12 md:w-10/12 lg:w-8/12 xl:w-5/12 p-1 px-5 mx-auto  justify-between">
           <p className="font-semibold text-base md:text-xl ">
             {myExhibition.images[myCurrentImage] &&
               myExhibition.images[myCurrentImage].caption}
           </p>
-          <p className="italic text-slate-400 mt-1 text-sm md:text-base">
-            {myExhibition.images[myCurrentImage] &&
-              myExhibition.images[myCurrentImage].citation}
-          </p>
-          <p className="font-semibold">
-            {myExhibition.images[myCurrentImage] &&
-              myExhibition.images[myCurrentImage].date}
-          </p>
+          <div className="flex justify-center space-x-6 mt-2">
+            <p className="italic text-slate-400 text-sm md:text-base">
+              {myExhibition.images[myCurrentImage] &&
+                myExhibition.images[myCurrentImage].citation}
+            </p>
+            <p className="font-semibold text-sm border px-1 flex self-center shadow-lg rounded-lg bg-slate-700 text-slate-100">
+              {myExhibition.images[myCurrentImage] &&
+                myExhibition.images[myCurrentImage].date}
+            </p>
+          </div>
         </div>
       )}
     </div>

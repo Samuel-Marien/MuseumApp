@@ -45,10 +45,10 @@ const Navbar = () => {
     <div>
       <div className="flex flex-wrap ">
         <nav className="flex justify-between bg-slate-800 text-white w-screen bg-opacity-40 backdrop-blur-sm">
-          <div className="px-5 xl:px-8 py-3 flex w-full items-center">
+          <div className="px-5 xl:px-8 py-3 flex justify-between w-full items-center">
             <Logo />
 
-            <ul className="hidden md:flex px-4 mx-auto space-x-10">
+            <ul className="hidden md:flex space-x-10 pl-16 ">
               {user ? (
                 <>
                   <MyLink
