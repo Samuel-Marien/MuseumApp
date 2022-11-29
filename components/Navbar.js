@@ -34,12 +34,63 @@ const MyLink = (props) => {
 const Navbar = () => {
   const { logoutUser, user } = useAppContext()
   const [show, setShow] = useState(false)
+  const [showCollectionsMenu, setShowCollectionsMenu] = useState(false)
 
   const hasMounted = useHasMounted()
   if (!hasMounted) {
     return null
   }
-  // console.log(user)
+
+  const myMenu = [
+    {
+      title: 'American Art',
+      id: 9
+    },
+    {
+      title: 'Arts of Africa',
+      id: 21
+    },
+    {
+      title: 'Arts of the Americas',
+      id: 10
+    },
+    {
+      title: 'Arts of the Islamic World',
+      id: 20
+    },
+    {
+      title: 'Arts of the Pacific Islands',
+      id: 23
+    },
+    {
+      title: 'Asian Art',
+      id: 2
+    },
+    {
+      title: 'Contemporary Art',
+      id: 8
+    },
+    {
+      title: 'Decorative Arts',
+      id: 4
+    },
+    {
+      title: 'Egyptian, Classical Art',
+      id: 5
+    },
+    {
+      title: 'E.A. Sackler Feminist Art',
+      id: 22
+    },
+    {
+      title: 'European Art',
+      id: 7
+    },
+    {
+      title: 'Photography',
+      id: 3
+    }
+  ]
 
   return (
     <div>
@@ -51,11 +102,31 @@ const Navbar = () => {
             <ul className="hidden md:flex space-x-10 pl-16 ">
               {user ? (
                 <>
-                  <MyLink
+                  {/* <MyLink
                     href="/collections/"
                     title="Collections"
                     icon={<IoIosAlbums />}
-                  />
+                  /> */}
+                  <li>
+                    <motion.div whileTap={{ scale: 0.9 }}>
+                      <button
+                        onClick={() =>
+                          showCollectionsMenu
+                            ? setShowCollectionsMenu(false)
+                            : setShowCollectionsMenu(true)
+                        }
+                      >
+                        <a className="hover:text-gray-200 flex items-center space-x-2">
+                          <span>
+                            <IoIosAlbums />
+                          </span>
+                          <span className="hover:text-gray-200">
+                            Collections
+                          </span>
+                        </a>
+                      </button>
+                    </motion.div>
+                  </li>
                   <MyLink
                     href="/exhibitions"
                     title="Exhibitions"
@@ -206,6 +277,37 @@ const Navbar = () => {
           </motion.div>
         )}
       </div>
+      {showCollectionsMenu && (
+        <div className="hidden md:flex justify-center w-full rounded-lg ">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, x: -180 }}
+            animate={{ opacity: 1, scale: 1, zIndex: 100, x: -190 }}
+            transition={{
+              duration: 0.3
+            }}
+          >
+            <ul className="absolute w-max text-slate-300  backdrop-blur-sm">
+              {myMenu.map((item) => {
+                return (
+                  <li
+                    key={item.id}
+                    className="py-1 px-4 w-56 bg-slate-800 bg-opacity-40 hover:border-r-2 hover:bg-opacity-80 hover:font-semibold hover:text-slate-200 transition-all duration-200"
+                  >
+                    <Link
+                      href={{
+                        pathname: '/collections/',
+                        query: { id: item.id }
+                      }}
+                    >
+                      {item.title}
+                    </Link>
+                  </li>
+                )
+              })}
+            </ul>
+          </motion.div>
+        </div>
+      )}
     </div>
   )
 }

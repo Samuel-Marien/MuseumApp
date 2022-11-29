@@ -10,7 +10,6 @@ import useHasMounted from '../../components/hooks/useHasMounted'
 import Navbar from '../../components/Navbar'
 
 import { HiOutlineSaveAs } from 'react-icons/hi'
-
 import {
   BsFillArrowLeftCircleFill,
   BsFillArrowRightCircleFill
@@ -45,6 +44,8 @@ const Exhibition = () => {
   const { id } = router.query
   const [myExhibition, setMyExhibition] = useState([])
   const [myCurrentImage, setMyCurrentImage] = useState(0)
+
+  console.log(router)
 
   useEffect(() => {
     // router.isReady => fetch info on reload
