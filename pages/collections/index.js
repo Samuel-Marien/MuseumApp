@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import parse, { domToReact } from 'html-react-parser'
 import { motion } from 'framer-motion'
@@ -35,45 +36,54 @@ const ThumbnailArts = (props) => {
           transition: { duration: 0.9 }
         }}
       >
-        <div
-          style={{
-            height: '200px',
-            backgroundImage: `url("${imageUrl}")`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center'
+        <Link
+          href={{
+            pathname: '/collections/artDetails',
+            query: { id: artId }
           }}
         >
-          {show && (
-            <>
-              <div
-                className=" h-6 pt-1 text-center  text-xs text-slate-300 w-full absolute bottom-0 "
-                style={{
-                  backgroundImage:
-                    ' linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,.7))'
-                }}
-              >
-                <Typed
-                  strings={[
-                    `${title.length > 18 ? title.slice(0, 18) + '...' : title}`
-                  ]}
-                  typeSpeed={15}
-                />
-              </div>
-              <button
-                // onClick={handleSubmit}
-                className="absolute text-end w-full p-1"
-              >
-                <span
-                  className="inline-block text-slate-400 p-0.5 shadow-xl rounded bg-slate-800 bg-opacity-20 
+          <div
+            style={{
+              height: '200px',
+              backgroundImage: `url("${imageUrl}")`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
+            }}
+          >
+            {show && (
+              <>
+                <div
+                  className=" h-6 pt-1 text-center  text-xs text-slate-300 w-full absolute bottom-0 "
+                  style={{
+                    backgroundImage:
+                      ' linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,.7))'
+                  }}
+                >
+                  <Typed
+                    strings={[
+                      `${
+                        title.length > 18 ? title.slice(0, 18) + '...' : title
+                      }`
+                    ]}
+                    typeSpeed={15}
+                  />
+                </div>
+                <button
+                  // onClick={handleSubmit}
+                  className="absolute text-end w-full p-1"
+                >
+                  <span
+                    className="inline-block text-slate-400 p-0.5 shadow-xl rounded bg-slate-800 bg-opacity-20 
           hover:text-green-200 hover:bg-none hover:bg-opacity-0 hover:shadow-none 
            rotate-180 hover:rotate-0 active:translate-y-2 active:text-green-400 focus:border-green-400 transition-all duration-300"
-                >
-                  <HiOutlineSaveAs />
-                </span>
-              </button>
-            </>
-          )}
-        </div>
+                  >
+                    <HiOutlineSaveAs />
+                  </span>
+                </button>
+              </>
+            )}
+          </div>
+        </Link>
       </motion.div>
     </div>
   )
@@ -112,7 +122,7 @@ const CollectionsHome = () => {
 
   // console.log(myCollectionIntro.highlight_images)
   // console.log(highlightImg)
-  console.log(myCollection)
+  // console.log(myCollection)
   // console.log(router)
 
   const hasMounted = useHasMounted()
@@ -185,6 +195,7 @@ const CollectionsHome = () => {
                     <ThumbnailArts
                       title={item.title}
                       imageUrl={`${imageUrl}/size4/${item.primary_image}`}
+                      artId={item.id}
                     />
                   </motion.div>
                 )
@@ -206,6 +217,7 @@ const CollectionsHome = () => {
                     <ThumbnailArts
                       title={item.title}
                       imageUrl={`${imageUrl}/size4/${item.primary_image}`}
+                      artId={item.id}
                     />
                   </motion.div>
                 )

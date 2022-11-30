@@ -21,8 +21,6 @@ const ExhibitionHome = () => {
   const [myExhibitions, setMyExhibitions] = useState([])
   const [myOffset, setMyOffset] = useState(0)
 
-  // console.log(router)
-
   // check authentication:
   useEffect(() => {
     if (!user) {
@@ -58,6 +56,7 @@ const ExhibitionHome = () => {
   }
 
   // console.log(myOffset)
+  // console.log(router)
 
   return (
     <div

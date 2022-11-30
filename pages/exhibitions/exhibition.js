@@ -61,7 +61,7 @@ const Exhibition = () => {
     }
   }, [router.isReady])
 
-  console.log(myExhibition)
+  // console.log(myExhibition)
 
   const handleSubmit = (e) => {
     e.preventDefault()
