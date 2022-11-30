@@ -102,11 +102,6 @@ const Navbar = () => {
             <ul className="hidden md:flex space-x-10 pl-16 ">
               {user ? (
                 <>
-                  {/* <MyLink
-                    href="/collections/"
-                    title="Collections"
-                    icon={<IoIosAlbums />}
-                  /> */}
                   <li>
                     <motion.div whileTap={{ scale: 0.9 }}>
                       <button
@@ -289,19 +284,20 @@ const Navbar = () => {
             <ul className="absolute w-max text-slate-300  backdrop-blur-sm">
               {myMenu.map((item) => {
                 return (
-                  <li
-                    key={item.id}
-                    className="py-1 px-4 w-56 bg-slate-800 bg-opacity-40 hover:border-r-2 hover:bg-opacity-80 hover:font-semibold hover:text-slate-200 transition-all duration-200"
+                  <Link
+                    href={{
+                      pathname: '/collections/',
+                      query: { id: item.id }
+                    }}
                   >
-                    <Link
-                      href={{
-                        pathname: '/collections/',
-                        query: { id: item.id }
-                      }}
+                    <li
+                      onClick={() => setShowCollectionsMenu(false)}
+                      key={item.id}
+                      className=" cursor-pointer py-1 px-4 w-56 bg-slate-800 bg-opacity-40 hover:border-r-2 hover:bg-opacity-80 hover:font-semibold hover:text-slate-200 transition-all duration-200"
                     >
                       {item.title}
-                    </Link>
-                  </li>
+                    </li>
+                  </Link>
                 )
               })}
             </ul>
