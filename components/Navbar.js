@@ -285,6 +285,7 @@ const Navbar = () => {
               {myMenu.map((item) => {
                 return (
                   <Link
+                    key={item.id}
                     href={{
                       pathname: '/collections/',
                       query: { id: item.id }
