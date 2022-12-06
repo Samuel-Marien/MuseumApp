@@ -5,9 +5,13 @@ import parse, { domToReact } from 'html-react-parser'
 import { motion } from 'framer-motion'
 
 import useHasMounted from '../../components/hooks/useHasMounted'
-
 import { getOneArtDetails } from '../../components/API'
+
 import { FiLink } from 'react-icons/fi'
+import {
+  BsFillArrowLeftCircleFill,
+  BsFillArrowRightCircleFill
+} from 'react-icons/bs'
 
 let imageUrl = process.env.NEXT_PUBLIC_API_URL_IMAGE
 
@@ -37,26 +41,61 @@ const ArtContainer = (props) => {
     completenessName,
     completenessPercent,
     period,
-    dynasty
+    dynasty,
+    maxPlusImage,
+    imagesArray,
+    handleMinusImage,
+    handlePlusImage,
+    currentImage
   } = props
   const [showRights, setShowRights] = useState(false)
 
   const spanStyle = 'font-bold uppercase '
 
   return (
-    <div className="grid grid-cols-2 gap-5 text-slate-800">
-      <div className="border">
-        <img src={imgUrl} alt={title} />
+    <div className="grid grid-cols-2 gap-10 text-slate-800  ">
+      <div className="w-full flex justify-center">
+        <div
+          style={{
+            backgroundImage: `url("${imageUrl}/size4/${imgUrl}")`,
+            backgroundSize: 'contain',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            height: '600px',
+            width: '500px'
+          }}
+        ></div>
       </div>
-      <div className="border">
+      <div className="  ">
         <h1 className="text-5xl font-semibold ">{title}</h1>
-        <p className="flex text-xl uppercase font-bold text-slate-500 mt-2">
+        <div className="flex text-xl uppercase font-bold text-slate-500 mt-2 ">
           {collections}
           <span className="text-sm ml-1 self-center">
             <FiLink />
           </span>
-        </p>
-        <p className="mt-3 text-justify">{labelsText}</p>
+        </div>
+        <div className="mt-10 flex space-x-2 overflow-auto scrollbar cursor-pointer">
+          {imagesArray}
+        </div>
+        <div className="mt-4 flex justify-between items-center w-max mx-auto space-x-10 ">
+          <button
+            className="text-2xl hover:scale-105 hover:text-slate-400 active:text-slate-500 active:scale-95 transition-all duration-300"
+            onClick={handleMinusImage}
+          >
+            <BsFillArrowLeftCircleFill />
+          </button>
+          <p>
+            {currentImage}/{maxPlusImage}
+          </p>
+          <button
+            className="text-2xl hover:scale-105 hover:text-slate-400 active:text-slate-500 active:scale-95 transition-all duration-300"
+            onClick={handlePlusImage}
+          >
+            <BsFillArrowRightCircleFill />
+          </button>
+        </div>
+
+        <div className="mt-3 text-justify">{labelsText}</div>
         <div className="mt-2">{artist}</div>
         <p>
           <span className={spanStyle}>Medium: </span>
@@ -67,15 +106,15 @@ const ArtContainer = (props) => {
           {dimension}
         </p>
         <p>
-          <span className={spanStyle}>Markings: </span>
+          <span className={spanStyle}>{markings && 'Markings: '}</span>
           {markings}
         </p>
         <p>
-          <span className={spanStyle}>Signature: </span>
+          <span className={spanStyle}>{signed && 'Signature: '}</span>
           {signed}
         </p>
         <p>
-          <span className={spanStyle}>Inscribed: </span>
+          <span className={spanStyle}>{inscribed && 'Inscribed: '}</span>
           {inscribed}
         </p>
         <div className="mt-2">
@@ -115,10 +154,10 @@ const ArtContainer = (props) => {
 
         <div className="mt-5 flex items-center">
           <span className={spanStyle}>Record completeness: </span>
-          <div className="relative pt-1 w-8/12 ml-5 pb-3">
+          <div className="relative pt-1 w-8/12 ml-5">
             <div className="flex mb-2 items-center justify-between">
               <div>
-                <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-slate-600 bg-slate-200">
+                <span className="text-xs font-semibold inline-block  px-2 uppercase rounded-full text-slate-600 bg-slate-200">
                   {completenessName}
                 </span>
               </div>
@@ -137,7 +176,7 @@ const ArtContainer = (props) => {
           </div>
         </div>
         <span className="italic text-slate-500">{completenessDescription}</span>
-        <div className="mt-2">
+        <div className="mt-4">
           <span className={spanStyle}>Rights statement: </span>
           <span
             className="text-blue-400 cursor-pointer"
@@ -167,6 +206,8 @@ const ArtContainer = (props) => {
 
 const artDetails = () => {
   const [art, setArt] = useState([])
+  const [myCurrentImage, setMyCurrentImage] = useState(0)
+  const [myThumbArray, setThumbMyArray] = useState(0)
 
   const router = useRouter()
   const { id } = router.query
@@ -186,11 +227,9 @@ const artDetails = () => {
     }
   }, [router.isReady])
 
-  // console.log(art.artists && art.artists[0].name)
-  // console.log(id)
-
-  // testing object :
-  // 132835, 113740, 3461, 97327
+  useEffect(() => {
+    setThumbMyArray(art.images && art.images)
+  }, [art.images])
 
   // options for parsing the html response api
   const options = {
@@ -209,16 +248,75 @@ const artDetails = () => {
     }
   }
 
+  const maxPlusImage = art.images && art.images.length
+
+  const handlePlusImage = () => {
+    if (myCurrentImage === maxPlusImage - 1) {
+      setMyCurrentImage(0)
+    } else {
+      setMyCurrentImage((myCurrentImage += 1))
+      // const firstGoLast = myThumbArray.shift()
+      // myThumbArray.push(firstGoLast)
+    }
+  }
+
+  const handleMinusImage = () => {
+    // const lastGoFisrt = myThumbArray.pop()
+    // myThumbArray.unshift(lastGoFisrt)
+    if (myCurrentImage === 0) {
+      setMyCurrentImage(maxPlusImage - 1)
+    } else {
+      setMyCurrentImage((myCurrentImage -= 1))
+    }
+  }
+
   const hasMounted = useHasMounted()
   if (!hasMounted) {
     return null
   }
 
+  // console.log(art.artists && art.artists[0].name)
+  // console.log(id)
+  // console.log(art.primary_image)
+  // console.log(maxPlusImage)
+  // console.log(myThumbArray)
+
+  // testing object :
+  // 132835, 113740, 3461, 97327, 1873, 713, 50979
+
+  const handleClick = (id) => {
+    // console.log(id)
+    myThumbArray.filter((item, index) => {
+      return item.id === id && setMyCurrentImage(index)
+    })
+  }
+
   return (
     <div className="container mx-auto">
       <ArtContainer
+        handlePlusImage={handlePlusImage}
+        handleMinusImage={handleMinusImage}
+        maxPlusImage={maxPlusImage}
+        currentImage={myCurrentImage + 1}
         title={art.title}
-        imgUrl={`${imageUrl}/size4/${art.primary_image}`}
+        imgUrl={myThumbArray && myThumbArray[myCurrentImage].filename}
+        imagesArray={
+          myThumbArray &&
+          myThumbArray.map((item, index) => {
+            return (
+              <img
+                onClick={() => handleClick(item.id)}
+                className={
+                  index === myCurrentImage
+                    ? 'mb-3 border-2 rounded border-yellow-600 h-20 transition-all duration-300 '
+                    : 'mb-3 shadow-sm hover:scale-95 h-20 transition-all duration-300'
+                }
+                key={item.id}
+                src={`${imageUrl}/size1/${item.filename}`}
+              />
+            )
+          })
+        }
         artist={
           art.artists &&
           art.artists.map((item) => {
