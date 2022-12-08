@@ -26,13 +26,20 @@ import {
   EDIT_ART_ERROR
 } from './actions'
 
+const bright = '\x1b[1m'
+const red = '\x1b[31m'
+const reset = '\x1b[0m'
+const underscore = '\x1b[4m'
+
 if (typeof window !== 'undefined') {
-  console.log('You are on the browser')
+  console.log('%c👨‍💻 You are on the browser', 'color:yellow;')
   var token = localStorage.getItem('token')
   var user = localStorage.getItem('user')
   var userLocation = localStorage.getItem('userLocation')
 } else {
-  console.log('👉️ CANT use localStorage')
+  console.log(
+    `\n${bright}${red}⚠️  ${underscore}CAN'T${reset}${red} use localStorage ⚠️\n`
+  )
 }
 
 const initialState = {
