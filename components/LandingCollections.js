@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useScroll } from 'framer-motion'
 
@@ -11,20 +12,27 @@ let imageUrl = process.env.NEXT_PUBLIC_API_URL_IMAGE
 const replacementImage = 'images/landing8.jpg'
 
 const Card = (props) => {
-  const { name, imageUrl } = props
+  const { name, imageUrl, id } = props
 
   return (
-    <div className="flex flex-col items-center cursor-pointer p-1 pt-4 rounded shadow-lg hover:shadow-none transition-all duration-500">
-      <div className="overflow-hidden ">
-        <img
-          src={imageUrl}
-          alt={name}
-          style={{ width: '150px', height: '180px' }}
-          className="hover:scale-110 transition-all duration-500"
-        />
+    <Link
+      href={{
+        pathname: '/collections',
+        query: { id }
+      }}
+    >
+      <div className="flex flex-col items-center cursor-pointer p-1 pt-4 rounded shadow-lg hover:shadow-none transition-all duration-500">
+        <div className="overflow-hidden ">
+          <img
+            src={imageUrl}
+            alt={name}
+            style={{ width: '150px', height: '180px' }}
+            className="hover:scale-110 transition-all duration-500"
+          />
+        </div>
+        <h1 className="text-sm text-center font-semibold mt-2">{name}</h1>
       </div>
-      <h1 className="text-sm text-center font-semibold mt-2">{name}</h1>
-    </div>
+    </Link>
   )
 }
 
@@ -57,7 +65,7 @@ const LandingCollections = () => {
     }
   }, [])
 
-  // console.log(myCollection)
+  console.log(myCollection)
 
   return (
     <div className="flex flex-col bg-white pb-20">
@@ -138,6 +146,7 @@ const LandingCollections = () => {
                         }}
                       >
                         <Card
+                          id={item.id}
                           name={item.name}
                           imageUrl={
                             item.highlight_images[0] !== undefined

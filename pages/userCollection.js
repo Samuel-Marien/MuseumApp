@@ -13,14 +13,14 @@ const userCollection = () => {
     <div
       className="h-screen "
       style={{
-        background: 'url(images/landingUserCollection.jpg)',
+        background: 'url(images/landingUserCollection.png)',
         backgroundSize: 'cover',
         backgroundPosition: ' center',
         backgroundRepeat: 'no-repeat'
       }}
     >
       <Navbar />
-      <div className="container mx-auto w-full ">
+      <div className="container mx-auto w-full pb-20">
         <SearchContainer />
         <div className="flex space-x-2">
           <button

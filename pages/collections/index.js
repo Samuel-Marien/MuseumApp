@@ -147,7 +147,7 @@ const CollectionsHome = () => {
     <div
       className="h-screen "
       style={{
-        // background: 'url(images/landingUserCollection.jpg)',
+        background: 'url(images/landingUserCollection.png)',
         backgroundSize: 'cover',
         backgroundPosition: ' center',
         backgroundRepeat: 'no-repeat'
