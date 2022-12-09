@@ -76,9 +76,11 @@ const ArtDetailsContainer = (props) => {
     signed,
     inscribed,
     collections,
+    classification,
     labelsText,
     geoLocation,
     credit,
+    section,
     description,
     exhibitions,
     museumLocation,
@@ -92,7 +94,8 @@ const ArtDetailsContainer = (props) => {
     maxPlusImage,
     imagesArray,
     imageCaption,
-    currentImage
+    currentImage,
+    onClick
   } = props
   const [showRights, setShowRights] = useState(false)
   const [showLabelText, setShowLabelText] = useState(true)
@@ -134,6 +137,9 @@ const ArtDetailsContainer = (props) => {
             <FiLink />
           </span>
         </div>
+        <p className="font-semibold text-slate-500 uppercase text-sm">
+          {classification} - {section}
+        </p>
 
         <div className="mt-5 flex justify-between ">
           <div className="flex space-x-5">
@@ -157,17 +163,7 @@ const ArtDetailsContainer = (props) => {
 
           <div>
             <MyButton
-              rotate={360}
-              whatToShow={showrotate}
-              onClick={() => {
-                console.log('art saved')
-                showrotate ? setShowrotate(false) : setShowrotate(true)
-              }}
-              icon={
-                <span className="text-yellow-500 text-xl">
-                  <FcAcceptDatabase />
-                </span>
-              }
+              onClick={onClick}
               icon2={
                 <span className="text-xl">
                   <HiOutlineSaveAs />

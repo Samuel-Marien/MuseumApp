@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import parse, { domToReact } from 'html-react-parser'
 
+import { useAppContext } from '../../context/appContext'
 import useHasMounted from '../../components/hooks/useHasMounted'
 import { getOneArtDetails } from '../../components/API'
 import ArtDetailsContainer from '../../components/ArtDetailsContainer'
@@ -11,6 +12,7 @@ import Navbar from '../../components/Navbar'
 let imageUrl = process.env.NEXT_PUBLIC_API_URL_IMAGE
 
 const artDetails = () => {
+  const { saveCollectionArt } = useAppContext()
   const [art, setArt] = useState([])
   const [myCurrentImage, setMyCurrentImage] = useState(0)
   const [myThumbArray, setThumbMyArray] = useState(0)
@@ -60,8 +62,37 @@ const artDetails = () => {
     return null
   }
 
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    saveCollectionArt(
+      art.collections[0].name,
+      art.collections[0].id,
+      art.title,
+      art.id,
+      art.artists,
+      art.classification,
+      art.completeness,
+      art.primary_image,
+      art.medium,
+      art.object_date,
+      art.markings,
+      art.signed,
+      art.inscribed,
+      art.labels,
+      art.geographical_locations,
+      art.credit_line,
+      art.section,
+      art.description,
+      art.exhibitions,
+      art.rights_type,
+      art.period,
+      art.dynasty,
+      art.images
+    )
+  }
+
   // console.log(id)
-  // console.log(art)
+  console.log(art)
   // console.log(myThumbArray)
   // testing object : 132835, 113740, 3461, 97327, 1873, 713, 50979, 1252
 
@@ -85,9 +116,12 @@ const artDetails = () => {
       <Navbar />
       <div className="container mx-auto mt-10">
         <ArtDetailsContainer
+          onClick={handleSubmit}
           maxPlusImage={maxPlusImage}
           currentImage={myCurrentImage + 1}
           title={art.title}
+          classification={art.classification}
+          section={art.section}
           imgUrl={myThumbArray && myThumbArray[myCurrentImage].filename}
           imagesArray={
             myThumbArray &&

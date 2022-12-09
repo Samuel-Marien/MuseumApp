@@ -18,7 +18,10 @@ import {
   DELETE_EXHIB_ART_BEGIN,
   EDIT_ART_BEGIN,
   EDIT_ART_SUCCESS,
-  EDIT_ART_ERROR
+  EDIT_ART_ERROR,
+  SAVE_COLLEC_ART_BEGIN,
+  SAVE_COLLEC_ART_SUCCESS,
+  SAVE_COLLEC_ART_ERROR
 } from './actions'
 
 import { initialState } from './appContext'
@@ -134,6 +137,29 @@ const reducer = (state, action) => {
   }
 
   if (action.type === SAVE_EXHIB_ART_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: 'danger',
+      alertText: action.payload.msg
+    }
+  }
+
+  if (action.type === SAVE_COLLEC_ART_BEGIN) {
+    return { ...state, isloading: true }
+  }
+
+  if (action.type === SAVE_COLLEC_ART_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      alertType: 'success',
+      alertText: 'Art successfully saved!'
+    }
+  }
+
+  if (action.type === SAVE_COLLEC_ART_ERROR) {
     return {
       ...state,
       isLoading: false,

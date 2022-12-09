@@ -23,7 +23,10 @@ import {
   DELETE_EXHIB_ART_BEGIN,
   EDIT_ART_BEGIN,
   EDIT_ART_SUCCESS,
-  EDIT_ART_ERROR
+  EDIT_ART_ERROR,
+  SAVE_COLLEC_ART_BEGIN,
+  SAVE_COLLEC_ART_SUCCESS,
+  SAVE_COLLEC_ART_ERROR
 } from './actions'
 
 const bright = '\x1b[1m'
@@ -226,6 +229,69 @@ const AppProvider = ({ children }) => {
     }
   }
 
+  const saveCollectionArt = async (
+    collectionTitle,
+    collectionId,
+    artTitle,
+    artId,
+    artists,
+    classification,
+    completeness,
+    primaryImage,
+    medium,
+    date,
+    markings,
+    signed,
+    inscribed,
+    labels,
+    geographicalLocations,
+    creditLine,
+    section,
+    description,
+    exhibitions,
+    rightsType,
+    period,
+    dynasty,
+    images
+  ) => {
+    dispatch({ type: SAVE_COLLEC_ART_BEGIN })
+
+    try {
+      await authFetch.post('/arts/addUserCollectionArt', {
+        collectionTitle,
+        collectionId,
+        artTitle,
+        artId,
+        artists,
+        classification,
+        completeness,
+        primaryImage,
+        medium,
+        date,
+        markings,
+        signed,
+        inscribed,
+        labels,
+        geographicalLocations,
+        creditLine,
+        section,
+        description,
+        exhibitions,
+        rightsType,
+        period,
+        dynasty,
+        images
+      })
+      dispatch({ type: SAVE_COLLEC_ART_SUCCESS })
+    } catch (error) {
+      if (error.response.satus === 401) return
+      dispatch({
+        type: SAVE_COLLEC_ART_ERROR,
+        payload: { msg: error.response.data.msg }
+      })
+    }
+  }
+
   const getAllUserArts = async () => {
     let url = '/arts/getAllUserArts'
 
@@ -283,6 +349,7 @@ const AppProvider = ({ children }) => {
         logoutUser,
         updateUser,
         saveExhibArt,
+        saveCollectionArt,
         getAllUserArts,
         deleteExhibArt,
         addExhibitionArtToFavorite
