@@ -280,7 +280,8 @@ const AppProvider = ({ children }) => {
         rightsType,
         period,
         dynasty,
-        images
+        images,
+        isFavorite: false
       })
       dispatch({ type: SAVE_COLLEC_ART_SUCCESS })
     } catch (error) {
