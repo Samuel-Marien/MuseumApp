@@ -114,7 +114,7 @@ const artDetails = () => {
       }}
     >
       <Navbar />
-      <div className="container mx-auto mt-10">
+      <div className="container mx-auto md:mt-10 mt-2">
         <ArtDetailsContainer
           onClick={handleSubmit}
           maxPlusImage={maxPlusImage}

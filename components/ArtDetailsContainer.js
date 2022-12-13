@@ -4,9 +4,10 @@ import { motion } from 'framer-motion'
 import { FcAcceptDatabase } from 'react-icons/fc'
 import { FiLink } from 'react-icons/fi'
 import { FaExpandArrowsAlt, FaCompressArrowsAlt } from 'react-icons/fa'
-import { HiOutlineSaveAs } from 'react-icons/hi'
 
 let imageUrl = process.env.NEXT_PUBLIC_API_URL_IMAGE
+
+import { HiOutlineSaveAs } from 'react-icons/hi'
 
 const MyButton = (props) => {
   const {
@@ -105,14 +106,24 @@ const ArtDetailsContainer = (props) => {
   const spanStyle = 'font-bold uppercase '
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 text-slate-800 bg-slate-100 p-10 rounded shadow-lg bg-opacity-70">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 text-slate-800 bg-slate-100 p-5 mx-2 md:mx-0 rounded shadow-lg bg-opacity-70">
       {/* Left part  */}
       <div className="px-5">
         <div className="w-full flex justify-center ">
+          <button
+            onClick={onClick}
+            className="absolute text-end right-14 top-24"
+          >
+            <span
+              className="sm:hidden inline-block text-2xl text-slate-200 border border-slate-300 p-0.5 shadow-xl rounded bg-slate-100 bg-opacity-10 
+            active:translate-y-2 active:text-green-400 focus:border-green-400 transition-all duration-300"
+            >
+              <HiOutlineSaveAs />
+            </span>
+          </button>
           <img
             style={{
               maxHeight: '600px'
-              // maxWidth: '600px'
             }}
             src={`${imageUrl}/size4/${imgUrl}`}
           />
@@ -120,7 +131,7 @@ const ArtDetailsContainer = (props) => {
         <div className=" mt-2 flex space-x-2 overflow-auto scrollbar cursor-pointer">
           {imagesArray}
         </div>
-        <p className="mt-2 text-slate-500 italic text-sm">
+        <p className="mt-2 text-slate-500 italic sm:text-sm text-xs">
           {imageCaption}{' '}
           <span className="ml-2 font-semibold">
             [{currentImage}/{maxPlusImage}]
@@ -130,12 +141,11 @@ const ArtDetailsContainer = (props) => {
 
       {/* Right part  */}
       <div className="">
-        <h1 className="text-5xl font-semibold ">{title}</h1>
-        <div className="flex text-xl uppercase font-bold text-slate-500 mt-2 ">
+        <h1 className="text-4xl border-t pt-5 sm:pt-0 text-center sm:text-start sm:border-none  sm:text-5xl font-semibold">
+          {title}
+        </h1>
+        <div className="flex text-sm sm:text-xl uppercase font-bold  mt-2 text-blue-400  cursor-pointer">
           {collections}
-          <span className="text-sm ml-1 self-center">
-            <FiLink />
-          </span>
         </div>
         <p className="font-semibold text-slate-500 uppercase text-sm">
           {classification} - {section}
@@ -144,7 +154,7 @@ const ArtDetailsContainer = (props) => {
         <div className="mt-5 flex flex-col lg:flex-row justify-between ">
           <div className="flex space-x-5 justify-center">
             <MyButton
-              classNames="w-28"
+              classNames="w-full sm:w-28"
               whatToShow={showLabelText}
               title="label text"
               onClick={() =>
@@ -152,7 +162,7 @@ const ArtDetailsContainer = (props) => {
               }
             />
             <MyButton
-              classNames="w-28"
+              classNames="w-full sm:w-28"
               whatToShow={showInfos}
               title="art infos"
               onClick={() =>
@@ -161,7 +171,7 @@ const ArtDetailsContainer = (props) => {
             />
           </div>
 
-          <div className="mt-2 lg:mt-0">
+          <div className="mt-5 lg:mt-0 hidden sm:block">
             <MyButton
               onClick={onClick}
               icon2={
@@ -279,6 +289,19 @@ const ArtDetailsContainer = (props) => {
             </div>
           </motion.div>
         )}
+      </div>
+      <div className="sm:hidden block">
+        <MyButton
+          onClick={onClick}
+          icon2={
+            <span className="text-xl">
+              <HiOutlineSaveAs />
+            </span>
+          }
+          classNames="h-10 w-full xl:w-56 border-2 rounded hover:border-yellow-500 
+            bg-gray-300 text-gray-800 hover:bg-gray-800 hover: hover:text-gray-300 active:text-gray-100"
+          title="Save this Art!"
+        />
       </div>
     </div>
   )
