@@ -28,7 +28,11 @@ import {
   SAVE_COLLEC_ART_SUCCESS,
   SAVE_COLLEC_ART_ERROR,
   GET_USER_COLLEC_ART_BEGIN,
-  GET_USER_COLLEC_ART_SUCCESS
+  GET_USER_COLLEC_ART_SUCCESS,
+  DELETE_COLLEC_ART_BEGIN,
+  EDIT_COLLEC_ART_BEGIN,
+  EDIT_COLLEC_ART_SUCCESS,
+  EDIT_COLLEC_ART_ERROR
 } from './actions'
 
 const bright = '\x1b[1m'
@@ -263,7 +267,7 @@ const AppProvider = ({ children }) => {
     dispatch({ type: SAVE_COLLEC_ART_BEGIN })
 
     try {
-      await authFetch.post('/arts/addUserCollectionArt', {
+      await authFetch.post('/collec-arts/addUserCollectionArt', {
         collectionTitle,
         collectionId,
         artTitle,
@@ -318,7 +322,7 @@ const AppProvider = ({ children }) => {
   }
 
   const getAllCollectionUserArts = async () => {
-    let url = '/arts/getAllCollecUserArts'
+    let url = '/collec-arts/getAllCollecUserArts'
 
     dispatch({ type: GET_USER_COLLEC_ART_BEGIN })
     try {
@@ -347,6 +351,18 @@ const AppProvider = ({ children }) => {
     }
   }
 
+  const deleteCollecArt = async (artId) => {
+    dispatch({ type: DELETE_COLLEC_ART_BEGIN })
+
+    try {
+      await authFetch.delete(`/collec-arts/${artId}`)
+      getAllCollectionUserArts()
+    } catch (error) {
+      console.log(error.response)
+      // logoutUser()
+    }
+  }
+
   const addExhibitionArtToFavorite = async (id, myBool) => {
     dispatch({ type: EDIT_ART_BEGIN })
 
@@ -359,6 +375,23 @@ const AppProvider = ({ children }) => {
       if (error.response.status === 401) return
       dispatch({
         type: EDIT_ART_ERROR,
+        payload: { msg: error.response.data.msg }
+      })
+    }
+  }
+
+  const addCollectionArtToFavorite = async (id, myBool) => {
+    dispatch({ type: EDIT_COLLEC_ART_BEGIN })
+
+    try {
+      await authFetch.patch(`/collec-arts/${id}`, { isFavorite: myBool })
+      getAllCollectionUserArts()
+      dispatch({ type: EDIT_COLLEC_ART_SUCCESS })
+    } catch (error) {
+      // console.log(error)
+      if (error.response.status === 401) return
+      dispatch({
+        type: EDIT_COLLEC_ART_ERROR,
         payload: { msg: error.response.data.msg }
       })
     }
@@ -378,7 +411,9 @@ const AppProvider = ({ children }) => {
         getAllUserArts,
         deleteExhibArt,
         addExhibitionArtToFavorite,
-        getAllCollectionUserArts
+        getAllCollectionUserArts,
+        deleteCollecArt,
+        addCollectionArtToFavorite
       }}
     >
       {children}

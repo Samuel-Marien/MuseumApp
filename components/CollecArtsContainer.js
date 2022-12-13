@@ -7,8 +7,14 @@ import ThumbnailArts from './ThumbnailArts'
 let myImgUrl = process.env.NEXT_PUBLIC_API_URL_IMAGE_OBJECTS
 
 const CollecArtsContainer = () => {
-  const { getAllCollectionUserArts, artsCollec, isLoading, totalCollecArts } =
-    useAppContext()
+  const {
+    getAllCollectionUserArts,
+    artsCollec,
+    isLoading,
+    totalCollecArts,
+    deleteCollecArt,
+    addCollectionArtToFavorite
+  } = useAppContext()
 
   useEffect(() => {
     getAllCollectionUserArts()
@@ -24,9 +30,18 @@ const CollecArtsContainer = () => {
         {artsCollec.map((art, index) => {
           return (
             <ThumbnailArts
+              artId={art._id}
               key={index}
               title={art.artTitle}
+              isFavorite={art.isFavorite}
               imageUrl={`${myImgUrl}/size4/${art.primaryImage}`}
+              deleteFunc={() => deleteCollecArt(art._id)}
+              addToFavoriteFunc={() =>
+                addCollectionArtToFavorite(
+                  art._id,
+                  art.isFavorite ? false : true
+                )
+              }
             />
           )
         })}

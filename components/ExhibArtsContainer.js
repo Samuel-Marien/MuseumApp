@@ -5,7 +5,14 @@ import { useAppContext } from '../context/appContext'
 import ThumbnailArts from './ThumbnailArts'
 
 const ExhibArtsContainer = () => {
-  const { getAllUserArts, arts, isLoading, totalArts } = useAppContext()
+  const {
+    getAllUserArts,
+    arts,
+    isLoading,
+    totalArts,
+    deleteExhibArt,
+    addExhibitionArtToFavorite
+  } = useAppContext()
 
   useEffect(() => {
     getAllUserArts()
@@ -28,6 +35,13 @@ const ExhibArtsContainer = () => {
               imageDate={art.imageDate}
               artId={art._id}
               isFavorite={art.isFavorite}
+              deleteFunc={() => deleteExhibArt(art._id)}
+              addToFavoriteFunc={() =>
+                addExhibitionArtToFavorite(
+                  art._id,
+                  art.isFavorite ? false : true
+                )
+              }
             />
           )
         })}

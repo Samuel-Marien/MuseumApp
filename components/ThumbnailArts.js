@@ -3,12 +3,9 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import Typed from 'react-typed'
 
-import { useAppContext } from '../context/appContext'
-
 import { FaTrashAlt, FaStar, FaEye } from 'react-icons/fa'
 
 const ThumbnailArts = (props) => {
-  const { deleteExhibArt, addExhibitionArtToFavorite } = useAppContext()
   const {
     imageUrl,
     title,
@@ -16,7 +13,9 @@ const ThumbnailArts = (props) => {
     imageCitation,
     imageDate,
     artId,
-    isFavorite
+    isFavorite,
+    deleteFunc,
+    addToFavoriteFunc
   } = props
 
   const [show, setShow] = useState(false)
@@ -76,15 +75,17 @@ const ThumbnailArts = (props) => {
                 }}
               >
                 <button
-                  onClick={() => deleteExhibArt(artId)}
+                  // onClick={() => deleteExhibArt(artId)}
+                  onClick={deleteFunc}
                   className="hover:scale-110 hover:text-slate-100 transition-all duration-300 active:scale-105 active:text-pink-800"
                 >
                   <FaTrashAlt />
                 </button>
                 <button
-                  onClick={() =>
-                    addExhibitionArtToFavorite(artId, isFavorite ? false : true)
-                  }
+                  onClick={addToFavoriteFunc}
+                  // onClick={() =>
+                  //   addExhibitionArtToFavorite(artId, isFavorite ? false : true)
+                  // }
                   className="hover:scale-110 hover:text-slate-100 transition-all duration-300 active:scale-105 active:text-yellow-500"
                 >
                   <span

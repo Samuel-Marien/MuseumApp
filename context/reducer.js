@@ -23,7 +23,11 @@ import {
   SAVE_COLLEC_ART_SUCCESS,
   SAVE_COLLEC_ART_ERROR,
   GET_USER_COLLEC_ART_BEGIN,
-  GET_USER_COLLEC_ART_SUCCESS
+  GET_USER_COLLEC_ART_SUCCESS,
+  DELETE_COLLEC_ART_BEGIN,
+  EDIT_COLLEC_ART_BEGIN,
+  EDIT_COLLEC_ART_SUCCESS,
+  EDIT_COLLEC_ART_ERROR
 } from './actions'
 
 import { initialState } from './appContext'
@@ -206,6 +210,13 @@ const reducer = (state, action) => {
     }
   }
 
+  if (action.type === DELETE_COLLEC_ART_BEGIN) {
+    return {
+      ...state,
+      isloading: true
+    }
+  }
+
   if (action.type === EDIT_ART_BEGIN) {
     return { ...state, isLoading: true }
   }
@@ -221,6 +232,30 @@ const reducer = (state, action) => {
   }
 
   if (action.type === EDIT_ART_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: 'danger',
+      alertText: action.payload.msg
+    }
+  }
+
+  if (action.type === EDIT_COLLEC_ART_BEGIN) {
+    return { ...state, isLoading: true }
+  }
+
+  if (action.type === EDIT_COLLEC_ART_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      showAlert: true,
+      alertType: 'success',
+      alertText: 'Art added to your favorite !'
+    }
+  }
+
+  if (action.type === EDIT_COLLEC_ART_ERROR) {
     return {
       ...state,
       isLoading: false,
