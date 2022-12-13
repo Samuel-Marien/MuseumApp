@@ -38,16 +38,26 @@ const userCollection = () => {
         </div>
         {artToDisplay === 'exhib' && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0.6, scale: 0.99 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{
-              duration: 1
+              duration: 0.7
             }}
           >
             <ExhibArtsContainer />
           </motion.div>
         )}
-        {artToDisplay === 'collec' && <CollecArtsContainer />}
+        {artToDisplay === 'collec' && (
+          <motion.div
+            initial={{ opacity: 0.6, scale: 0.99 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{
+              duration: 0.7
+            }}
+          >
+            <CollecArtsContainer />
+          </motion.div>
+        )}
       </div>
     </div>
   )

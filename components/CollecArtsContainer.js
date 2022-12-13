@@ -18,16 +18,19 @@ const CollecArtsContainer = () => {
   console.log(totalCollecArts)
 
   return (
-    <div className="grid grid-cols-6 gap-2">
-      {artsCollec.map((art, index) => {
-        return (
-          <ThumbnailArts
-            key={index}
-            title={art.artTitle}
-            imageUrl={`${myImgUrl}/size4/${art.primaryImage}`}
-          />
-        )
-      })}
+    <div>
+      {totalCollecArts} Collection art{totalCollecArts > 1 && 's'} found
+      <div className="grid grid-cols-6 gap-2">
+        {artsCollec.map((art, index) => {
+          return (
+            <ThumbnailArts
+              key={index}
+              title={art.artTitle}
+              imageUrl={`${myImgUrl}/size4/${art.primaryImage}`}
+            />
+          )
+        })}
+      </div>
     </div>
   )
 }
