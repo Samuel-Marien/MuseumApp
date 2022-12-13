@@ -105,7 +105,7 @@ const ArtDetailsContainer = (props) => {
   const spanStyle = 'font-bold uppercase '
 
   return (
-    <div className="grid grid-cols-2 gap-10 text-slate-800 bg-slate-100 p-10 rounded shadow-lg bg-opacity-70">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 text-slate-800 bg-slate-100 p-10 rounded shadow-lg bg-opacity-70">
       {/* Left part  */}
       <div className="px-5">
         <div className="w-full flex justify-center ">
@@ -141,8 +141,8 @@ const ArtDetailsContainer = (props) => {
           {classification} - {section}
         </p>
 
-        <div className="mt-5 flex justify-between ">
-          <div className="flex space-x-5">
+        <div className="mt-5 flex flex-col lg:flex-row justify-between ">
+          <div className="flex space-x-5 justify-center">
             <MyButton
               classNames="w-28"
               whatToShow={showLabelText}
@@ -161,7 +161,7 @@ const ArtDetailsContainer = (props) => {
             />
           </div>
 
-          <div>
+          <div className="mt-2 lg:mt-0">
             <MyButton
               onClick={onClick}
               icon2={
@@ -169,7 +169,7 @@ const ArtDetailsContainer = (props) => {
                   <HiOutlineSaveAs />
                 </span>
               }
-              classNames="h-10 w-56 border-2 rounded hover:border-yellow-500 
+              classNames="h-10 w-full xl:w-56 border-2 rounded hover:border-yellow-500 
             bg-gray-300 text-gray-800 hover:bg-gray-800 hover: hover:text-gray-300 active:text-gray-100"
               title="Save this Art!"
             />

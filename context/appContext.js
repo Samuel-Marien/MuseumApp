@@ -26,7 +26,9 @@ import {
   EDIT_ART_ERROR,
   SAVE_COLLEC_ART_BEGIN,
   SAVE_COLLEC_ART_SUCCESS,
-  SAVE_COLLEC_ART_ERROR
+  SAVE_COLLEC_ART_ERROR,
+  GET_USER_COLLEC_ART_BEGIN,
+  GET_USER_COLLEC_ART_SUCCESS
 } from './actions'
 
 const bright = '\x1b[1m'
@@ -54,7 +56,11 @@ const initialState = {
   arts: [],
   totalArts: 0,
   numOfPages: 1,
-  page: 1
+  page: 1,
+  artsCollec: [],
+  totalCollecArts: 0,
+  numOfCollecPages: 1,
+  pageCollec: 1
 }
 
 const AppContext = React.createContext()
@@ -311,6 +317,24 @@ const AppProvider = ({ children }) => {
     clearAlert()
   }
 
+  const getAllCollectionUserArts = async () => {
+    let url = '/arts/getAllCollecUserArts'
+
+    dispatch({ type: GET_USER_COLLEC_ART_BEGIN })
+    try {
+      const { data } = await authFetch(url)
+      const { artsCollec, totalCollecArts, numOfCollecPages } = data
+      dispatch({
+        type: GET_USER_COLLEC_ART_SUCCESS,
+        payload: { artsCollec, totalCollecArts, numOfCollecPages }
+      })
+    } catch (error) {
+      console.log(error.response)
+      // logoutUser()
+    }
+    clearAlert()
+  }
+
   const deleteExhibArt = async (artId) => {
     dispatch({ type: DELETE_EXHIB_ART_BEGIN })
 
@@ -353,7 +377,8 @@ const AppProvider = ({ children }) => {
         saveCollectionArt,
         getAllUserArts,
         deleteExhibArt,
-        addExhibitionArtToFavorite
+        addExhibitionArtToFavorite,
+        getAllCollectionUserArts
       }}
     >
       {children}

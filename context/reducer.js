@@ -21,7 +21,9 @@ import {
   EDIT_ART_ERROR,
   SAVE_COLLEC_ART_BEGIN,
   SAVE_COLLEC_ART_SUCCESS,
-  SAVE_COLLEC_ART_ERROR
+  SAVE_COLLEC_ART_ERROR,
+  GET_USER_COLLEC_ART_BEGIN,
+  GET_USER_COLLEC_ART_SUCCESS
 } from './actions'
 
 import { initialState } from './appContext'
@@ -182,6 +184,21 @@ const reducer = (state, action) => {
       numOfPages: action.payload.numOfPages
     }
   }
+
+  if (action.type === GET_USER_COLLEC_ART_BEGIN) {
+    return { ...state, isloading: true, showAlert: false }
+  }
+
+  if (action.type === GET_USER_COLLEC_ART_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      artsCollec: action.payload.artsCollec,
+      totalCollecArts: action.payload.totalCollecArts,
+      numOfCollecPages: action.payload.numOfCollecPages
+    }
+  }
+
   if (action.type === DELETE_EXHIB_ART_BEGIN) {
     return {
       ...state,

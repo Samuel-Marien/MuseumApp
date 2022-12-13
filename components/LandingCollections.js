@@ -65,7 +65,7 @@ const LandingCollections = () => {
     }
   }, [])
 
-  console.log(myCollection)
+  // console.log(myCollection)
 
   return (
     <div className="flex flex-col bg-white pb-20">
