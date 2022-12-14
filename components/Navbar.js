@@ -35,6 +35,7 @@ const Navbar = () => {
   const { logoutUser, user } = useAppContext()
   const [show, setShow] = useState(false)
   const [showCollectionsMenu, setShowCollectionsMenu] = useState(false)
+  const [showDropDown, setShowDropDown] = useState(false)
 
   const hasMounted = useHasMounted()
   if (!hasMounted) {
@@ -142,27 +143,60 @@ const Navbar = () => {
 
             <div className="hidden md:flex items-center space-x-3">
               {user ? (
-                <>
-                  <p className="text-sm font-thin capitalize">{user.name}</p>
-                  <motion.div whileTap={{ scale: 0.9 }}>
-                    <Link href="profile">
-                      <a className="flex items-center hover:text-gray-200 text-xl ">
-                        <FaCog />
-                      </a>
-                    </Link>
-                  </motion.div>
-                  <motion.div whileTap={{ scale: 0.9 }}>
-                    <button
-                      onClick={logoutUser}
-                      className="flex items-center hover:text-gray-200 text-xl border-slate-500 border rounded p-1"
-                      href="/"
+                <div>
+                  <button
+                    onClick={() =>
+                      showDropDown
+                        ? setShowDropDown(false)
+                        : setShowDropDown(true)
+                    }
+                    className="flex items-center hover:text-gray-200 text-xl border-slate-500 border rounded py-1 px-2"
+                    href="/"
+                  >
+                    <span className="text-sm font-thin capitalize">
+                      {user.name}
+                    </span>
+                  </button>
+                  {showDropDown && (
+                    <motion.div
+                      initial={{ opacity: 0.6, scale: 0.9, y: -20, x: -100 }}
+                      animate={{ opacity: 1, scale: 1, y: 5 }}
+                      transition={{
+                        duration: 0.3
+                      }}
                     >
-                      <MdLogout />
+                      <div className="absolute mt-2 w-44 shadow-lg bg-white">
+                        <Link href="/userCollection">
+                          <a className="flex items-center text-slate-800 w-full px-4 py-2 text-sm hover:bg-slate-800 hover:text-slate-200 transition-all duration-300 hover:font-bold">
+                            <span className="mr-1">
+                              <MdCollections />
+                            </span>{' '}
+                            My Collection
+                          </a>
+                        </Link>
 
-                      <span className="text-sm ml-2">Log out</span>
-                    </button>
-                  </motion.div>
-                </>
+                        <Link href="profile">
+                          <a className="flex items-center text-slate-800 w-full px-4 py-2 text-sm hover:bg-slate-800 hover:text-slate-200 transition-all duration-300 hover:font-bold">
+                            <span className="mr-1">
+                              <FaCog />
+                            </span>
+                            Account settings
+                          </a>
+                        </Link>
+
+                        <button
+                          onClick={logoutUser}
+                          className="flex items-center text-slate-800 w-full px-4 py-2 text-sm hover:bg-slate-800 hover:text-slate-200 transition-all duration-300 hover:font-bold"
+                        >
+                          <span className="mr-1">
+                            <MdLogout />
+                          </span>
+                          Log out
+                        </button>
+                      </div>
+                    </motion.div>
+                  )}
+                </div>
               ) : (
                 <motion.div whileTap={{ scale: 0.9 }}>
                   <Link href="/signup">
