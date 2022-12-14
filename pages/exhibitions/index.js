@@ -96,12 +96,15 @@ const ExhibitionHome = () => {
             </button>
           </div>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6 p-4 sm:p-0">
+        <div
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 
+        lg:grid-cols-4 xl:grid-cols-6 gap-6 p-4 sm:p-0"
+        >
           {myExhibitions.map((item) => {
             return (
               <Card
                 key={item.id}
-                cardSize="7rem"
+                cardSize="12rem"
                 isLoading={user}
                 id={item.id}
                 title={item.title}

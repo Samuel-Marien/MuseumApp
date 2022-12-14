@@ -51,7 +51,7 @@ const LandingCollections = () => {
 
   useEffect(() => {
     return scrollY.onChange((latest) => {
-      return latest > 2150
+      return latest > 1700
         ? setAnimationButtonStart(true)
         : setAnimationButtonStart(false)
     })
@@ -142,7 +142,7 @@ const LandingCollections = () => {
                         animate={{ y: [100, 0], opacity: 1 }}
                         exit={{ opacity: 0 }}
                         transition={{
-                          duration: 2
+                          duration: 1.5
                         }}
                       >
                         <Card

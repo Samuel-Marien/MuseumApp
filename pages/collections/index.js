@@ -44,7 +44,7 @@ const ThumbnailArts = (props) => {
         >
           <div
             style={{
-              height: '200px',
+              height: '18rem',
               backgroundImage: `url("${imageUrl}")`,
               backgroundSize: 'cover',
               backgroundPosition: 'center'
@@ -53,7 +53,7 @@ const ThumbnailArts = (props) => {
             {show && (
               <>
                 <div
-                  className=" h-6 pt-1 text-center  text-xs text-slate-300 w-full absolute bottom-0 "
+                  className=" h-6 pt-1 text-center text-xs text-slate-300 w-full absolute bottom-0 "
                   style={{
                     backgroundImage:
                       ' linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,.7))'
@@ -149,7 +149,7 @@ const CollectionsHome = () => {
       style={{
         background: 'url(images/landingUserCollection.png)',
         backgroundSize: 'cover',
-        backgroundPosition: ' center',
+        backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat'
       }}
     >
@@ -179,65 +179,70 @@ const CollectionsHome = () => {
             History
           </button>
         </div>
-        <div className="text-base ">
-          {artToDisplay === 'highlight' && (
-            <div className="grid grid-cols-8 gap-8">
-              {highlightImg.map((item) => {
-                return (
-                  <motion.div
-                    key={item.id}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{
-                      duration: 0.5
-                    }}
-                  >
-                    <ThumbnailArts
-                      title={item.title}
-                      imageUrl={`${imageUrl}/size4/${item.primary_image}`}
-                      artId={item.id}
-                    />
-                  </motion.div>
-                )
-              })}
+
+        {artToDisplay === 'highlight' && (
+          <div
+            className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 
+        lg:grid-cols-6 xl:grid-cols-8 sm:gap-6 gap-2"
+          >
+            {highlightImg.map((item) => {
+              return (
+                <motion.div
+                  key={item.id}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{
+                    duration: 0.5
+                  }}
+                >
+                  <ThumbnailArts
+                    title={item.title}
+                    imageUrl={`${imageUrl}/size4/${item.primary_image}`}
+                    artId={item.id}
+                  />
+                </motion.div>
+              )
+            })}
+          </div>
+        )}
+        {artToDisplay === 'full' && (
+          <div
+            className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 
+        lg:grid-cols-6 xl:grid-cols-8 sm:gap-6 gap-2"
+          >
+            {myCollection.map((item) => {
+              return (
+                <motion.div
+                  key={item.id}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{
+                    duration: 0.5
+                  }}
+                >
+                  <ThumbnailArts
+                    title={item.title}
+                    imageUrl={`${imageUrl}/size4/${item.primary_image}`}
+                    artId={item.id}
+                  />
+                </motion.div>
+              )
+            })}
+          </div>
+        )}
+        {artToDisplay === 'history' && myCollectionIntro && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{
+              duration: 0.5
+            }}
+          >
+            <div className="text-slate-800 md:columns-2 columns-1 px-4 md:px-0 first-letter:font-bold first-letter:text-3xl">
+              {parse(`${myCollectionIntro.copy_text}`, options)}
             </div>
-          )}
-          {artToDisplay === 'full' && (
-            <div className="grid grid-cols-8 gap-8">
-              {myCollection.map((item) => {
-                return (
-                  <motion.div
-                    key={item.id}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{
-                      duration: 0.5
-                    }}
-                  >
-                    <ThumbnailArts
-                      title={item.title}
-                      imageUrl={`${imageUrl}/size4/${item.primary_image}`}
-                      artId={item.id}
-                    />
-                  </motion.div>
-                )
-              })}
-            </div>
-          )}
-          {artToDisplay === 'history' && myCollectionIntro && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{
-                duration: 0.5
-              }}
-            >
-              <div className="text-slate-800 columns-2 first-letter:font-bold first-letter:text-3xl">
-                {parse(`${myCollectionIntro.copy_text}`, options)}
-              </div>
-            </motion.div>
-          )}
-        </div>
+          </motion.div>
+        )}
       </div>
     </div>
   )

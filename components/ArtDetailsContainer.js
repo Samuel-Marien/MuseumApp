@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 
-import { FcAcceptDatabase } from 'react-icons/fc'
-import { FiLink } from 'react-icons/fi'
 import { FaExpandArrowsAlt, FaCompressArrowsAlt } from 'react-icons/fa'
+import { IoIosAlbums, IoIosBrush } from 'react-icons/io'
 
 let imageUrl = process.env.NEXT_PUBLIC_API_URL_IMAGE
 
@@ -144,17 +143,22 @@ const ArtDetailsContainer = (props) => {
         <h1 className="text-4xl border-t pt-5 sm:pt-0 text-center sm:text-start sm:border-none  sm:text-5xl font-semibold">
           {title}
         </h1>
-        <div className="flex text-sm sm:text-xl uppercase font-bold  mt-2 text-blue-400  cursor-pointer">
+        <div className="flex items-center space-x-2 uppercase font-bold  mt-2 text-slate-500 underline cursor-pointer">
+          <IoIosAlbums />
           {collections}
         </div>
-        <p className="font-semibold text-slate-500 uppercase text-sm">
-          {classification} - {section}
+        <p className="flex items-center font-semibold text-slate-500 uppercase ">
+          <span className="mr-2">
+            <IoIosBrush />
+          </span>
+          {classification}
+          {section && ` - ${section}`}
         </p>
 
-        <div className="mt-5 flex flex-col lg:flex-row justify-between ">
-          <div className="flex space-x-5 justify-center">
+        <div className="mt-5 flex items-center justify-between ">
+          <div className="flex space-x-1 justify-center">
             <MyButton
-              classNames="w-full sm:w-28"
+              classNames=" w-28 h-8"
               whatToShow={showLabelText}
               title="label text"
               onClick={() =>
@@ -162,7 +166,7 @@ const ArtDetailsContainer = (props) => {
               }
             />
             <MyButton
-              classNames="w-full sm:w-28"
+              classNames="w-28 h-8"
               whatToShow={showInfos}
               title="art infos"
               onClick={() =>
@@ -171,21 +175,20 @@ const ArtDetailsContainer = (props) => {
             />
           </div>
 
-          <div className="mt-5 lg:mt-0 hidden sm:block">
+          <div className="lg:mt-0">
             <MyButton
               onClick={onClick}
               icon2={
-                <span className="text-xl">
+                <span className="text-xl ">
                   <HiOutlineSaveAs />
                 </span>
               }
-              classNames="h-10 w-full xl:w-56 border-2 rounded hover:border-yellow-500 
-            bg-gray-300 text-gray-800 hover:bg-gray-800 hover: hover:text-gray-300 active:text-gray-100"
-              title="Save this Art!"
+              classNames=" border-2 rounded hover:border-yellow-500 bg-gray-300 text-gray-800 
+              hover:bg-gray-800 hover: hover:text-gray-300 active:text-gray-100 space-x-5"
             />
           </div>
         </div>
-        <div className="mt-5 text-justify">
+        <div className="mt-2 text-justify first-letter:font-bold first-letter:text-3xl">
           {showLabelText && (
             <motion.div
               className="mt-2"
@@ -290,7 +293,7 @@ const ArtDetailsContainer = (props) => {
           </motion.div>
         )}
       </div>
-      <div className="sm:hidden block">
+      <div className="sm:hidden flex justify-center border-t ">
         <MyButton
           onClick={onClick}
           icon2={
@@ -298,9 +301,9 @@ const ArtDetailsContainer = (props) => {
               <HiOutlineSaveAs />
             </span>
           }
-          classNames="h-10 w-full xl:w-56 border-2 rounded hover:border-yellow-500 
+          classNames="h-10 w-56 border-2 rounded hover:border-yellow-500 mt-5
             bg-gray-300 text-gray-800 hover:bg-gray-800 hover: hover:text-gray-300 active:text-gray-100"
-          title="Save this Art!"
+          title="Save this art!"
         />
       </div>
     </div>
