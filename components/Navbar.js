@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import { useState, useRef } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 
 import { useAppContext } from '../context/appContext'
 import useHasMounted from '../components/hooks/useHasMounted'
+import useOnClickOutside from '../components/hooks/useOnClickOutside'
 import Logo from './Logo'
 
 import {
@@ -22,7 +23,7 @@ const MyLink = (props) => {
       <motion.div whileTap={{ scale: 0.9 }}>
         <Link href={href}>
           <a className="hover:text-gray-200 flex items-center space-x-2">
-            <span>{icon}</span>
+            <span className="text-sm">{icon}</span>
             <span className="hover:text-gray-200">{title}</span>
           </a>
         </Link>
@@ -31,11 +32,24 @@ const MyLink = (props) => {
   )
 }
 
-const Navbar = () => {
+const Navbar = (props) => {
+  const ref = useRef()
+  const ref2 = useRef()
+  const ref3 = useRef()
   const { logoutUser, user } = useAppContext()
   const [show, setShow] = useState(false)
   const [showCollectionsMenu, setShowCollectionsMenu] = useState(false)
   const [showDropDown, setShowDropDown] = useState(false)
+
+  useOnClickOutside(ref, () => {
+    if (showCollectionsMenu) setShowCollectionsMenu(false)
+  })
+  useOnClickOutside(ref2, () => {
+    if (showDropDown) setShowDropDown(false)
+  })
+  useOnClickOutside(ref3, () => {
+    if (show) setShow(false)
+  })
 
   const hasMounted = useHasMounted()
   if (!hasMounted) {
@@ -113,7 +127,7 @@ const Navbar = () => {
                         }
                       >
                         <p className="hover:text-gray-200 flex items-center space-x-2">
-                          <span>
+                          <span className="text-sm">
                             <IoIosAlbums />
                           </span>
                           <span className="hover:text-gray-200">
@@ -141,7 +155,7 @@ const Navbar = () => {
               )}
             </ul>
 
-            <div className="hidden md:flex items-center space-x-3">
+            <div ref={ref2} className="hidden md:flex items-center space-x-3">
               {user ? (
                 <div>
                   <button
@@ -150,7 +164,7 @@ const Navbar = () => {
                         ? setShowDropDown(false)
                         : setShowDropDown(true)
                     }
-                    className="flex items-center hover:text-gray-200 text-xl border-slate-500 border rounded py-1 px-2"
+                    className="flex items-center hover:text-gray-200 text-xl border-slate-500 border rounded py-1 px-1"
                     href="/"
                   >
                     <span className="text-sm font-thin capitalize">
@@ -167,16 +181,16 @@ const Navbar = () => {
                     >
                       <div className="absolute mt-2 w-44 shadow-lg bg-white">
                         <Link href="/userCollection">
-                          <a className="flex items-center text-slate-800 w-full px-4 py-2 text-sm hover:bg-slate-800 hover:text-slate-200 transition-all duration-300 hover:font-bold">
+                          <a className="flex items-center text-slate-800 w-full px-2 py-1 pt-2 text-sm hover:bg-slate-800 hover:text-slate-200 transition-all duration-300 hover:font-bold">
                             <span className="mr-1">
                               <MdCollections />
                             </span>{' '}
-                            My Collection
+                            My Arts
                           </a>
                         </Link>
 
                         <Link href="profile">
-                          <a className="flex items-center text-slate-800 w-full px-4 py-2 text-sm hover:bg-slate-800 hover:text-slate-200 transition-all duration-300 hover:font-bold">
+                          <a className="flex items-center text-slate-800 w-full px-2 py-1 text-sm hover:bg-slate-800 hover:text-slate-200 transition-all duration-300 hover:font-bold">
                             <span className="mr-1">
                               <FaCog />
                             </span>
@@ -186,7 +200,7 @@ const Navbar = () => {
 
                         <button
                           onClick={logoutUser}
-                          className="flex items-center text-slate-800 w-full px-4 py-2 text-sm hover:bg-slate-800 hover:text-slate-200 transition-all duration-300 hover:font-bold"
+                          className="flex items-center text-slate-800 w-full px-2 py-1 pb-2 text-sm hover:bg-slate-800 hover:text-slate-200 transition-all duration-300 hover:font-bold"
                         >
                           <span className="mr-1">
                             <MdLogout />
@@ -241,6 +255,7 @@ const Navbar = () => {
             }}
           >
             <div
+              ref={ref3}
               className=" pt-3 px-2 md:hidden bg-slate-400 w-64 rounded-br-2xl border-b border-slate-600 text-slate-800
             bg-opacity-40 backdrop-blur-md shadow-xl"
             >
@@ -248,7 +263,7 @@ const Navbar = () => {
                 {user ? (
                   <>
                     <p className="hover:text-gray-200 flex items-center space-x-2">
-                      <span>
+                      <span className="text-sm">
                         <IoIosAlbums />
                       </span>
                       <span className="hover:text-gray-200">Collections</span>
@@ -263,13 +278,20 @@ const Navbar = () => {
                               query: { id: item.id }
                             }}
                           >
-                            <li
-                              onClick={() => setShowCollectionsMenu(false)}
-                              key={item.id}
-                              className="text-sm py-0.5"
+                            <motion.div
+                              whileTap={{
+                                scale: 1.05,
+                                x: 10
+                              }}
                             >
-                              {item.title}
-                            </li>
+                              <li
+                                onClick={() => setShow(false)}
+                                key={item.id}
+                                className="text-sm py-0.5"
+                              >
+                                {item.title}
+                              </li>
+                            </motion.div>
                           </Link>
                         )
                       })}
@@ -302,7 +324,9 @@ const Navbar = () => {
                       <motion.div whileTap={{ scale: 0.9 }}>
                         <Link href="profile">
                           <a className="flex items-center hover:text-gray-200 text-xl mt-3 pt-1 border-t border-slate-600">
-                            <FaCog />
+                            <span className="text-sm">
+                              <FaCog />
+                            </span>
                             <span className="ml-2 capitalize">
                               Account settings
                             </span>
@@ -312,7 +336,7 @@ const Navbar = () => {
                       <motion.div whileTap={{ scale: 0.9 }}>
                         <button
                           onClick={logoutUser}
-                          className="flex items-center hover:text-gray-200 text-2xl"
+                          className="flex items-center hover:text-gray-200 text-base"
                         >
                           <MdLogout />
 
@@ -336,7 +360,10 @@ const Navbar = () => {
         )}
       </div>
       {showCollectionsMenu && (
-        <div className="hidden md:flex justify-center w-full rounded-lg ">
+        <div
+          ref={ref}
+          className="hidden md:flex justify-center w-full rounded-lg "
+        >
           <motion.div
             initial={{ opacity: 0, scale: 0.9, x: -180 }}
             animate={{ opacity: 1, scale: 1, zIndex: 100, x: -190 }}
