@@ -112,14 +112,14 @@ const Navbar = () => {
                             : setShowCollectionsMenu(true)
                         }
                       >
-                        <a className="hover:text-gray-200 flex items-center space-x-2">
+                        <p className="hover:text-gray-200 flex items-center space-x-2">
                           <span>
                             <IoIosAlbums />
                           </span>
                           <span className="hover:text-gray-200">
                             Collections
                           </span>
-                        </a>
+                        </p>
                       </button>
                     </motion.div>
                   </li>
@@ -211,8 +211,8 @@ const Navbar = () => {
           </div>
 
           {/* Responsive navbar  */}
-          <div className="my-auto h-full mr-6 md:hidden text-2xl flex items-center">
-            <p className="text-sm font-thin capitalize mr-6">
+          <div className="my-auto h-full mr-3 md:hidden text-2xl flex items-center">
+            <p className="text-sm font-thin capitalize mr-3">
               {user && user.name}
             </p>
             <motion.div whileTap={{ scale: 0.9 }}>
@@ -237,32 +237,58 @@ const Navbar = () => {
             }}
             transition={{
               duration: 1,
-              delay: 0,
               ease: [0, 0.71, 0.2, 1.01]
             }}
           >
             <div
-              className="md:hidden bg-slate-800  py-2 w-screen rounded-br-full text-slate-400
-            bg-opacity-40 backdrop-blur-sm border-r border-slate-400 shadow-xl"
+              className=" pt-3 px-2 md:hidden bg-slate-400 w-64 rounded-br-2xl border-b border-slate-600 text-slate-800
+            bg-opacity-40 backdrop-blur-md shadow-xl"
             >
-              <ul className="flex flex-col justify-center pl-5 space-y-4 text-2xl">
+              <ul className=" pl-1 text-xl">
                 {user ? (
                   <>
-                    <MyLink
-                      href="/collections"
-                      title="Collections"
-                      icon={<IoIosAlbums />}
-                    />
-                    <MyLink
-                      href="/exhibitions"
-                      title="Exhibitions"
-                      icon={<IoIosCalendar />}
-                    />
-                    <MyLink
-                      href="/userCollection"
-                      title="My Arts"
-                      icon={<MdCollections />}
-                    />
+                    <p className="hover:text-gray-200 flex items-center space-x-2">
+                      <span>
+                        <IoIosAlbums />
+                      </span>
+                      <span className="hover:text-gray-200">Collections</span>
+                    </p>
+                    <ul className="ml-3">
+                      {myMenu.map((item) => {
+                        return (
+                          <Link
+                            key={item.id}
+                            href={{
+                              pathname: '/collections/',
+                              query: { id: item.id }
+                            }}
+                          >
+                            <li
+                              onClick={() => setShowCollectionsMenu(false)}
+                              key={item.id}
+                              className="text-sm py-0.5"
+                            >
+                              {item.title}
+                            </li>
+                          </Link>
+                        )
+                      })}
+                    </ul>
+                    <div className="mt-3 pt-1 border-t border-slate-600">
+                      <MyLink
+                        href="/exhibitions"
+                        title="Exhibitions"
+                        icon={<IoIosCalendar />}
+                      />
+                    </div>
+
+                    <div className="mt-3 pt-1 border-t border-slate-600">
+                      <MyLink
+                        href="/userCollection"
+                        title="My Arts"
+                        icon={<MdCollections />}
+                      />
+                    </div>
                   </>
                 ) : (
                   <p className="italic text-base">
@@ -270,26 +296,29 @@ const Navbar = () => {
                     <br /> and daring works.
                   </p>
                 )}
-                <div className="pt-5 space-y-1 pb-20">
+                <div className="space-y-1 pb-5">
                   {user ? (
                     <>
                       <motion.div whileTap={{ scale: 0.9 }}>
                         <Link href="profile">
-                          <a className="flex items-center hover:text-gray-200 text-xl ">
+                          <a className="flex items-center hover:text-gray-200 text-xl mt-3 pt-1 border-t border-slate-600">
                             <FaCog />
-                            <span className="ml-2 capitalize">Profile</span>
+                            <span className="ml-2 capitalize">
+                              Account settings
+                            </span>
                           </a>
                         </Link>
                       </motion.div>
                       <motion.div whileTap={{ scale: 0.9 }}>
                         <button
                           onClick={logoutUser}
-                          className="mt-5 flex items-center hover:text-gray-200 text-xl border-slate-500 border rounded p-1"
-                          href="/"
+                          className="flex items-center hover:text-gray-200 text-2xl"
                         >
                           <MdLogout />
 
-                          <span className="text-sm ml-2">Log out</span>
+                          <span className="ml-1 capitalize text-xl">
+                            Log out
+                          </span>
                         </button>
                       </motion.div>
                     </>
