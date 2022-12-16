@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link'
 
 import Logo from './Logo'
 
@@ -11,6 +12,7 @@ import {
   FaLaptopCode,
   FaReact
 } from 'react-icons/fa'
+import { DiMongodb } from 'react-icons/di'
 
 const SocialLink = (props) => {
   const { href, icon } = props
@@ -29,38 +31,48 @@ const SocialLink = (props) => {
 const Footer = () => {
   return (
     <div className="bg-slate-800 text-slate-300">
-      <p className="text-sm italic text-center pt-5 flex flex-col md:flex-row justify-center items-center">
-        This is not an official site of the Brooklyn Museum. This is for the
-        love of Art... and React.Js.
-        <span className="text-xl ml-1 text-blue-400 animate-pulse">
-          <FaReact />
-        </span>
-      </p>
+      <div className="text-sm md:text-base italic text-center flex flex-wrap justify-center items-baseline">
+        <p className="p-1  pt-2 flex flex-wrap justify-center items-center">
+          This website is not produced, endorsed, supported, or affiliated with
+          the
+          <span className="underline font-semibold ml-1">
+            <Link href={'https://www.brooklynmuseum.org/'}>
+              <a target="_blank">Brooklyn museum</a>
+            </Link>
+            .
+          </span>
+        </p>
+        <p className=" ml-0 sm:ml-1 flex items-center justify-center">
+          Build with
+          <span className="text-2xl mx-1 text-red-400 animate-pulse ">♥</span>,
+          ReactJs
+          <span className="text-xl mx-1 text-blue-400 animate-pulse inline-block">
+            <FaReact />
+          </span>
+          and MongoDb
+          <span className="text-xl ml-0.5 text-green-500 animate-pulse inline-block">
+            <DiMongodb />
+          </span>
+        </p>
+      </div>
+
       <div className="md:w-11/12 lg:w-10/12 xl:w-8/12 mx-auto ">
-        <div className="grid grid-cols-1 md:grid-cols-2 p-5 ">
-          <div>
-            <div className="flex items-center border p-2 rounded">
+        <div className="grid grid-cols-1 md:grid-cols-2 px-5 pt-5 pb-2">
+          <div className="flex flex-col md:items-start items-center pt-5 md:pt-0 border-t border-t-slate-500 md:border-none">
+            <div className="flex items-center border p-2 rounded w-max">
               <div>
                 <Logo />
               </div>
-              <h1 className="text-2xl sm:text-3xl font-black ml-2">
+              <h1 className="text-2xl lg:text-3xl font-black ml-2">
                 Brooklin Museum
               </h1>
-            </div>
-            <div className="flex items-center mt-3 ">
-              <p className="text-3xl mr-2">
-                <MdLocationCity />
-              </p>
-              <p className="">
-                200 Eastern Parkway Brooklyn, New York 11238-6052
-              </p>
             </div>
 
             <div className="flex items-center mt-3 ">
               <p className="text-3xl mr-2">
                 <GiDreamCatcher />
               </p>
-              <p className="text-sm italic">
+              <p className="text-xs md:text-sm italic">
                 The Brooklyn Museum stands on land that is part of the unceded,
                 ancestral homeland of the Lenape (Delaware) people.
               </p>
@@ -68,9 +80,9 @@ const Footer = () => {
           </div>
           <div className="text-center md:text-end border-t border-t-slate-500 md:border-none mt-5 py-5 md:mt-0 md:py-0">
             <p>👋 Hello! I'm Samuel Marien - Web Developer</p>
-            <p className="mt-5">You like this site?</p>
-            <p>Hire Me!</p>
-            <div className="flex mt-1 text-2xl justify-center md:justify-end space-x-5">
+            <p className="">You like this site? Hire Me!</p>
+
+            <div className="flex mt-5 text-2xl justify-center md:justify-end space-x-5">
               <SocialLink
                 icon={<FaLaptopCode />}
                 href="https://portfolio-samuel-marien.vercel.app/"
