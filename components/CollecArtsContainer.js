@@ -20,13 +20,16 @@ const CollecArtsContainer = () => {
     getAllCollectionUserArts()
   }, [])
 
-  console.log(artsCollec)
-  console.log(totalCollecArts)
+  // console.log(artsCollec)
+  // console.log(totalCollecArts)
 
   return (
-    <div>
+    <div className="px-1">
       {totalCollecArts} Collection art{totalCollecArts > 1 && 's'} found
-      <div className="grid grid-cols-6 gap-2">
+      <div
+        className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 
+        lg:grid-cols-6 sm:gap-6 gap-2 px-2 lg:px-0"
+      >
         {artsCollec.map((art, index) => {
           return (
             <ThumbnailArts

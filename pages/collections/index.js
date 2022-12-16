@@ -183,7 +183,7 @@ const CollectionsHome = () => {
         {artToDisplay === 'highlight' && (
           <div
             className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 
-        lg:grid-cols-6 xl:grid-cols-8 sm:gap-6 gap-2"
+        lg:grid-cols-6 xl:grid-cols-8 sm:gap-6 gap-2 px-2 lg:px-0"
           >
             {highlightImg.map((item) => {
               return (
