@@ -8,6 +8,7 @@ import Typed from 'react-typed'
 import { getAllArtsByCollec, getArtsByCollect } from '../../components/API'
 import useHasMounted from '../../components/hooks/useHasMounted'
 
+import MyHeader from '../../components/MyHeader'
 import Navbar from '../../components/Navbar'
 import SearchContainer from '../../components/SearchContainer'
 
@@ -144,107 +145,110 @@ const CollectionsHome = () => {
   }
 
   return (
-    <div
-      className="h-screen "
-      style={{
-        background: 'url(images/landingUserCollection.png)',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat'
-      }}
-    >
-      <Navbar />
-      <div className="text-2xl md:text-4xl font-black text-center mt-4 text-slate-400">
-        {myCollectionIntro.name}
-      </div>
-      <div className="container mx-auto w-full ">
-        <SearchContainer />
-        <div className="flex space-x-2 mb-5">
-          <button
-            onClick={() => setArtToDisplay('highlight')}
-            className="border rounded p-1 "
-          >
-            Highlight
-          </button>
-          <button
-            onClick={() => setArtToDisplay('full')}
-            className="border rounded p-1 "
-          >
-            Full
-          </button>
-          <button
-            onClick={() => setArtToDisplay('history')}
-            className="border rounded p-1 "
-          >
-            History
-          </button>
+    <>
+      <MyHeader description={`${myCollectionIntro.name} Collection`} />
+      <div
+        className="h-screen "
+        style={{
+          background: 'url(images/landingUserCollection.png)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
+        }}
+      >
+        <Navbar />
+        <div className="text-2xl md:text-4xl font-black text-center mt-4 text-slate-400">
+          {myCollectionIntro.name}
         </div>
+        <div className="container mx-auto w-full ">
+          <SearchContainer />
+          <div className="flex space-x-2 mb-5">
+            <button
+              onClick={() => setArtToDisplay('highlight')}
+              className="border rounded p-1 "
+            >
+              Highlight
+            </button>
+            <button
+              onClick={() => setArtToDisplay('full')}
+              className="border rounded p-1 "
+            >
+              Full
+            </button>
+            <button
+              onClick={() => setArtToDisplay('history')}
+              className="border rounded p-1 "
+            >
+              History
+            </button>
+          </div>
 
-        {artToDisplay === 'highlight' && (
-          <div
-            className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 
+          {artToDisplay === 'highlight' && (
+            <div
+              className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 
         lg:grid-cols-6 xl:grid-cols-8 sm:gap-6 gap-2 px-2 lg:px-0"
-          >
-            {highlightImg.map((item) => {
-              return (
-                <motion.div
-                  key={item.id}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{
-                    duration: 0.5
-                  }}
-                >
-                  <ThumbnailArts
-                    title={item.title}
-                    imageUrl={`${imageUrl}/size4/${item.primary_image}`}
-                    artId={item.id}
-                  />
-                </motion.div>
-              )
-            })}
-          </div>
-        )}
-        {artToDisplay === 'full' && (
-          <div
-            className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 
-        lg:grid-cols-6 xl:grid-cols-8 sm:gap-6 gap-2"
-          >
-            {myCollection.map((item) => {
-              return (
-                <motion.div
-                  key={item.id}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{
-                    duration: 0.5
-                  }}
-                >
-                  <ThumbnailArts
-                    title={item.title}
-                    imageUrl={`${imageUrl}/size4/${item.primary_image}`}
-                    artId={item.id}
-                  />
-                </motion.div>
-              )
-            })}
-          </div>
-        )}
-        {artToDisplay === 'history' && myCollectionIntro && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{
-              duration: 0.5
-            }}
-          >
-            <div className="text-slate-800 md:columns-2 columns-1 px-4 md:px-0 first-letter:font-bold first-letter:text-3xl">
-              {parse(`${myCollectionIntro.copy_text}`, options)}
+            >
+              {highlightImg.map((item) => {
+                return (
+                  <motion.div
+                    key={item.id}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{
+                      duration: 0.5
+                    }}
+                  >
+                    <ThumbnailArts
+                      title={item.title}
+                      imageUrl={`${imageUrl}/size4/${item.primary_image}`}
+                      artId={item.id}
+                    />
+                  </motion.div>
+                )
+              })}
             </div>
-          </motion.div>
-        )}
+          )}
+          {artToDisplay === 'full' && (
+            <div
+              className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 
+        lg:grid-cols-6 xl:grid-cols-8 sm:gap-6 gap-2"
+            >
+              {myCollection.map((item) => {
+                return (
+                  <motion.div
+                    key={item.id}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{
+                      duration: 0.5
+                    }}
+                  >
+                    <ThumbnailArts
+                      title={item.title}
+                      imageUrl={`${imageUrl}/size4/${item.primary_image}`}
+                      artId={item.id}
+                    />
+                  </motion.div>
+                )
+              })}
+            </div>
+          )}
+          {artToDisplay === 'history' && myCollectionIntro && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{
+                duration: 0.5
+              }}
+            >
+              <div className="text-slate-800 md:columns-2 columns-1 px-4 md:px-0 first-letter:font-bold first-letter:text-3xl">
+                {parse(`${myCollectionIntro.copy_text}`, options)}
+              </div>
+            </motion.div>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 
