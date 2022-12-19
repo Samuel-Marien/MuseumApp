@@ -7,6 +7,7 @@ import Typed from 'react-typed'
 
 import { getAllArtsByCollec, getArtsByCollect } from '../../components/API'
 import useHasMounted from '../../components/hooks/useHasMounted'
+import { useAppContext } from '../../context/appContext'
 
 import MyHeader from '../../components/MyHeader'
 import Navbar from '../../components/Navbar'
@@ -93,10 +94,17 @@ const ThumbnailArts = (props) => {
 const CollectionsHome = () => {
   const router = useRouter()
   const { id } = router.query
+  const { user } = useAppContext()
   const [myCollection, setMyCollection] = useState([])
   const [myCollectionIntro, setMyCollectionIntro] = useState([])
   const [artToDisplay, setArtToDisplay] = useState('highlight')
   const [highlightImg, setHighlightImg] = useState([])
+
+  useEffect(() => {
+    if (!user) {
+      router.push('/login')
+    }
+  }, [user, router])
 
   useEffect(() => {
     // router.isReady => fetch info on reload

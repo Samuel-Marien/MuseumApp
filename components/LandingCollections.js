@@ -7,32 +7,52 @@ import { getCollection } from './API'
 import { useAppContext } from '../context/appContext'
 
 import MyButton from './MyButton'
+import UnauthenticatedModal from './UnauthenticatedModal'
 
 let imageUrl = process.env.NEXT_PUBLIC_API_URL_IMAGE
 const replacementImage = 'images/landing8.jpg'
 
 const Card = (props) => {
-  const { name, imageUrl, id } = props
+  const { name, imageUrl, id, userConnected, onClick } = props
 
   return (
-    <Link
-      href={{
-        pathname: '/collections',
-        query: { id }
-      }}
-    >
-      <div className="flex flex-col items-center cursor-pointer p-1 pt-4 rounded shadow-lg hover:shadow-none transition-all duration-500">
-        <div className="overflow-hidden ">
-          <img
-            src={imageUrl}
-            alt={name}
-            style={{ width: '150px', height: '180px' }}
-            className="hover:scale-110 transition-all duration-500"
-          />
+    <>
+      {userConnected ? (
+        <Link
+          href={{
+            pathname: '/collections',
+            query: { id }
+          }}
+        >
+          <div className="flex flex-col items-center cursor-pointer p-1 pt-4 rounded shadow-lg hover:shadow-none transition-all duration-500">
+            <div className="overflow-hidden ">
+              <img
+                src={imageUrl}
+                alt={name}
+                style={{ width: '150px', height: '180px' }}
+                className="hover:scale-110 transition-all duration-500"
+              />
+            </div>
+            <h1 className="text-sm text-center font-semibold mt-2">{name}</h1>
+          </div>
+        </Link>
+      ) : (
+        <div
+          onClick={onClick}
+          className="flex flex-col items-center cursor-pointer p-1 pt-4 rounded shadow-lg hover:shadow-none transition-all duration-500"
+        >
+          <div className="overflow-hidden ">
+            <img
+              src={imageUrl}
+              alt={name}
+              style={{ width: '150px', height: '180px' }}
+              className="hover:scale-110 transition-all duration-500"
+            />
+          </div>
+          <h1 className="text-sm text-center font-semibold mt-2">{name}</h1>
         </div>
-        <h1 className="text-sm text-center font-semibold mt-2">{name}</h1>
-      </div>
-    </Link>
+      )}
+    </>
   )
 }
 
@@ -42,6 +62,7 @@ const LandingCollections = () => {
   const [myCollection, setMyCollection] = useState([])
   const [animationStart, setAnimationStart] = useState(false)
   const [animationButtonStart, setAnimationButtonStart] = useState(false)
+  const [modalIsOpen, setModalIsOpen] = useState(false)
 
   useEffect(() => {
     return scrollY.onChange((latest) => {
@@ -90,6 +111,11 @@ const LandingCollections = () => {
             </motion.div>
           )}
         </div>
+
+        {modalIsOpen && (
+          <UnauthenticatedModal onClick={() => setModalIsOpen(false)} />
+        )}
+
         <div className="grid grid-cols-1 lg:grid-cols-2">
           <div className="text-slate-500">
             <div className="w-12/12 lg:w-9/12 sm:my-10 text-xl font-thin p-4 lg:p-0 text-justify ">
@@ -146,6 +172,8 @@ const LandingCollections = () => {
                         }}
                       >
                         <Card
+                          onClick={() => !user && setModalIsOpen(true)}
+                          userConnected={user}
                           id={item.id}
                           name={item.name}
                           imageUrl={

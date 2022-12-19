@@ -40,13 +40,20 @@ const MyItem = (props) => {
 }
 
 const Exhibition = () => {
-  const { saveExhibArt } = useAppContext()
+  const { saveExhibArt, user } = useAppContext()
   const router = useRouter()
   const { id } = router.query
   const [myExhibition, setMyExhibition] = useState([])
   const [myCurrentImage, setMyCurrentImage] = useState(0)
 
-  console.log(router)
+  // console.log(router)
+
+  // check authentication:
+  useEffect(() => {
+    if (!user) {
+      router.push('/login')
+    }
+  }, [user, router])
 
   useEffect(() => {
     // router.isReady => fetch info on reload

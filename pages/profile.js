@@ -1,5 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useRouter } from 'next/router'
 import Link from 'next/link'
+
+import { useAppContext } from '../context/appContext'
 
 import ProfileForm from '../components/ProfileForm'
 import Logo from '../components/Logo'
@@ -8,6 +11,15 @@ import MyHeader from '../components/MyHeader'
 import { MdHomeFilled } from 'react-icons/md'
 
 const profile = () => {
+  const router = useRouter()
+  const { user } = useAppContext()
+
+  useEffect(() => {
+    if (!user) {
+      router.push('/login')
+    }
+  }, [user, router])
+
   return (
     <>
       <MyHeader description="Profile page" />

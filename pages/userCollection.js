@@ -1,6 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
 
 import { motion } from 'framer-motion'
+
+import { useAppContext } from '../context/appContext'
 
 import ExhibArtsContainer from '../components/ExhibArtsContainer'
 import CollecArtsContainer from '../components/CollecArtsContainer'
@@ -9,7 +12,16 @@ import SearchContainer from '../components/SearchContainer'
 import MyHeader from '../components/MyHeader'
 
 const userCollection = () => {
+  const router = useRouter()
+  const { user } = useAppContext()
   const [artToDisplay, setArtToDisplay] = useState('exhib')
+
+  useEffect(() => {
+    if (!user) {
+      router.push('/login')
+    }
+  }, [user, router])
+
   return (
     <>
       <MyHeader description="User collection page" />

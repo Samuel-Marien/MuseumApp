@@ -189,7 +189,7 @@ const Navbar = (props) => {
                           </a>
                         </Link>
 
-                        <Link href="profile">
+                        <Link href="/profile">
                           <a className="flex items-center text-slate-800 w-full px-2 py-1 text-sm hover:bg-slate-800 hover:text-slate-200 transition-all duration-300 hover:font-bold">
                             <span className="mr-1">
                               <FaCog />

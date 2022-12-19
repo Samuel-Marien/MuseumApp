@@ -106,6 +106,7 @@ const ExhibitionHome = () => {
             {myExhibitions.map((item) => {
               return (
                 <Card
+                  userConnected={user}
                   key={item.id}
                   cardSize="12rem"
                   isLoading={user}

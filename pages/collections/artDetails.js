@@ -14,13 +14,19 @@ import Navbar from '../../components/Navbar'
 let imageUrl = process.env.NEXT_PUBLIC_API_URL_IMAGE
 
 const artDetails = () => {
-  const { saveCollectionArt } = useAppContext()
+  const { saveCollectionArt, user } = useAppContext()
   const [art, setArt] = useState([])
   const [myCurrentImage, setMyCurrentImage] = useState(0)
   const [myThumbArray, setThumbMyArray] = useState(0)
 
   const router = useRouter()
   const { id } = router.query
+
+  useEffect(() => {
+    if (!user) {
+      router.push('/login')
+    }
+  }, [user, router])
 
   useEffect(() => {
     // router.isReady => fetch info on reload
