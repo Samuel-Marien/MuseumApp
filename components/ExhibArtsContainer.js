@@ -61,7 +61,8 @@ const ExhibArtsContainer = () => {
     favoriteArtsOnly,
     handleChange,
     sortOptions,
-    favoriteOptions
+    favoriteOptions,
+    clearFilters
   } = useAppContext()
 
   useEffect(() => {
@@ -69,6 +70,12 @@ const ExhibArtsContainer = () => {
   }, [search, sort, favoriteArtsOnly, favoriteOptions])
 
   // console.log(arts)
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    clearFilters()
+  }
+
   const handleSearch = (e) => {
     if (isLoading) return
     console.log(e.target.name)
@@ -98,6 +105,9 @@ const ExhibArtsContainer = () => {
             onChange={handleSearch}
             list={favoriteOptions}
           ></FormRowSelect>
+          <button className="" disabled={isLoading} onClick={handleSubmit}>
+            clear filters
+          </button>
         </form>
       </div>
       {totalArts} Exhibition art{totalArts > 1 && 's'} found
