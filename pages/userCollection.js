@@ -8,7 +8,6 @@ import { useAppContext } from '../context/appContext'
 import ExhibArtsContainer from '../components/ExhibArtsContainer'
 import CollecArtsContainer from '../components/CollecArtsContainer'
 import Navbar from '../components/Navbar'
-import SearchContainer from '../components/SearchContainer'
 import MyHeader from '../components/MyHeader'
 
 const userCollection = () => {
@@ -36,7 +35,6 @@ const userCollection = () => {
       >
         <Navbar />
         <div className="container mx-auto w-full pb-20">
-          <SearchContainer />
           <div className="flex space-x-2">
             <button
               onClick={() => setArtToDisplay('exhib')}

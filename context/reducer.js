@@ -27,7 +27,9 @@ import {
   DELETE_COLLEC_ART_BEGIN,
   EDIT_COLLEC_ART_BEGIN,
   EDIT_COLLEC_ART_SUCCESS,
-  EDIT_COLLEC_ART_ERROR
+  EDIT_COLLEC_ART_ERROR,
+  CLEAR_FILTERS,
+  HANDLE_CHANGE
 } from './actions'
 
 import { initialState } from './appContext'
@@ -262,6 +264,22 @@ const reducer = (state, action) => {
       showAlert: true,
       alertType: 'danger',
       alertText: action.payload.msg
+    }
+  }
+
+  if (action.type === CLEAR_FILTERS) {
+    return {
+      ...state,
+      search: '',
+      favoriteArtsOnly: '',
+      sort: 'latest'
+    }
+  }
+
+  if (action.type === HANDLE_CHANGE) {
+    return {
+      ...state,
+      [action.payload.name]: action.payload.value
     }
   }
 

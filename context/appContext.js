@@ -32,7 +32,9 @@ import {
   DELETE_COLLEC_ART_BEGIN,
   EDIT_COLLEC_ART_BEGIN,
   EDIT_COLLEC_ART_SUCCESS,
-  EDIT_COLLEC_ART_ERROR
+  EDIT_COLLEC_ART_ERROR,
+  CLEAR_FILTERS,
+  HANDLE_CHANGE
 } from './actions'
 
 const bright = '\x1b[1m'
@@ -57,10 +59,17 @@ const initialState = {
   user: user ? JSON.parse(user) : null,
   token: token,
   userLocation: userLocation || '',
+  //exhibition:
   arts: [],
   totalArts: 0,
   numOfPages: 1,
   page: 1,
+  search: '',
+  sort: 'latest',
+  sortOptions: ['latest', 'oldest', 'latestSaved', 'oldestSaved', 'a-z', 'z-a'],
+  favoriteArtsOnly: 'all',
+  favoriteOptions: ['my favorite', 'all'],
+  //collection:'
   artsCollec: [],
   totalCollecArts: 0,
   numOfCollecPages: 1,
@@ -112,6 +121,10 @@ const AppProvider = ({ children }) => {
         type: CLEAR_ALERT
       })
     }, 3000)
+  }
+
+  const handleChange = ({ name, value }) => {
+    dispatch({ type: HANDLE_CHANGE, payload: { name, value } })
   }
 
   const addToLocalStorage = ({ user, token, location }) => {
@@ -304,7 +317,14 @@ const AppProvider = ({ children }) => {
   }
 
   const getAllUserArts = async () => {
-    let url = '/arts/getAllUserArts'
+    const { search, sort, favoriteArtsOnly } = state
+    if (favoriteArtsOnly === 'my favorite') {
+      favoriteArtsOnly = true
+    }
+    if (favoriteArtsOnly === 'all') {
+      favoriteArtsOnly = ''
+    }
+    let url = `/arts/getAllUserArts?search=${search}&sort=${sort}&isFavorite=${favoriteArtsOnly}`
 
     dispatch({ type: GET_USER_ART_BEGIN })
     try {
@@ -397,6 +417,10 @@ const AppProvider = ({ children }) => {
     }
   }
 
+  const clearFilters = () => {
+    dispatch({ type: CLEAR_FILTERS })
+  }
+
   return (
     <AppContext.Provider
       value={{
@@ -413,7 +437,9 @@ const AppProvider = ({ children }) => {
         addExhibitionArtToFavorite,
         getAllCollectionUserArts,
         deleteCollecArt,
-        addCollectionArtToFavorite
+        addCollectionArtToFavorite,
+        clearFilters,
+        handleChange
       }}
     >
       {children}
