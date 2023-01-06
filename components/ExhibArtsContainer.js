@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import { useAppContext } from '../context/appContext'
 
 import ThumbnailArts from './ThumbnailArts'
+import ExhibBtnContainer from './ExhibBtnContainer '
 
 const FormRow = (props) => {
   const { type, name, value, onChange, labelText } = props
@@ -62,14 +63,24 @@ const ExhibArtsContainer = () => {
     handleChange,
     sortOptions,
     favoriteOptions,
-    clearFilters
+    clearFilters,
+    numOfPages,
+    exhibPage,
+    numOfExhibFavorite
   } = useAppContext()
 
   useEffect(() => {
     getAllUserArts()
-  }, [search, sort, favoriteArtsOnly, favoriteOptions])
+  }, [
+    numOfExhibFavorite,
+    exhibPage,
+    search,
+    sort,
+    favoriteArtsOnly,
+    favoriteOptions
+  ])
 
-  // console.log(arts)
+  // console.log(numOfExhibFavorite)
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -81,6 +92,8 @@ const ExhibArtsContainer = () => {
     console.log(e.target.name)
     handleChange({ name: e.target.name, value: e.target.value })
   }
+
+  const favoriteArtsByPage = arts.filter((item) => item.isFavorite).length
 
   return (
     <div className="px-1">
@@ -105,12 +118,20 @@ const ExhibArtsContainer = () => {
             onChange={handleSearch}
             list={favoriteOptions}
           ></FormRowSelect>
-          <button className="" disabled={isLoading} onClick={handleSubmit}>
+          <button
+            className="p-1 m-2 border rounded"
+            disabled={isLoading}
+            onClick={handleSubmit}
+          >
             clear filters
           </button>
         </form>
       </div>
-      {totalArts} Exhibition art{totalArts > 1 && 's'} found
+      <p>
+        {totalArts} Exhibition art{totalArts > 1 && 's'} found
+      </p>
+      <p>{favoriteArtsByPage} favorite in this page</p>
+      <p>{numOfExhibFavorite} favorites in total</p>
       <div
         className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 
         lg:grid-cols-6 sm:gap-6 gap-2 px-2 lg:px-0"
@@ -137,6 +158,7 @@ const ExhibArtsContainer = () => {
           )
         })}
       </div>
+      {numOfPages > 1 && <ExhibBtnContainer />}
     </div>
   )
 }

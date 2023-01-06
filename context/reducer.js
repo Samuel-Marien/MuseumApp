@@ -29,7 +29,8 @@ import {
   EDIT_COLLEC_ART_SUCCESS,
   EDIT_COLLEC_ART_ERROR,
   CLEAR_FILTERS,
-  HANDLE_CHANGE
+  HANDLE_CHANGE,
+  CHANGE_PAGE
 } from './actions'
 
 import { initialState } from './appContext'
@@ -187,7 +188,8 @@ const reducer = (state, action) => {
       isLoading: false,
       arts: action.payload.arts,
       totalArts: action.payload.totalArts,
-      numOfPages: action.payload.numOfPages
+      numOfPages: action.payload.numOfPages,
+      numOfExhibFavorite: action.payload.numOfExhibFavorite
     }
   }
 
@@ -272,14 +274,23 @@ const reducer = (state, action) => {
       ...state,
       search: '',
       favoriteArtsOnly: '',
-      sort: 'latest'
+      sort: 'latest',
+      favoriteArtsOnly: 'all'
     }
   }
 
   if (action.type === HANDLE_CHANGE) {
     return {
       ...state,
-      [action.payload.name]: action.payload.value
+      [action.payload.name]: action.payload.value,
+      exhibPage: 1
+    }
+  }
+
+  if (action.type === CHANGE_PAGE) {
+    return {
+      ...state,
+      exhibPage: action.payload.exhibPage
     }
   }
 

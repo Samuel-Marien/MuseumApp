@@ -34,7 +34,8 @@ import {
   EDIT_COLLEC_ART_SUCCESS,
   EDIT_COLLEC_ART_ERROR,
   CLEAR_FILTERS,
-  HANDLE_CHANGE
+  HANDLE_CHANGE,
+  CHANGE_PAGE
 } from './actions'
 
 const bright = '\x1b[1m'
@@ -54,6 +55,7 @@ if (typeof window !== 'undefined') {
 }
 
 const initialState = {
+  // user
   isLoading: false,
   isEditing: false,
   user: user ? JSON.parse(user) : null,
@@ -63,12 +65,13 @@ const initialState = {
   arts: [],
   totalArts: 0,
   numOfPages: 1,
-  page: 1,
+  exhibPage: 1,
   search: '',
   sort: 'latest',
   sortOptions: ['latest', 'oldest', 'latestSaved', 'oldestSaved', 'a-z', 'z-a'],
   favoriteArtsOnly: 'all',
   favoriteOptions: ['my favorite', 'all'],
+  numOfExhibFavorite: 0,
   //collection:'
   artsCollec: [],
   totalCollecArts: 0,
@@ -317,28 +320,34 @@ const AppProvider = ({ children }) => {
   }
 
   const getAllUserArts = async () => {
-    const { search, sort, favoriteArtsOnly } = state
+    const { exhibPage, search, sort, favoriteArtsOnly } = state
     if (favoriteArtsOnly === 'my favorite') {
       favoriteArtsOnly = true
     }
     if (favoriteArtsOnly === 'all') {
       favoriteArtsOnly = ''
     }
-    let url = `/arts/getAllUserArts?search=${search}&sort=${sort}&isFavorite=${favoriteArtsOnly}`
+    let url = `/arts/getAllUserArts?page=${exhibPage}&search=${search}&sort=${sort}&isFavorite=${favoriteArtsOnly}`
 
     dispatch({ type: GET_USER_ART_BEGIN })
     try {
       const { data } = await authFetch(url)
-      const { arts, totalArts, numOfPages } = data
+
+      const { arts, totalArts, numOfPages, numOfExhibFavorite } = data
+
       dispatch({
         type: GET_USER_ART_SUCCESS,
-        payload: { arts, totalArts, numOfPages }
+        payload: { arts, totalArts, numOfPages, numOfExhibFavorite }
       })
     } catch (error) {
       console.log(error.response)
       // logoutUser()
     }
     clearAlert()
+  }
+
+  const changeExhibPage = (exhibPage) => {
+    dispatch({ type: CHANGE_PAGE, payload: { exhibPage } })
   }
 
   const getAllCollectionUserArts = async () => {
@@ -439,7 +448,8 @@ const AppProvider = ({ children }) => {
         deleteCollecArt,
         addCollectionArtToFavorite,
         clearFilters,
-        handleChange
+        handleChange,
+        changeExhibPage
       }}
     >
       {children}
