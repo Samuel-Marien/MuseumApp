@@ -35,7 +35,8 @@ import {
   EDIT_COLLEC_ART_ERROR,
   CLEAR_FILTERS,
   HANDLE_CHANGE,
-  CHANGE_PAGE
+  CHANGE_PAGE,
+  CHANGE_ARTS_CATEGORY
 } from './actions'
 
 const bright = '\x1b[1m'
@@ -68,7 +69,14 @@ const initialState = {
   exhibPage: 1,
   search: '',
   sort: 'latest',
-  sortOptions: ['latest', 'oldest', 'latestSaved', 'oldestSaved', 'a-z', 'z-a'],
+  sortOptions: [
+    'latest',
+    'oldest',
+    'latest saved',
+    'oldest saved',
+    'a-z',
+    'z-a'
+  ],
   favoriteArtsOnly: 'all',
   favoriteOptions: ['my favorite', 'all'],
   numOfExhibFavorite: 0,
@@ -76,7 +84,10 @@ const initialState = {
   artsCollec: [],
   totalCollecArts: 0,
   numOfCollecPages: 1,
-  pageCollec: 1
+  pageCollec: 1,
+  // misc
+  artsCategory: 'Exhibition',
+  artsCategoryOptions: ['Exhibition', 'Collection']
 }
 
 const AppContext = React.createContext()

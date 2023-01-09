@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useRouter } from 'next/router'
 
 import { motion } from 'framer-motion'
@@ -12,8 +12,7 @@ import MyHeader from '../components/MyHeader'
 
 const userCollection = () => {
   const router = useRouter()
-  const { user } = useAppContext()
-  const [artToDisplay, setArtToDisplay] = useState('exhib')
+  const { user, artsCategory } = useAppContext()
 
   useEffect(() => {
     if (!user) {
@@ -34,26 +33,13 @@ const userCollection = () => {
         }}
       >
         <Navbar />
-        <div className="container mx-auto w-full pb-20">
-          <div className="flex space-x-2">
-            <button
-              onClick={() => setArtToDisplay('exhib')}
-              className="border rounded p-1"
-            >
-              exhib
-            </button>
-            <button
-              onClick={() => setArtToDisplay('collec')}
-              className="border rounded p-1"
-            >
-              collec
-            </button>
-          </div>
-          <div
-            className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 
-        lg:grid-cols-6 sm:gap-6 gap-2 px-2 lg:px-0"
-          ></div>
-          {artToDisplay === 'exhib' && (
+        <div className="w-full flex justify-center">
+          <h1 className="text-7xl font-bold uppercase text-slate-200">
+            {artsCategory === 'Exhibition' ? 'Exhibition' : 'Collection'}
+          </h1>
+        </div>
+        <div className="mt-5 container mx-auto w-full pb-20">
+          {artsCategory === 'Exhibition' && (
             <motion.div
               initial={{ opacity: 0.6, scale: 0.99 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -64,7 +50,7 @@ const userCollection = () => {
               <ExhibArtsContainer />
             </motion.div>
           )}
-          {artToDisplay === 'collec' && (
+          {artsCategory === 'Collection' && (
             <motion.div
               initial={{ opacity: 0.6, scale: 0.99 }}
               animate={{ opacity: 1, scale: 1 }}
