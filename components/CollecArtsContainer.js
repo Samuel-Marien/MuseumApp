@@ -157,7 +157,7 @@ const CollecArtsContainer = () => {
           )
         })}
       </div>
-      {<CollecBtnContainer />}
+      {numOfCollecPages > 1 && <CollecBtnContainer />}
     </div>
   )
 }

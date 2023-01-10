@@ -277,7 +277,8 @@ const reducer = (state, action) => {
       search: '',
       favoriteArtsOnly: '',
       sort: 'latest',
-      favoriteArtsOnly: 'all'
+      favoriteArtsOnly: 'all',
+      category: 'all'
     }
   }
 
@@ -285,7 +286,8 @@ const reducer = (state, action) => {
     return {
       ...state,
       [action.payload.name]: action.payload.value,
-      exhibPage: 1
+      exhibPage: 1,
+      pageCollec: 1
     }
   }
 
