@@ -11,7 +11,7 @@ import { useAppContext } from '../../context/appContext'
 
 import MyHeader from '../../components/MyHeader'
 import Navbar from '../../components/Navbar'
-import SearchContainer from '../../components/SearchContainer'
+// import SearchContainer from '../../components/SearchContainer'
 
 import { HiOutlineSaveAs } from 'react-icons/hi'
 
@@ -169,7 +169,7 @@ const CollectionsHome = () => {
           {myCollectionIntro.name}
         </div>
         <div className="container mx-auto w-full ">
-          <SearchContainer />
+          {/* <SearchContainer /> */}
           <div className="flex space-x-2 mb-5">
             <button
               onClick={() => setArtToDisplay('highlight')}

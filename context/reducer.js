@@ -30,7 +30,8 @@ import {
   EDIT_COLLEC_ART_ERROR,
   CLEAR_FILTERS,
   HANDLE_CHANGE,
-  CHANGE_PAGE
+  CHANGE_PAGE,
+  CHANGE_PAGE_COLLEC
 } from './actions'
 
 import { initialState } from './appContext'
@@ -203,7 +204,8 @@ const reducer = (state, action) => {
       isLoading: false,
       artsCollec: action.payload.artsCollec,
       totalCollecArts: action.payload.totalCollecArts,
-      numOfCollecPages: action.payload.numOfCollecPages
+      numOfCollecPages: action.payload.numOfCollecPages,
+      numOfCollecFavorite: action.payload.numOfCollecFavorite
     }
   }
 
@@ -291,6 +293,13 @@ const reducer = (state, action) => {
     return {
       ...state,
       exhibPage: action.payload.exhibPage
+    }
+  }
+
+  if (action.type === CHANGE_PAGE_COLLEC) {
+    return {
+      ...state,
+      pageCollec: action.payload.pageCollec
     }
   }
 

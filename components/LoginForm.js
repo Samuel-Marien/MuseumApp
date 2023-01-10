@@ -20,7 +20,7 @@ const LoginForm = () => {
 
   const { user, isLoading, alertText, alertType, loginUser } = useAppContext()
 
-  console.log(user)
+  // console.log(user)
 
   useEffect(() => {
     if (user) {

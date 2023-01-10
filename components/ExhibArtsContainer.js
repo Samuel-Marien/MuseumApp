@@ -4,49 +4,12 @@ import { useAppContext } from '../context/appContext'
 
 import ThumbnailArts from './ThumbnailArts'
 import ExhibBtnContainer from './ExhibBtnContainer '
+import FormRow from './FormRow'
+import FormRowSelect from './FormRowSelect'
 
 import { FaSearch, FaStar } from 'react-icons/fa'
 import { MdOutlineSort } from 'react-icons/md'
 import { IoIosAlbums, IoIosCalendar } from 'react-icons/io'
-
-const FormRow = (props) => {
-  const { type, name, value, onChange, labelText } = props
-  return (
-    <div className="flex items-center">
-      <label htmlFor={name} className="text-xl mr-2 text-slate-200">
-        {labelText || name}
-      </label>
-      <input
-        type={type}
-        value={value}
-        name={name}
-        onChange={onChange}
-        className=""
-      />
-    </div>
-  )
-}
-
-const FormRowSelect = (props) => {
-  const { labelText, name, value, onChange, list } = props
-  return (
-    <div className="flex items-center">
-      <label htmlFor="jobType" className="text-xl mr-2 text-slate-200">
-        {labelText || name}
-      </label>
-
-      <select name={name} value={value} onChange={onChange} className="">
-        {list.map((itemValue, index) => {
-          return (
-            <option key={index} value={itemValue}>
-              {itemValue}
-            </option>
-          )
-        })}
-      </select>
-    </div>
-  )
-}
 
 const ExhibArtsContainer = () => {
   const {
@@ -98,14 +61,15 @@ const ExhibArtsContainer = () => {
 
   return (
     <div>
-      <div className="w-max mx-auto p-2 rounded bg-slate-800 bg-opacity-60">
-        <form className="flex space-x-10 items-center justify-center px-7">
+      {/* Form */}
+      <div className="border w-max mx-auto p-2 rounded bg-slate-800 bg-opacity-60">
+        <form className=" flex space-x-10 items-center justify-center px-7">
           <FormRowSelect
             labelText={
               artsCategory !== 'Exhibition' ? (
-                <IoIosCalendar />
-              ) : (
                 <IoIosAlbums />
+              ) : (
+                <IoIosCalendar />
               )
             }
             name="artsCategory"
@@ -153,6 +117,7 @@ const ExhibArtsContainer = () => {
         </div>
       </div>
 
+      {/* Thumbnails  */}
       <div
         className="mt-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 
         lg:grid-cols-6 sm:gap-6 gap-2 px-2 lg:px-0"

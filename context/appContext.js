@@ -36,7 +36,7 @@ import {
   CLEAR_FILTERS,
   HANDLE_CHANGE,
   CHANGE_PAGE,
-  CHANGE_ARTS_CATEGORY
+  CHANGE_PAGE_COLLEC
 } from './actions'
 
 const bright = '\x1b[1m'
@@ -67,6 +67,32 @@ const initialState = {
   totalArts: 0,
   numOfPages: 1,
   exhibPage: 1,
+  numOfExhibFavorite: 0,
+  //collection:'
+  artsCollec: [],
+  totalCollecArts: 0,
+  numOfCollecPages: 1,
+  pageCollec: 1,
+  numOfCollecFavorite: 0,
+  category: 'all',
+  categoryOptions: [
+    'all',
+    'American Art',
+    'Arts of Africa',
+    'Arts of the Americas',
+    'Arts of the Islamic World',
+    'Arts of the Pacific Islands',
+    'Asian Art',
+    'Contemporary Art',
+    'Decorative Arts',
+    'Egyptian, Classical, Ancient Near Eastern Art',
+    'Elizabeth A. Sackler Center for Feminist Art',
+    'European Art',
+    'Photography'
+  ],
+  // misc
+  artsCategory: 'Collection',
+  artsCategoryOptions: ['Exhibition', 'Collection'],
   search: '',
   sort: 'latest',
   sortOptions: [
@@ -78,16 +104,7 @@ const initialState = {
     'z-a'
   ],
   favoriteArtsOnly: 'all',
-  favoriteOptions: ['my favorite', 'all'],
-  numOfExhibFavorite: 0,
-  //collection:'
-  artsCollec: [],
-  totalCollecArts: 0,
-  numOfCollecPages: 1,
-  pageCollec: 1,
-  // misc
-  artsCategory: 'Exhibition',
-  artsCategoryOptions: ['Exhibition', 'Collection']
+  favoriteOptions: ['my favorite', 'all']
 }
 
 const AppContext = React.createContext()
@@ -332,6 +349,7 @@ const AppProvider = ({ children }) => {
 
   const getAllUserArts = async () => {
     const { exhibPage, search, sort, favoriteArtsOnly } = state
+
     if (favoriteArtsOnly === 'my favorite') {
       favoriteArtsOnly = true
     }
@@ -362,21 +380,44 @@ const AppProvider = ({ children }) => {
   }
 
   const getAllCollectionUserArts = async () => {
-    let url = '/collec-arts/getAllCollecUserArts'
+    const { pageCollec, search, sort, favoriteArtsOnly, category } = state
+
+    if (favoriteArtsOnly === 'my favorite') {
+      favoriteArtsOnly = true
+    }
+    if (favoriteArtsOnly === 'all') {
+      favoriteArtsOnly = ''
+    }
+
+    let url = `/collec-arts/getAllCollecUserArts?page=${pageCollec}&category=${category}&search=${search}&sort=${sort}&isFavorite=${favoriteArtsOnly}`
 
     dispatch({ type: GET_USER_COLLEC_ART_BEGIN })
     try {
       const { data } = await authFetch(url)
-      const { artsCollec, totalCollecArts, numOfCollecPages } = data
+      const {
+        artsCollec,
+        totalCollecArts,
+        numOfCollecPages,
+        numOfCollecFavorite
+      } = data
       dispatch({
         type: GET_USER_COLLEC_ART_SUCCESS,
-        payload: { artsCollec, totalCollecArts, numOfCollecPages }
+        payload: {
+          artsCollec,
+          totalCollecArts,
+          numOfCollecPages,
+          numOfCollecFavorite
+        }
       })
     } catch (error) {
       console.log(error.response)
       // logoutUser()
     }
     clearAlert()
+  }
+
+  const changeCollecPage = (pageCollec) => {
+    dispatch({ type: CHANGE_PAGE_COLLEC, payload: { pageCollec } })
   }
 
   const deleteExhibArt = async (artId) => {
@@ -460,7 +501,8 @@ const AppProvider = ({ children }) => {
         addCollectionArtToFavorite,
         clearFilters,
         handleChange,
-        changeExhibPage
+        changeExhibPage,
+        changeCollecPage
       }}
     >
       {children}
