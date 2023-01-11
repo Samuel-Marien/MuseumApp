@@ -37,6 +37,9 @@ const CollecArtsContainer = () => {
     pageCollec
   } = useAppContext()
 
+  const test = totalCollecArts
+  console.log(test)
+
   useEffect(() => {
     getAllCollectionUserArts()
   }, [
@@ -125,12 +128,18 @@ const CollecArtsContainer = () => {
           </button>
         </form>
         <div className="pt-1 italic text-slate-400 flex justify-center space-x-1 border-t my-2 border-slate-500">
-          <p>
+          {/* <p>
             {totalCollecArts} Collections art{totalCollecArts > 1 && 's'} found
-            in your collection,
+            in your selection,
+          </p> */}
+
+          <p className="text-sm">
+            {totalCollecArts} collector's item{totalCollecArts > 1 && 's'} found
+            with your current selection. Including {favoriteArtsByPage} favorite
+            {favoriteArtsByPage > 1 && 's'} in this page
           </p>
-          <p>{numOfCollecFavorite} favorite(s) in total and</p>
-          <p>{favoriteArtsByPage} favorite(s) in this page</p>
+          {/* <p>{numOfCollecFavorite} favorite(s) in total and</p>
+          <p>{favoriteArtsByPage} favorite(s) in this page</p> */}
         </div>
       </div>
 

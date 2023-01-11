@@ -394,6 +394,8 @@ const AppProvider = ({ children }) => {
     dispatch({ type: GET_USER_COLLEC_ART_BEGIN })
     try {
       const { data } = await authFetch(url)
+      console.log(data)
+
       const {
         artsCollec,
         totalCollecArts,

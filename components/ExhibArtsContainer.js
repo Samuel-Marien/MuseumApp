@@ -110,7 +110,7 @@ const ExhibArtsContainer = () => {
         <div className="pt-1 italic text-slate-400 flex justify-center space-x-1 border-t my-2 border-slate-500">
           <p>
             {totalArts} Exhibition art{totalArts > 1 && 's'} found in your
-            collection,
+            selection,
           </p>
           <p>{numOfExhibFavorite} favorite(s) in total and</p>
           <p>{favoriteArtsByPage} favorite(s) in this page</p>
