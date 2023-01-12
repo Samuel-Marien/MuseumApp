@@ -2,6 +2,16 @@ import React from 'react'
 
 import { useAppContext } from '../context/appContext'
 
+import MySelectorBtn from './MySelectorBtn'
+import PageSelector from './PageSelector'
+
+import {
+  BiArrowToLeft,
+  BiArrowToRight,
+  BiLeftArrowAlt,
+  BiRightArrowAlt
+} from 'react-icons/bi'
+
 const ExhibBtnContainer = () => {
   const { numOfPages, exhibPage, changeExhibPage } = useAppContext()
 
@@ -25,13 +35,21 @@ const ExhibBtnContainer = () => {
     changeExhibPage(newPage)
   }
 
-  return (
-    <div>
-      <button className="" onClick={prevPage}>
-        prev
-      </button>
+  const firstPage = () => {
+    changeExhibPage(1)
+  }
+  const lastPage = () => {
+    changeExhibPage(numOfPages)
+  }
 
+  return (
+    <div className="mt-5 pt-3 flex justify-center space-x-1 border-t border-slate-300  w-full">
       <div>
+        <MySelectorBtn icon={<BiArrowToLeft />} onClick={firstPage} />
+        <MySelectorBtn icon={<BiLeftArrowAlt />} onClick={prevPage} />
+      </div>
+
+      {/* <div>
         {pages.map((pageNumber) => {
           return (
             <button
@@ -46,9 +64,19 @@ const ExhibBtnContainer = () => {
             </button>
           )
         })}
-      </div>
+      </div> */}
 
-      <button onClick={nextPage}>next</button>
+      <PageSelector
+        pagesArray={pages}
+        func={changeExhibPage}
+        currentPage={exhibPage}
+        numOfAllPages={numOfPages}
+      />
+
+      <div>
+        <MySelectorBtn icon={<BiRightArrowAlt />} onClick={nextPage} />
+        <MySelectorBtn icon={<BiArrowToRight />} onClick={lastPage} />
+      </div>
     </div>
   )
 }
