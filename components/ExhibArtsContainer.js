@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { useAppContext } from '../context/appContext'
 
@@ -12,6 +12,7 @@ import { MdOutlineSort } from 'react-icons/md'
 import { IoIosAlbums, IoIosCalendar } from 'react-icons/io'
 
 const ExhibArtsContainer = () => {
+  const [myCheck, setMyCheck] = useState(false)
   const {
     getAllUserArts,
     arts,
@@ -47,12 +48,11 @@ const ExhibArtsContainer = () => {
     artsCategory,
     numOfAllArts
   ])
-  // console.log(numOfExhibFavorite)
-  // console.log(numOfAllArts)
 
   const handleSubmit = (e) => {
     e.preventDefault()
     clearFilters()
+    setMyCheck(false)
   }
 
   const handleSearch = (e) => {
@@ -62,11 +62,24 @@ const ExhibArtsContainer = () => {
 
   const favoriteArtsByPage = arts.filter((item) => item.isFavorite).length
 
+  const handleFavorite = (e) => {
+    if (e.target.value === 'all') {
+      setMyCheck(true)
+      handleChange({ name: e.target.name, value: 'my favorite' })
+    } else {
+      setMyCheck(false)
+      handleChange({ name: e.target.name, value: 'all' })
+    }
+  }
+
+  // console.log(numOfExhibFavorite)
+  // console.log(numOfAllArts)
+
   return (
     <div>
       {/* Form */}
       <div className="border w-max mx-auto p-2 rounded bg-slate-800 bg-opacity-60">
-        <form className=" flex space-x-10 items-center justify-center px-7">
+        <form className=" flex space-x-6 items-center justify-center px-7">
           <FormRowSelect
             labelText={
               artsCategory !== 'Exhibition' ? (
@@ -94,13 +107,14 @@ const ExhibArtsContainer = () => {
             onChange={handleSearch}
             list={sortOptions}
           ></FormRowSelect>
-          <FormRowSelect
+          <FormRow
+            checked={myCheck}
+            type="checkbox"
             labelText={<FaStar />}
             name="favoriteArtsOnly"
             value={favoriteArtsOnly}
-            onChange={handleSearch}
-            list={favoriteOptions}
-          ></FormRowSelect>
+            onChange={handleFavorite}
+          ></FormRow>
 
           <button
             className="p-1 border rounded px-5 text-slate-200  hover:bg-slate-200 hover:text-slate-800 transition-all duration-300"

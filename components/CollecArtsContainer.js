@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { useAppContext } from '../context/appContext'
 import FormRow from './FormRow'
@@ -14,6 +14,7 @@ import { BiCategory } from 'react-icons/bi'
 let myImgUrl = process.env.NEXT_PUBLIC_API_URL_IMAGE_OBJECTS
 
 const CollecArtsContainer = () => {
+  const [myCheck, setMyCheck] = useState(false)
   const {
     getAllCollectionUserArts,
     artsCollec,
@@ -65,17 +66,27 @@ const CollecArtsContainer = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     clearFilters()
+    setMyCheck(false)
   }
 
   const favoriteArtsByPage = artsCollec.filter((item) => item.isFavorite).length
 
+  const handleFavorite = (e) => {
+    if (e.target.value === 'all') {
+      setMyCheck(true)
+      handleChange({ name: e.target.name, value: 'my favorite' })
+    } else {
+      setMyCheck(false)
+      handleChange({ name: e.target.name, value: 'all' })
+    }
+  }
   // console.log(artsCollec)
   // console.log(numOfAllArts)
 
   return (
     <div>
       <div className=" w-max mx-auto p-2 rounded bg-slate-800 bg-opacity-60">
-        <form className=" flex space-x-10 items-center justify-center px-7">
+        <form className=" flex space-x-6 items-center justify-center px-7">
           <FormRowSelect
             labelText={
               artsCategory !== 'Exhibition' ? (
@@ -110,14 +121,14 @@ const CollecArtsContainer = () => {
             onChange={handleSearch}
             list={sortOptions}
           ></FormRowSelect>
-          <FormRowSelect
+          <FormRow
+            checked={myCheck}
+            type="checkbox"
             labelText={<FaStar />}
             name="favoriteArtsOnly"
             value={favoriteArtsOnly}
-            onChange={handleSearch}
-            list={favoriteOptions}
-          ></FormRowSelect>
-
+            onChange={handleFavorite}
+          ></FormRow>
           <button
             className="p-1 border rounded px-5 text-slate-200  hover:bg-slate-200 hover:text-slate-800 transition-all duration-300"
             disabled={isLoading}
