@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react'
 import { useRouter } from 'next/router'
 
-import { motion } from 'framer-motion'
-
 import { useAppContext } from '../context/appContext'
 
 import ExhibArtsContainer from '../components/ExhibArtsContainer'
@@ -39,28 +37,8 @@ const userCollection = () => {
           </h1>
         </div>
         <div className="mt-5 container mx-auto w-full pb-20">
-          {artsCategory === 'Exhibition' && (
-            <motion.div
-              initial={{ opacity: 0.6, scale: 0.99 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{
-                duration: 0.7
-              }}
-            >
-              <ExhibArtsContainer />
-            </motion.div>
-          )}
-          {artsCategory === 'Collection' && (
-            <motion.div
-              initial={{ opacity: 0.6, scale: 0.99 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{
-                duration: 0.7
-              }}
-            >
-              <CollecArtsContainer />
-            </motion.div>
-          )}
+          {artsCategory === 'Exhibition' && <ExhibArtsContainer />}
+          {artsCategory === 'Collection' && <CollecArtsContainer />}
         </div>
       </div>
     </>

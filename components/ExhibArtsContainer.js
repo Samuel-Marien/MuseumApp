@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
 
 import { useAppContext } from '../context/appContext'
 
@@ -78,7 +79,7 @@ const ExhibArtsContainer = () => {
   return (
     <div>
       {/* Form */}
-      <div className="border w-max mx-auto p-2 rounded bg-slate-800 bg-opacity-60">
+      <div className=" w-max mx-auto p-2 rounded bg-slate-800 bg-opacity-60">
         <form className=" flex space-x-6 items-center justify-center px-7">
           <FormRowSelect
             labelText={
@@ -148,32 +149,41 @@ const ExhibArtsContainer = () => {
       </div>
 
       {/* Thumbnails  */}
-      <div
-        className="mt-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 
-        lg:grid-cols-6 sm:gap-6 gap-2 px-2 lg:px-0"
+      <motion.div
+        initial={{ opacity: 0.6, scale: 0.99 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{
+          duration: 0.7
+        }}
       >
-        {arts.map((art, index) => {
-          return (
-            <ThumbnailArts
-              key={index}
-              title={art.exibitionTitle}
-              imageUrl={art.imageLargestUrl}
-              imageCaption={art.imageCaption}
-              imageCitation={art.imageCitation}
-              imageDate={art.imageDate}
-              artId={art._id}
-              isFavorite={art.isFavorite}
-              deleteFunc={() => deleteExhibArt(art._id)}
-              addToFavoriteFunc={() =>
-                addExhibitionArtToFavorite(
-                  art._id,
-                  art.isFavorite ? false : true
-                )
-              }
-            />
-          )
-        })}
-      </div>
+        <div
+          className="mt-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 
+        lg:grid-cols-6 sm:gap-6 gap-2 px-2 lg:px-0"
+        >
+          {arts.map((art, index) => {
+            return (
+              <ThumbnailArts
+                key={index}
+                title={art.exibitionTitle}
+                imageUrl={art.imageLargestUrl}
+                imageCaption={art.imageCaption}
+                imageCitation={art.imageCitation}
+                imageDate={art.imageDate}
+                artId={art._id}
+                isFavorite={art.isFavorite}
+                deleteFunc={() => deleteExhibArt(art._id)}
+                addToFavoriteFunc={() =>
+                  addExhibitionArtToFavorite(
+                    art._id,
+                    art.isFavorite ? false : true
+                  )
+                }
+              />
+            )
+          })}
+        </div>
+      </motion.div>
+
       {numOfPages > 1 && <ExhibBtnContainer />}
     </div>
   )

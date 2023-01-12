@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
 
 import { useAppContext } from '../context/appContext'
 import FormRow from './FormRow'
@@ -161,29 +162,37 @@ const CollecArtsContainer = () => {
       </div>
 
       {/* Thumbnails  */}
-      <div
-        className="mt-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 
-        lg:grid-cols-6 sm:gap-6 gap-2 px-2 lg:px-0"
+      <motion.div
+        initial={{ opacity: 0.6, scale: 0.99 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{
+          duration: 0.7
+        }}
       >
-        {artsCollec.map((art, index) => {
-          return (
-            <ThumbnailArts
-              artId={art._id}
-              key={index}
-              title={art.artTitle}
-              isFavorite={art.isFavorite}
-              imageUrl={`${myImgUrl}/size4/${art.primaryImage}`}
-              deleteFunc={() => deleteCollecArt(art._id)}
-              addToFavoriteFunc={() =>
-                addCollectionArtToFavorite(
-                  art._id,
-                  art.isFavorite ? false : true
-                )
-              }
-            />
-          )
-        })}
-      </div>
+        <div
+          className="mt-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 
+        lg:grid-cols-6 sm:gap-6 gap-2 px-2 lg:px-0"
+        >
+          {artsCollec.map((art, index) => {
+            return (
+              <ThumbnailArts
+                artId={art._id}
+                key={index}
+                title={art.artTitle}
+                isFavorite={art.isFavorite}
+                imageUrl={`${myImgUrl}/size4/${art.primaryImage}`}
+                deleteFunc={() => deleteCollecArt(art._id)}
+                addToFavoriteFunc={() =>
+                  addCollectionArtToFavorite(
+                    art._id,
+                    art.isFavorite ? false : true
+                  )
+                }
+              />
+            )
+          })}
+        </div>
+      </motion.div>
       {numOfCollecPages > 1 && <CollecBtnContainer />}
     </div>
   )
