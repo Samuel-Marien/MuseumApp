@@ -30,7 +30,8 @@ const ExhibArtsContainer = () => {
     exhibPage,
     numOfExhibFavorite,
     artsCategoryOptions,
-    artsCategory
+    artsCategory,
+    numOfAllArts
   } = useAppContext()
 
   useEffect(() => {
@@ -43,9 +44,11 @@ const ExhibArtsContainer = () => {
     favoriteArtsOnly,
     favoriteOptions,
     artsCategoryOptions,
-    artsCategory
+    artsCategory,
+    numOfAllArts
   ])
   // console.log(numOfExhibFavorite)
+  // console.log(numOfAllArts)
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -107,13 +110,26 @@ const ExhibArtsContainer = () => {
             Clear filters
           </button>
         </form>
-        <div className="pt-1 italic text-slate-400 flex justify-center space-x-1 border-t my-2 border-slate-500">
-          <p>
-            {totalArts} Exhibition art{totalArts > 1 && 's'} found in your
-            selection,
+        <div className="pt-2 text-slate-400 flex  items-center space-x-1 border-t mt-2 mb-1 border-slate-500">
+          <div className="flex space-x-2">
+            <div className="flex space-x-1 items-center py-1 px-2 rounded-lg border border-slate-700 shadow-lg bg-slate-500 text-slate-200 text-sm">
+              <p className="text-slate-800">
+                <IoIosAlbums />
+              </p>
+              <p className="font-bold">{numOfAllArts}</p>
+            </div>
+            <div className="flex space-x-1 items-center py-1 px-2 rounded-lg border border-slate-700 shadow-lg bg-slate-500 text-slate-200 text-sm">
+              <p className="text-yellow-500">
+                <FaStar />
+              </p>
+              <p className="font-bold">{numOfExhibFavorite}</p>
+            </div>
+          </div>
+          <p className="text-sm italic  w-full text-center">
+            {totalArts} collector's item{totalArts > 1 && 's'} found with your
+            current selection. Including {favoriteArtsByPage} favorite
+            {favoriteArtsByPage > 1 && 's'} in this page
           </p>
-          <p>{numOfExhibFavorite} favorite(s) in total and</p>
-          <p>{favoriteArtsByPage} favorite(s) in this page</p>
         </div>
       </div>
 

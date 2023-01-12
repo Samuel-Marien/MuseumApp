@@ -362,11 +362,18 @@ const AppProvider = ({ children }) => {
     try {
       const { data } = await authFetch(url)
 
-      const { arts, totalArts, numOfPages, numOfExhibFavorite } = data
+      const { arts, totalArts, numOfPages, numOfExhibFavorite, numOfAllArts } =
+        data
 
       dispatch({
         type: GET_USER_ART_SUCCESS,
-        payload: { arts, totalArts, numOfPages, numOfExhibFavorite }
+        payload: {
+          arts,
+          totalArts,
+          numOfPages,
+          numOfExhibFavorite,
+          numOfAllArts
+        }
       })
     } catch (error) {
       console.log(error.response)
@@ -394,13 +401,14 @@ const AppProvider = ({ children }) => {
     dispatch({ type: GET_USER_COLLEC_ART_BEGIN })
     try {
       const { data } = await authFetch(url)
-      console.log(data)
+      // console.log(data)
 
       const {
         artsCollec,
         totalCollecArts,
         numOfCollecPages,
-        numOfCollecFavorite
+        numOfCollecFavorite,
+        numOfAllArts
       } = data
       dispatch({
         type: GET_USER_COLLEC_ART_SUCCESS,
@@ -408,7 +416,8 @@ const AppProvider = ({ children }) => {
           artsCollec,
           totalCollecArts,
           numOfCollecPages,
-          numOfCollecFavorite
+          numOfCollecFavorite,
+          numOfAllArts
         }
       })
     } catch (error) {

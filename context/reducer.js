@@ -190,7 +190,8 @@ const reducer = (state, action) => {
       arts: action.payload.arts,
       totalArts: action.payload.totalArts,
       numOfPages: action.payload.numOfPages,
-      numOfExhibFavorite: action.payload.numOfExhibFavorite
+      numOfExhibFavorite: action.payload.numOfExhibFavorite,
+      numOfAllArts: action.payload.numOfAllArts
     }
   }
 
@@ -205,7 +206,8 @@ const reducer = (state, action) => {
       artsCollec: action.payload.artsCollec,
       totalCollecArts: action.payload.totalCollecArts,
       numOfCollecPages: action.payload.numOfCollecPages,
-      numOfCollecFavorite: action.payload.numOfCollecFavorite
+      numOfCollecFavorite: action.payload.numOfCollecFavorite,
+      numOfAllArts: action.payload.numOfAllArts
     }
   }
 
