@@ -1,10 +1,13 @@
 import React from 'react'
 
 const FormRow = (props) => {
-  const { type, name, value, onChange, labelText, checked } = props
+  const { type, name, value, onChange, labelText, checked, classNames } = props
   return (
     <div className="flex items-center">
-      <label htmlFor={name} className="text-xl mr-2 text-slate-200">
+      <label
+        htmlFor={name}
+        className={`text-xl mr-2 text-slate-200 ${classNames} `}
+      >
         {labelText || name}
       </label>
       <input
