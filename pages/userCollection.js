@@ -32,7 +32,7 @@ const userCollection = () => {
       >
         <Navbar />
         <div className="w-full flex justify-center">
-          <h1 className="text-7xl font-bold uppercase text-slate-200">
+          <h1 className="text-5xl md:text-7xl font-bold uppercase text-slate-200">
             {artsCategory === 'Exhibition' ? 'Exhibition' : 'Collection'}
           </h1>
         </div>
