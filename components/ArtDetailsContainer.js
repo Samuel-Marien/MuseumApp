@@ -100,7 +100,6 @@ const ArtDetailsContainer = (props) => {
   const [showRights, setShowRights] = useState(false)
   const [showLabelText, setShowLabelText] = useState(true)
   const [showInfos, setShowInfos] = useState(false)
-  const [showrotate, setShowrotate] = useState(false)
 
   const spanStyle = 'font-bold uppercase '
 

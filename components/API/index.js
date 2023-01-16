@@ -4,6 +4,7 @@ import getOneExhibition from './getOneExhibition'
 import getAllArtsByCollec from './getAllArtsByCollec'
 import getArtsByCollect from './getArtsByCollect'
 import getOneArtDetails from './getOneArtDetails'
+import getArtsBySearch from './getArtsBySearch'
 
 export {
   getCollection,
@@ -11,5 +12,6 @@ export {
   getOneExhibition,
   getAllArtsByCollec,
   getArtsByCollect,
-  getOneArtDetails
+  getOneArtDetails,
+  getArtsBySearch
 }

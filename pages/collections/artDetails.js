@@ -12,6 +12,7 @@ import ArtDetailsContainer from '../../components/ArtDetailsContainer'
 import Navbar from '../../components/Navbar'
 
 let imageUrl = process.env.NEXT_PUBLIC_API_URL_IMAGE
+const replacementImage = '../images/landing8.jpg'
 
 const artDetails = () => {
   const { saveCollectionArt, user } = useAppContext()
@@ -100,9 +101,8 @@ const artDetails = () => {
   }
 
   // console.log(id)
-  console.log(art)
+  // console.log(art)
   // console.log(myThumbArray)
-  // testing object : 132835, 113740, 3461, 97327, 1873, 713, 50979, 1252
 
   const handleClick = (id) => {
     // console.log(id)

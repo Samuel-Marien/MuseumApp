@@ -3,11 +3,18 @@ import axios from 'axios'
 let config = { api_key: process.env.NEXT_PUBLIC_API_KEY }
 let url = process.env.NEXT_PUBLIC_API_URL
 
-const getAllArtsByCollec = async (id, limit, offset = 0, title) => {
+const getArtsBySearch = async (
+  limit,
+  offset = 0,
+  title,
+  collection_id,
+  total_count_only = 0,
+  object_year_begin = '-1000000'
+) => {
   try {
     const response = await axios
       .get(
-        `${url}/collection/${id}/object?limit=${limit}&offset=${offset}&title=${title}`,
+        `${url}/object/?limit=${limit}&offset=${offset}&title=${title}&collection_id=${collection_id}&total_count_only=${total_count_only}&has_images=1&object_year_begin${object_year_begin}=`,
         {
           headers: config
         }
@@ -21,4 +28,4 @@ const getAllArtsByCollec = async (id, limit, offset = 0, title) => {
   }
 }
 
-export default getAllArtsByCollec
+export default getArtsBySearch

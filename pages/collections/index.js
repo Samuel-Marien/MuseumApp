@@ -5,15 +5,19 @@ import parse, { domToReact } from 'html-react-parser'
 import { motion } from 'framer-motion'
 import Typed from 'react-typed'
 
-import { getAllArtsByCollec, getArtsByCollect } from '../../components/API'
+import { getArtsByCollect, getArtsBySearch } from '../../components/API'
 import useHasMounted from '../../components/hooks/useHasMounted'
 import { useAppContext } from '../../context/appContext'
 
 import MyHeader from '../../components/MyHeader'
 import Navbar from '../../components/Navbar'
-// import SearchContainer from '../../components/SearchContainer'
+import ApiSearchContainer from '../../components/ApiSearchContainer'
 
 import { HiOutlineSaveAs } from 'react-icons/hi'
+import {
+  BsFillArrowLeftCircleFill,
+  BsFillArrowRightCircleFill
+} from 'react-icons/bs'
 
 let imageUrl = process.env.NEXT_PUBLIC_API_URL_IMAGE
 
@@ -91,14 +95,44 @@ const ThumbnailArts = (props) => {
   )
 }
 
+const PaginationContainer = (props) => {
+  const { minus, plus, off, item, total } = props
+  return (
+    <div className="my-2 p-1 flex justify-center space-x-2 text-slate-400">
+      <button
+        onClick={minus}
+        className="text-3xl hover:scale-105 hover:text-slate-300 active:text-slate-500 active:scale-95 transition-all duration-300"
+      >
+        <BsFillArrowLeftCircleFill />
+      </button>
+      <div className=" p-1 flex text-slate-400">
+        <p>
+          Page : {Math.ceil(off / item + 1)} / {total + 1}
+        </p>
+      </div>
+      <button
+        onClick={plus}
+        className="text-3xl hover:scale-105 hover:text-slate-300 active:text-slate-500 active:scale-95 transition-all duration-300"
+      >
+        <BsFillArrowRightCircleFill />
+      </button>
+    </div>
+  )
+}
+
 const CollectionsHome = () => {
   const router = useRouter()
   const { id } = router.query
   const { user } = useAppContext()
   const [myCollection, setMyCollection] = useState([])
   const [myCollectionIntro, setMyCollectionIntro] = useState([])
-  const [artToDisplay, setArtToDisplay] = useState('highlight')
+  const [artToDisplay, setArtToDisplay] = useState('full')
   const [highlightImg, setHighlightImg] = useState([])
+  const [numOfItems, setNumOfItems] = useState(0)
+  const [myOffset, setMyOffset] = useState(0)
+
+  const itemByPage = 16
+  // const myOffset = 0
 
   useEffect(() => {
     if (!user) {
@@ -111,12 +145,14 @@ const CollectionsHome = () => {
     // call for all arts
     if (router.isReady) {
       const response = async () => {
-        const data = await getAllArtsByCollec(id, 20)
+        const data = await getArtsBySearch(itemByPage, myOffset, '', id)
+        const dataLength = await getArtsBySearch(itemByPage, 0, '', id, 1)
         setMyCollection(data)
+        setNumOfItems(dataLength)
       }
       response()
 
-      // call for intro
+      // call for History section & highlight
       const introResponse = async () => {
         const data = await getArtsByCollect(id)
         setMyCollectionIntro(data)
@@ -127,17 +163,16 @@ const CollectionsHome = () => {
     return function cleanup() {
       console.log('clean')
     }
-  }, [router.isReady, id])
+  }, [router.isReady, id, myOffset])
 
   // console.log(myCollectionIntro.highlight_images)
   // console.log(highlightImg)
   // console.log(myCollection)
   // console.log(router)
+  // console.log(numOfItems)
+  // console.log(`num of pages: ${Math.ceil(numOfItems / myLimit)}`)
 
-  const hasMounted = useHasMounted()
-  if (!hasMounted) {
-    return null
-  }
+  const totalPages = Math.ceil(numOfItems / itemByPage) - 1
 
   // options for parsing the html response api
   const options = {
@@ -150,6 +185,23 @@ const CollectionsHome = () => {
         return <span>{domToReact(children, options)}</span>
       }
     }
+  }
+
+  const handlePlusOffset = () => {
+    return totalPages + 1 < (myOffset + itemByPage) / itemByPage + 1
+      ? setMyOffset(0)
+      : setMyOffset((myOffset += itemByPage))
+  }
+
+  const handleMinusOffset = () => {
+    return myOffset === 0
+      ? setMyOffset(itemByPage * totalPages)
+      : setMyOffset((myOffset -= itemByPage))
+  }
+
+  const hasMounted = useHasMounted()
+  if (!hasMounted) {
+    return null
   }
 
   return (
@@ -168,28 +220,18 @@ const CollectionsHome = () => {
         <div className="text-2xl md:text-4xl font-black text-center mt-4 text-slate-400">
           {myCollectionIntro.name}
         </div>
+        <div>
+          <p>
+            temp info: total item: {numOfItems} / item by page: {itemByPage}/
+            total pages: {totalPages}
+          </p>
+        </div>
         <div className="container mx-auto w-full ">
-          {/* <SearchContainer /> */}
-          <div className="flex space-x-2 mb-5">
-            <button
-              onClick={() => setArtToDisplay('highlight')}
-              className="border rounded p-1 "
-            >
-              Highlight
-            </button>
-            <button
-              onClick={() => setArtToDisplay('full')}
-              className="border rounded p-1 "
-            >
-              Full
-            </button>
-            <button
-              onClick={() => setArtToDisplay('history')}
-              className="border rounded p-1 "
-            >
-              History
-            </button>
-          </div>
+          <ApiSearchContainer
+            forHl={() => setArtToDisplay('highlight')}
+            forfull={() => setArtToDisplay('full')}
+            forHistory={() => setArtToDisplay('history')}
+          />
 
           {artToDisplay === 'highlight' && (
             <div
@@ -217,30 +259,40 @@ const CollectionsHome = () => {
             </div>
           )}
           {artToDisplay === 'full' && (
-            <div
-              className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 
+            <div>
+              <PaginationContainer
+                minus={handleMinusOffset}
+                plus={handlePlusOffset}
+                off={myOffset}
+                item={itemByPage}
+                total={totalPages}
+              />
+              <div
+                className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 
         lg:grid-cols-6 xl:grid-cols-8 sm:gap-6 gap-2"
-            >
-              {myCollection.map((item) => {
-                return (
-                  <motion.div
-                    key={item.id}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{
-                      duration: 0.5
-                    }}
-                  >
-                    <ThumbnailArts
-                      title={item.title}
-                      imageUrl={`${imageUrl}/size4/${item.primary_image}`}
-                      artId={item.id}
-                    />
-                  </motion.div>
-                )
-              })}
+              >
+                {myCollection.map((item) => {
+                  return (
+                    <motion.div
+                      key={item.id}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{
+                        duration: 0.5
+                      }}
+                    >
+                      <ThumbnailArts
+                        title={item.title}
+                        imageUrl={`${imageUrl}/size4/${item.primary_image}`}
+                        artId={item.id}
+                      />
+                    </motion.div>
+                  )
+                })}
+              </div>
             </div>
           )}
+
           {artToDisplay === 'history' && myCollectionIntro && (
             <motion.div
               initial={{ opacity: 0 }}
