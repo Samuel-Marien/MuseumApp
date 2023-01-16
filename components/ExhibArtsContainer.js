@@ -88,28 +88,31 @@ const ExhibArtsContainer = () => {
         }}
       >
         <div className=" w-max mx-auto p-2 rounded bg-slate-800 bg-opacity-60">
-          <form className=" flex flex-col md:flex-row space-y-4 md:space-y-0 space-x-4 items-center justify-center px-7">
-            <FormRowSelect
-              labelText={
-                artsCategory !== 'Exhibition' ? (
-                  <IoIosAlbums />
-                ) : (
-                  <IoIosCalendar />
-                )
-              }
-              name="artsCategory"
-              value={artsCategory}
-              onChange={handleSearch}
-              list={artsCategoryOptions}
-            ></FormRowSelect>
-            <FormRow
-              type="text"
-              labelText={<FaSearch />}
-              name="search"
-              value={search}
-              onChange={handleSearch}
-            ></FormRow>
-            <div className="flex space-x-4">
+          <form className=" flex flex-col md:flex-row space-y-4 md:space-y-0 ">
+            <div className="flex space-x-3 md:mr-3 mr-0">
+              <FormRowSelect
+                labelText={
+                  artsCategory !== 'Exhibition' ? (
+                    <IoIosAlbums />
+                  ) : (
+                    <IoIosCalendar />
+                  )
+                }
+                name="artsCategory"
+                value={artsCategory}
+                onChange={handleSearch}
+                list={artsCategoryOptions}
+              ></FormRowSelect>
+              <FormRow
+                type="text"
+                labelText={<FaSearch />}
+                name="search"
+                value={search}
+                onChange={handleSearch}
+              ></FormRow>
+            </div>
+
+            <div className="flex space-x-3 justify-between">
               <FormRow
                 checked={myCheck}
                 type="checkbox"
@@ -130,15 +133,14 @@ const ExhibArtsContainer = () => {
                 onChange={handleSearch}
                 list={sortOptions}
               ></FormRowSelect>
+              <button
+                className="w-max lg:w-max p-1 border rounded px-5 text-slate-200  hover:bg-slate-200 hover:text-slate-800 transition-all duration-300"
+                disabled={isLoading}
+                onClick={handleSubmit}
+              >
+                Clear filters
+              </button>
             </div>
-
-            <button
-              className="w-full lg:w-max p-1 border rounded px-5 text-slate-200  hover:bg-slate-200 hover:text-slate-800 transition-all duration-300"
-              disabled={isLoading}
-              onClick={handleSubmit}
-            >
-              Clear filters
-            </button>
           </form>
           <div className="pt-2 text-slate-400 flex  items-center space-x-1 border-t mt-2 mb-1 border-slate-500">
             <div className="flex flex-col lg:flex-row lg:space-x-2">

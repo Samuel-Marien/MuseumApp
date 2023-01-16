@@ -1,7 +1,8 @@
 import React from 'react'
 
 const FormRowSelect = (props) => {
-  const { labelText, name, value, onChange, list, classNames } = props
+  const { labelText, name, value, onChange, list, inputClassName, classNames } =
+    props
   return (
     <div className="flex items-center">
       <label
@@ -15,7 +16,7 @@ const FormRowSelect = (props) => {
         name={name}
         value={value}
         onChange={onChange}
-        className={classNames}
+        className={inputClassName}
       >
         {list.map((itemValue, index) => {
           return (

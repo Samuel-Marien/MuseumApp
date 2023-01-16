@@ -112,6 +112,7 @@ const CollecArtsContainer = () => {
               <FormRowSelect
                 labelText=" "
                 classNames="mr-0 border-l border-slate-500"
+                inputClassName="w-full"
                 name="category"
                 value={category}
                 onChange={handleSearch}
@@ -154,15 +155,25 @@ const CollecArtsContainer = () => {
                 </div>
               </div>
             </div>
-            <div className="flex flex-col md:hidden justify-center items-center w-full space-x-3">
+
+            {/* search, sort & favorite for little device */}
+            <div className=" flex flex-col md:hidden w-full ">
               <FormRow
                 type="text"
                 labelText={<FaSearch />}
                 name="search"
                 value={search}
                 onChange={handleSearch}
+                inputClassName="w-full"
               ></FormRow>
-              <div className="flex mt-3 space-x-5">
+              <div className=" flex mt-3 space-x-5">
+                <FormRowSelect
+                  labelText={<MdOutlineSort />}
+                  name="sort"
+                  value={sort}
+                  onChange={handleSearch}
+                  list={sortOptions}
+                ></FormRowSelect>
                 <FormRow
                   checked={myCheck}
                   type="checkbox"
@@ -176,13 +187,6 @@ const CollecArtsContainer = () => {
                       : 'mr-1'
                   }
                 ></FormRow>
-                <FormRowSelect
-                  labelText={<MdOutlineSort />}
-                  name="sort"
-                  value={sort}
-                  onChange={handleSearch}
-                  list={sortOptions}
-                ></FormRowSelect>
               </div>
             </div>
             <button
@@ -194,6 +198,7 @@ const CollecArtsContainer = () => {
             </button>
           </form>
 
+          {/* section total art & all fav  */}
           <div className="pt-2 text-slate-400 flex  items-center space-x-1 border-t mt-2 mb-1 border-slate-500">
             <div className="flex flex-col lg:flex-row lg:space-x-2">
               <div className="w-12 flex space-x-1 items-center py-1 px-2 rounded-lg border border-slate-700 shadow-lg bg-slate-500 text-slate-200 text-sm">

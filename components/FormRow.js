@@ -1,7 +1,16 @@
 import React from 'react'
 
 const FormRow = (props) => {
-  const { type, name, value, onChange, labelText, checked, classNames } = props
+  const {
+    type,
+    name,
+    value,
+    onChange,
+    labelText,
+    checked,
+    classNames,
+    inputClassName
+  } = props
   return (
     <div className="flex items-center">
       <label
@@ -16,7 +25,7 @@ const FormRow = (props) => {
         value={value}
         name={name}
         onChange={onChange}
-        className=""
+        className={inputClassName}
       />
     </div>
   )
