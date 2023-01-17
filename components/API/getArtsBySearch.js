@@ -8,13 +8,12 @@ const getArtsBySearch = async (
   offset = 0,
   title,
   collection_id,
-  total_count_only = 0,
-  object_year_begin = '-1000000'
+  total_count_only = 0
 ) => {
   try {
     const response = await axios
       .get(
-        `${url}/object/?limit=${limit}&offset=${offset}&title=${title}&collection_id=${collection_id}&total_count_only=${total_count_only}&has_images=1&object_year_begin${object_year_begin}=`,
+        `${url}/object/?limit=${limit}&offset=${offset}&title=${title}&collection_id=${collection_id}&total_count_only=${total_count_only}&has_images=1`,
         {
           headers: config
         }

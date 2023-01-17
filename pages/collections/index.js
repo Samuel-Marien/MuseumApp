@@ -11,9 +11,10 @@ import { useAppContext } from '../../context/appContext'
 
 import MyHeader from '../../components/MyHeader'
 import Navbar from '../../components/Navbar'
-import ApiSearchContainer from '../../components/ApiSearchContainer'
+import Footer from '../../components/Footer.js'
 
 import { HiOutlineSaveAs } from 'react-icons/hi'
+import { FaSearch } from 'react-icons/fa'
 import {
   BsFillArrowLeftCircleFill,
   BsFillArrowRightCircleFill
@@ -98,10 +99,10 @@ const ThumbnailArts = (props) => {
 const PaginationContainer = (props) => {
   const { minus, plus, off, item, total } = props
   return (
-    <div className="my-2 p-1 flex justify-center space-x-2 text-slate-400">
+    <div className="p-1 flex justify-center space-x-2 text-slate-400">
       <button
         onClick={minus}
-        className="text-3xl hover:scale-105 hover:text-slate-300 active:text-slate-500 active:scale-95 transition-all duration-300"
+        className="text-2xl hover:scale-105 hover:text-slate-300 active:text-slate-500 active:scale-95 transition-all duration-300"
       >
         <BsFillArrowLeftCircleFill />
       </button>
@@ -112,10 +113,104 @@ const PaginationContainer = (props) => {
       </div>
       <button
         onClick={plus}
-        className="text-3xl hover:scale-105 hover:text-slate-300 active:text-slate-500 active:scale-95 transition-all duration-300"
+        className="text-2xl hover:scale-105 hover:text-slate-300 active:text-slate-500 active:scale-95 transition-all duration-300"
       >
         <BsFillArrowRightCircleFill />
       </button>
+    </div>
+  )
+}
+
+const MyForm = (props) => {
+  const {
+    onChange,
+    value,
+    onSelectChange,
+    selectValue,
+    selectItemByPage,
+    onItemByPageChange,
+    displaySearhBar
+  } = props
+
+  const list = ['highlight', 'full', 'history']
+  const listItemByPage = [8, 16, 24, 32]
+
+  return (
+    <div className="flex flex-col items-center mb-10 space-y-2 text-slate-800">
+      {/* Sort by section  */}
+      <div className="flex h-8">
+        <label
+          htmlFor="sortBySection"
+          className="text-xl text-slate-200"
+        ></label>
+        <select
+          name="sortBySection"
+          value={selectValue}
+          onChange={onSelectChange}
+          className="bg-slate-500 bg-opacity-50 text-slate-50 rounded-sm"
+        >
+          {list.map((itemValue, index) => {
+            return (
+              <option key={index} value={itemValue}>
+                {itemValue}
+              </option>
+            )
+          })}
+        </select>
+      </div>
+      {displaySearhBar && (
+        <>
+          <motion.div
+            initial={{ opacity: 0, y: -25 }}
+            animate={{ opacity: 1, y: 0, display: 'flex' }}
+            transition={{
+              duration: 0.4,
+              ease: 'easeOut'
+            }}
+          >
+            {/* Search  */}
+            <div className="flex h-8">
+              <label
+                htmlFor="search"
+                className="text-xl bg-slate-500 bg-opacity-50 text-slate-50 border-r border-slate-400 p-1.5 px-2 rounded-l-sm"
+              >
+                <FaSearch />
+              </label>
+              <input
+                type="text"
+                value={value}
+                name="search"
+                onChange={onChange}
+                className="w-96 bg-slate-500 bg-opacity-50 text-slate-50 rounded-r-sm"
+              />
+            </div>
+            {/* item by page  */}
+            <div className="flex">
+              <label
+                htmlFor="itemByPage"
+                className="text-xl text-slate-200 ml-5"
+              ></label>
+              <select
+                name="itemByPage"
+                value={selectItemByPage}
+                onChange={onItemByPageChange}
+                className="bg-slate-500 bg-opacity-50 text-slate-50 rounded-l-sm"
+              >
+                {listItemByPage.map((itemValue, index) => {
+                  return (
+                    <option key={index} value={itemValue}>
+                      {itemValue}{' '}
+                    </option>
+                  )
+                })}
+              </select>{' '}
+              <span className="pt-1 text-slate-200 bg-slate-500 bg-opacity-50 rounded-r-sm px-2 border-l border-slate-400">
+                Arts / Page
+              </span>
+            </div>
+          </motion.div>
+        </>
+      )}
     </div>
   )
 }
@@ -130,9 +225,11 @@ const CollectionsHome = () => {
   const [highlightImg, setHighlightImg] = useState([])
   const [numOfItems, setNumOfItems] = useState(0)
   const [myOffset, setMyOffset] = useState(0)
+  const [userSearch, setUserSearch] = useState('')
+  const [totalPages, setTotalPages] = useState(0)
+  const [itemByPage, setItemByPage] = useState(16)
 
-  const itemByPage = 16
-  // const myOffset = 0
+  // const itemByPage = 16
 
   useEffect(() => {
     if (!user) {
@@ -145,10 +242,23 @@ const CollectionsHome = () => {
     // call for all arts
     if (router.isReady) {
       const response = async () => {
-        const data = await getArtsBySearch(itemByPage, myOffset, '', id)
-        const dataLength = await getArtsBySearch(itemByPage, 0, '', id, 1)
+        const data = await getArtsBySearch(
+          itemByPage,
+          myOffset,
+          userSearch,
+          id,
+          0
+        )
+        const dataLength = await getArtsBySearch(
+          itemByPage,
+          0,
+          userSearch,
+          id,
+          1
+        )
         setMyCollection(data)
         setNumOfItems(dataLength)
+        setTotalPages(Math.ceil(numOfItems / itemByPage) - 1)
       }
       response()
 
@@ -163,16 +273,7 @@ const CollectionsHome = () => {
     return function cleanup() {
       console.log('clean')
     }
-  }, [router.isReady, id, myOffset])
-
-  // console.log(myCollectionIntro.highlight_images)
-  // console.log(highlightImg)
-  // console.log(myCollection)
-  // console.log(router)
-  // console.log(numOfItems)
-  // console.log(`num of pages: ${Math.ceil(numOfItems / myLimit)}`)
-
-  const totalPages = Math.ceil(numOfItems / itemByPage) - 1
+  }, [router.isReady, id, myOffset, userSearch, itemByPage, numOfItems])
 
   // options for parsing the html response api
   const options = {
@@ -199,6 +300,18 @@ const CollectionsHome = () => {
       : setMyOffset((myOffset -= itemByPage))
   }
 
+  const handleSearch = (e) => {
+    setUserSearch(e.target.value)
+  }
+  const handleSelect = (e) => {
+    setArtToDisplay(e.target.value)
+  }
+  const handleItemByPage = (e) => {
+    setItemByPage(e.target.value)
+  }
+
+  // console.log(userSearch)
+
   const hasMounted = useHasMounted()
   if (!hasMounted) {
     return null
@@ -217,22 +330,22 @@ const CollectionsHome = () => {
         }}
       >
         <Navbar />
-        <div className="text-2xl md:text-4xl font-black text-center mt-4 text-slate-400">
-          {myCollectionIntro.name}
-        </div>
-        <div>
-          <p>
-            temp info: total item: {numOfItems} / item by page: {itemByPage}/
-            total pages: {totalPages}
+        <div className="md:text-4xl  text-center mt-4 text-slate-400">
+          <p className="text-6xl first-letter:font-black first-letter:text-slate-800 tracking-wider">
+            {myCollectionIntro.name}
           </p>
         </div>
+        {numOfItems}
+        <MyForm
+          onChange={handleSearch}
+          value={userSearch}
+          onSelectChange={handleSelect}
+          selectValue={artToDisplay}
+          onItemByPageChange={handleItemByPage}
+          selectItemByPage={itemByPage}
+          displaySearhBar={artToDisplay === 'full'}
+        />
         <div className="container mx-auto w-full ">
-          <ApiSearchContainer
-            forHl={() => setArtToDisplay('highlight')}
-            forfull={() => setArtToDisplay('full')}
-            forHistory={() => setArtToDisplay('history')}
-          />
-
           {artToDisplay === 'highlight' && (
             <div
               className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 
@@ -260,13 +373,6 @@ const CollectionsHome = () => {
           )}
           {artToDisplay === 'full' && (
             <div>
-              <PaginationContainer
-                minus={handleMinusOffset}
-                plus={handlePlusOffset}
-                off={myOffset}
-                item={itemByPage}
-                total={totalPages}
-              />
               <div
                 className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 
         lg:grid-cols-6 xl:grid-cols-8 sm:gap-6 gap-2"
@@ -289,6 +395,15 @@ const CollectionsHome = () => {
                     </motion.div>
                   )
                 })}
+              </div>
+              <div className="mt-5">
+                <PaginationContainer
+                  minus={handleMinusOffset}
+                  plus={handlePlusOffset}
+                  off={myOffset}
+                  item={itemByPage}
+                  total={totalPages}
+                />
               </div>
             </div>
           )}
